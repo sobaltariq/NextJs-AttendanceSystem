@@ -1,0 +1,90 @@
+body {
+  background-color: $background-color;
+  color: $text-color;
+}
+
+// scrollbar start
+/* width */
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.s-bar::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+body::-webkit-scrollbar-track,
+.s-bar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px var(--color-secondary-2);
+  border-radius: 10px;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb,
+.s-bar::-webkit-scrollbar-thumb {
+  background: var(--color-secondary-1);
+  border-radius: 10px;
+}
+
+// scrollbar ends
+
+button {
+  background-color: $button-bg-color;
+  color: $button-text-color;
+  border: none;
+  &:hover {
+    background-color: $button-hover-bg-color;
+  }
+}
+
+.alert-success {
+  color: $success-color;
+}
+
+.alert-warning {
+  color: $warning-color;
+}
+
+.alert-error {
+  color: $error-color;
+}
+
+// text
+h1 {
+  @include font-size-weight(24px, 500);
+  padding-bottom: 2rem;
+}
+h2 {
+  @include font-size-weight(22px, 500);
+  padding-bottom: 0.5rem;
+}
+h3 {
+  @include font-size-weight(20px, 500);
+  padding-bottom: 0.5rem;
+}
+h4 {
+  @include font-size-weight(18px, 500);
+  padding-bottom: 0.5rem;
+}
+h5 {
+  @include font-size-weight(16px, 500);
+  padding-bottom: 0.5rem;
+}
+
+input {
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  border-radius: 0.5rem;
+  @include font-size-weight(16px, 400);
+  border: 1px solid var(--color-secondary-3);
+}
+
+.error {
+  color: var(--error-color);
+  padding: 1rem 0;
+}
+
+.msg-p {
+  color: var(--color-white-1);
+}

@@ -1,0 +1,15 @@
+@mixin display-flex($justify: center, $align: center) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin font-size-weight-family(
+  $size,
+  $weight,
+  $family: var(--font-geist-sans)
+) {
+  font-size: $size;
+  font-weight: $weight;
+  font-family: $family;
+}

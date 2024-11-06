@@ -49,30 +49,3 @@ $button-hover-bg-color: $hover-color;
 // Backgrounds
 $card-background: #ffffff; // White - for cards and modals, ensuring focus on content
 $sidebar-background: #374151; // Dark Slate - for a stable, professional sidebar
-
-// Usage Examples
-body {
-  background-color: $background-color;
-  color: $text-color;
-}
-
-button {
-  background-color: $button-bg-color;
-  color: $button-text-color;
-  border: none;
-  &:hover {
-    background-color: $button-hover-bg-color;
-  }
-}
-
-.alert-success {
-  color: $success-color;
-}
-
-.alert-warning {
-  color: $warning-color;
-}
-
-.alert-error {
-  color: $error-color;
-}
