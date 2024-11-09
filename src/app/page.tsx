@@ -3,9 +3,9 @@ import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Home</h1>
+    <div className="">
+      <main className="">
+        <h1 style={{ fontFamily: "var(--font-chillax)" }}>Home</h1>
       </main>
     </div>
   );

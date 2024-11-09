@@ -4,11 +4,7 @@
   align-items: $align;
 }
 
-@mixin font-size-weight-family(
-  $size,
-  $weight,
-  $family: var(--font-geist-sans)
-) {
+@mixin font-size-weight-family($size, $weight, $family: var(--chillax)) {
   font-size: $size;
   font-weight: $weight;
   font-family: $family;
