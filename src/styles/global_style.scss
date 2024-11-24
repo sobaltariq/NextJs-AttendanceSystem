@@ -1,5 +1,5 @@
-@import "./colors.scss";
-@import "./mixins";
+@use "./colors" as colors;
+@use "./mixins" as mixins;
 
 *,
 *::before,

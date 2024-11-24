@@ -6,6 +6,7 @@ export default function Home() {
     <div className="">
       <main className="">
         <h1 style={{ fontFamily: "var(--font-chillax)" }}>Home</h1>
+        <h2>{process.env.REACT_APP_BASE_URL}</h2>
       </main>
     </div>
   );
