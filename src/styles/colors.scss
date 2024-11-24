@@ -1,70 +1,67 @@
-/* Light Theme Colors */
-:root {
-  // Primary Colors
-  $primary-color1: #1f2937; // Charcoal - a dark, professional tone for headers and primary elements
-  $primary-color2: #007bff; // Bright Blue for primary actions (e.g., buttons, links)
+@use "sass:color";
 
-  // Secondary Colors
-  $secondary-color1: #4b5563; // Slate Gray - for secondary elements like sidebars or backgrounds
-  $secondary-color2: #6c757d; // Gray for secondary actions and text
+// Light Theme Colors
+// Primary Colors
+$primary-color1: #1f2937; // Charcoal - a dark, professional tone for headers and primary elements
+$primary-color2: #007bff; // Bright Blue for primary actions (e.g., buttons, links)
 
-  // Background Colors
-  $background-color: #f3f4f6; // Light Gray - soft background for a clean look
-  $background-light: #f8f9fa; // Light background for chat windows and general areas
-  $background-dark: #343a40; // Dark background for sidebars or footer
-  $background-modal: rgba(
-    0,
-    0,
-    0,
-    0.7
-  ); // Semi-transparent background for modals
+// Secondary Colors
+$secondary-color1: #4b5563; // Slate Gray - for secondary elements like sidebars or backgrounds
+$secondary-color2: #6c757d; // Gray for secondary actions and text
 
-  // Status Colors
-  $success-color: #28a745; // Green for success messages (e.g., message sent confirmation)
-  $warning-color: #ffc107; // Yellow for warnings or cautionary messages
-  $error-color: #dc3545; // Red for error messages or alerts
+// Background Colors
+$background-color: #f3f4f6; // Light Gray - soft background for a clean look
+$background-light: #f8f9fa; // Light background for chat windows and general areas
+$background-dark: #343a40; // Dark background for sidebars or footer
+$background-modal: rgba(0, 0, 0, 0.7); // Semi-transparent background for modals
 
-  // Accent Colors
-  $accent-color: #3b82f6; // Blue - used for buttons, links, and highlights
-  $hover-color: darken(
-    $accent-color,
-    10%
-  ); // Darkened blue for hover effects on interactive elements
+// Status Colors
+$success-color: #28a745; // Green for success messages (e.g., message sent confirmation)
+$warning-color: #ffc107; // Yellow for warnings or cautionary messages
+$error-color: #dc3545; // Red for error messages or alerts
 
-  // Status Colors
-  $success-color: #10b981; // Green - for present/approved statuses, symbolizing success
-  $warning-color: #f59e0b; // Amber - for warnings or pending statuses, eye-catching but not harsh
-  $error-color: #ef4444; // Red - for error or absent statuses, provides strong contrast
+// Accent Colors
+$accent-color: #3b82f6; // Blue - used for buttons, links, and highlights
+$hover-color: adjust-color(
+  $accent-color,
+  $lightness: -10%
+); // Darkened blue for hover effects on interactive elements
 
-  // Text Colors
-  $text-primary-color1: #212529; // Dark Gray for primary text
-  $text-primary-color2: #111827; // Dark Gray - for primary text, ensuring readability
-  $text-secondary-color1: #868e96; // Medium Gray for secondary text
-  $secondary-text-color2: #6b7280; // Medium Gray - for secondary text like labels and helper text
-  $text-inverse-color: #ffffff; // White for text on dark backgrounds
-  $link-color: $accent-color; // Blue - links, matching the accent for consistent branding
+// Status Colors
+$success-color: #10b981; // Green - for present/approved statuses, symbolizing success
+$warning-color: #f59e0b; // Amber - for warnings or pending statuses, eye-catching but not harsh
+$error-color: #ef4444; // Red - for error or absent statuses, provides strong contrast
 
-  // Border and Divider Colors
-  $border-color: #e5e7eb; // Light Gray - for input borders, card dividers, and section separators
-  $input-border-focus-color: $accent-color; // Blue - focused input borders for accessibility
+// Text Colors
+$text-primary-color1: #212529; // Dark Gray for primary text
+$text-primary-color2: #111827; // Dark Gray - for primary text, ensuring readability
+$text-secondary-color1: #868e96; // Medium Gray for secondary text
+$secondary-text-color2: #6b7280; // Medium Gray - for secondary text like labels and helper text
+$text-inverse-color: #ffffff; // White for text on dark backgrounds
+$link-color: $accent-color; // Blue - links, matching the accent for consistent branding
 
-  // Button Styles
-  $button-bg-color: $accent-color;
-  $button-text-color: #ffffff; // White - for button text
-  $button-hover-bg-color: $hover-color;
+// Border and Divider Colors
+$border-color: #e5e7eb; // Light Gray - for input borders, card dividers, and section separators
+$input-border-focus-color: $accent-color; // Blue - focused input borders for accessibility
 
-  // Backgrounds
-  $card-background: #ffffff; // White - for cards and modals, ensuring focus on content
-  $sidebar-background: #374151; // Dark Slate - for a stable, professional sidebar
-}
+// Button Styles
+$button-bg-color: $accent-color;
+$button-text-color: #ffffff; // White - for button text
+$button-hover-bg-color: $hover-color;
 
-/* Dark Theme Overrides */
-[data-theme="dark"] {
-  --background-color: #121212;
-  --text-primary-color1: #e0e0e0;
-  --text-secondary-color1: #bdbdbd;
-  --button-bg-color: #4b5563;
-  --button-hover-bg-color: darken(#4b5563, 10%);
-  --background-dark: #1e1e1e;
-  --sidebar-background: #2d2d2d;
-}
+// Backgrounds
+$card-background: #ffffff; // White - for cards and modals, ensuring focus on content
+$sidebar-background: #374151; // Dark Slate - for a stable, professional sidebar
+
+// Dark Theme Overrides
+// These variables can be used when applying the dark theme class (e.g., [data-theme="dark"] in your HTML)
+$dark-background-color: #121212; // Dark background for the entire app
+$dark-text-primary-color1: #e0e0e0; // Light text for primary text in dark mode
+$dark-text-secondary-color1: #bdbdbd; // Light secondary text in dark mode
+$dark-button-bg-color: #4b5563; // Darker button background color for dark mode
+$dark-button-hover-bg-color: adjust-color(
+  $dark-button-bg-color,
+  $lightness: -10%
+); // Darker hover for buttons in dark mode
+$dark-background-dark: #1e1e1e; // Dark background for sidebars or footer in dark mode
+$dark-sidebar-background: #2d2d2d; // Dark sidebar background in dark mode
