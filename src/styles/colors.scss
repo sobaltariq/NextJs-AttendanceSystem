@@ -22,7 +22,7 @@ $error-color: #dc3545; // Red for error messages or alerts
 
 // Accent Colors
 $accent-color: #3b82f6; // Blue - used for buttons, links, and highlights
-$hover-color: adjust-color(
+$hover-color: color.adjust(
   $accent-color,
   $lightness: -10%
 ); // Darkened blue for hover effects on interactive elements
@@ -59,9 +59,10 @@ $dark-background-color: #121212; // Dark background for the entire app
 $dark-text-primary-color1: #e0e0e0; // Light text for primary text in dark mode
 $dark-text-secondary-color1: #bdbdbd; // Light secondary text in dark mode
 $dark-button-bg-color: #4b5563; // Darker button background color for dark mode
-$dark-button-hover-bg-color: adjust-color(
+$dark-button-hover-bg-color: color.adjust(
   $dark-button-bg-color,
   $lightness: -10%
-); // Darker hover for buttons in dark mode
+);
+// Darker hover for buttons in dark mode
 $dark-background-dark: #1e1e1e; // Dark background for sidebars or footer in dark mode
 $dark-sidebar-background: #2d2d2d; // Dark sidebar background in dark mode
