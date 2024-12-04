@@ -1,10 +1,19 @@
 import React from "react";
+import "@/styles/layouts/header.scss";
 
 function Header() {
   return (
-    <div>
-      <h2>Header</h2>
-    </div>
+    <header>
+      <nav>
+        <ul>
+          <li>Dashboard</li>
+          <li>Apply Leave</li>
+          <li>Profile</li>
+          <li>Chat</li>
+          <li>Logout</li>
+        </ul>
+      </nav>
+    </header>
   );
 }
 

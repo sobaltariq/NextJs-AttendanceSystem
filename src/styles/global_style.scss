@@ -30,7 +30,7 @@ body {
 
 .width-container {
   height: 100%;
-  max-width: var(--max-width);
+  max-width: $max-width;
   margin: 0 auto;
   padding: 2rem 1.5rem;
 }

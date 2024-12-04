@@ -1,0 +1,14 @@
+@import "./../mixins";
+@import "./../utilities/spacing";
+
+header {
+  @include padding(top-bottom, $xxl);
+  @include padding(left-right, $lg);
+  nav {
+    ul {
+      @include display-flex(space-between, center);
+      li {
+      }
+    }
+  }
+}
