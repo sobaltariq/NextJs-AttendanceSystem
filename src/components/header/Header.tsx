@@ -3,7 +3,7 @@ import "@/styles/layouts/header.scss";
 
 function Header() {
   return (
-    <header>
+    <header className="width-container">
       <nav>
         <ul>
           <li>Dashboard</li>

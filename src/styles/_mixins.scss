@@ -15,14 +15,31 @@
   }
 }
 
-@mixin display-flex($justify: center, $align: center) {
+@mixin display-flex($direction: row, $justify: center, $align: center) {
   display: flex;
+  flex-direction: $direction;
   justify-content: $justify;
   align-items: $align;
 }
 
-@mixin font-size-weight-family($size, $weight, $family: var(--chillax)) {
+@mixin typography(
+  $size,
+  $weight,
+  $lineHeight: 1.5,
+  $family: var(--chillax),
+  $color: #fff
+) {
   font-size: $size;
   font-weight: $weight;
   font-family: $family;
+  line-height: $lineHeight;
+  color: $color;
+}
+
+@mixin box-shadow($x: 0, $y: 2px, $blur: 5px, $color: rgba(0, 0, 0, 0.15)) {
+  box-shadow: $x $y $blur $color;
+}
+
+@mixin transition($properties: all, $duration: 0.3s, $timing: ease-in-out) {
+  transition: $properties $duration $timing;
 }

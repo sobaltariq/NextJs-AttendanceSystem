@@ -1,12 +1,11 @@
-@import "./../mixins";
-@import "./../utilities/spacing";
+@use "./../utilities/colors" as *;
+@use "./../mixins" as *;
 
 header {
-  @include padding(top-bottom, $xxl);
-  @include padding(left-right, $lg);
   nav {
+    background-color: $primary-color2;
     ul {
-      @include display-flex(space-between, center);
+      @include display-flex(row, space-between, center);
       li {
       }
     }
