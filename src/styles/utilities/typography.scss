@@ -1,0 +1,5 @@
+@use "./typography.scss" as *;
+
+.b-12-400 {
+  @include typography($font-size-sm, $font-weight-regular);
+}

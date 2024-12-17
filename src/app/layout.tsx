@@ -29,3 +29,4 @@ export default function RootLayout({
 // npm i yup
 // npm i socket.io-client
 // npm install react-icons --save
+// npm i @reduxjs/toolkit

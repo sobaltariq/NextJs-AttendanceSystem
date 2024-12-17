@@ -1,42 +1,60 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 
 function LoginPage() {
+  const [formData, setFormData] = useState({ name: "", email: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      // Simulate an API call
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API delay
+      console.log("Form submitted successfully:", formData);
+      setIsSubmitting(false);
+    } catch (error) {
+      setSubmitError("An error occurred while submitting the form");
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="login-container">
       <h3>Login</h3>
       <div className="width-container">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-          porro et repudiandae odit consequatur molestias eligendi nobis
-          architecto quam blanditiis!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-          fugit sequi inventore itaque excepturi error quae laboriosam
-          consequuntur quo necessitatibus eius aspernatur, assumenda fuga id ad,
-          laborum cumque, numquam iusto commodi aliquam dolor dolorem ex.
-          Placeat quibusdam, vel excepturi amet odio nihil ad sequi voluptatum
-          labore magni eaque perspiciatis odit?
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit accusamus
-          voluptatum maiores omnis in quasi numquam obcaecati distinctio velit
-          unde sint repellendus dolorum voluptates, inventore ullam quod id
-          iusto suscipit quos. Corporis labore quod minus perspiciatis id
-          ducimus recusandae ex eveniet inventore debitis, accusantium
-          aspernatur laboriosam officiis expedita enim mollitia atque veritatis!
-          Repudiandae quibusdam hic aliquam aspernatur ullam eligendi beatae
-          eveniet odio. Iste illum, harum odio a quia totam ipsam quibusdam rem
-          doloremque excepturi soluta rerum, quaerat consequuntur tempora magnam
-          aut ipsum at nostrum illo. Dolorum iusto, placeat porro, officiis
-          deserunt explicabo, et hic delectus voluptatem temporibus minus maxime
-          in!
-        </p>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-          porro et repudiandae odit consequatur molestias eligendi nobis
-          architecto quam blanditiis!
-        </p>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+          {submitError && <p>{submitError}</p>}
+        </form>
       </div>
     </div>
   );
