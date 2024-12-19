@@ -1,63 +1,40 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useActionState } from "react";
+import { submitForm } from "./submitForm";
 
-function LoginPage() {
-  const [formData, setFormData] = useState({ name: "", email: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState(null);
+const initialFormData: any = {
+  email: "testuser@example.com",
+  password: "",
+};
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    try {
-      // Simulate an API call
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulating API delay
-      console.log("Form submitted successfully:", formData);
-      setIsSubmitting(false);
-    } catch (error) {
-      setSubmitError("An error occurred while submitting the form");
-      setIsSubmitting(false);
-    }
-  };
+const LoginPage: React.FC = () => {
+  // const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
+  const [state, formAction, isPending] = useActionState(
+    submitForm,
+    initialFormData
+  );
 
   return (
     <div className="login-container">
-      <h3>Login</h3>
       <div className="width-container">
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name">Name:</label>
-            <input
-              id="name"
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Submit"}
+        <h3>Login</h3>
+        <form action={formAction}>
+          <input id="email" type="email" name="email" placeholder="Email" />
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+          <button style={{ color: "red" }} type="submit" disabled={isPending}>
+            Submit
           </button>
-          {submitError && <p>{submitError}</p>}
+          {state?.error && <p style={{ color: "red" }}>{state?.error}</p>}
+          {state?.message && <p style={{ color: "green" }}>{state?.message}</p>}
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default LoginPage;
