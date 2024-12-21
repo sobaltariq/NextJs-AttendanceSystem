@@ -3,7 +3,7 @@ import React, { useState, useEffect, useActionState } from "react";
 import { submitForm } from "./submitForm";
 
 const initialFormData: any = {
-  email: "testuser@example.com",
+  email: "",
   password: "",
 };
 
@@ -15,8 +15,8 @@ const LoginPage: React.FC = () => {
   );
 
   return (
-    <div className="login-container">
-      <div className="width-container">
+    <div className="width-container">
+      <section className="login-container">
         <h3>Login</h3>
         <form action={formAction}>
           <input id="email" type="email" name="email" placeholder="Email" />
@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
           {state?.error && <p style={{ color: "red" }}>{state?.error}</p>}
           {state?.message && <p style={{ color: "green" }}>{state?.message}</p>}
         </form>
-      </div>
+      </section>
     </div>
   );
 };

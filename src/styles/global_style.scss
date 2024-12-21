@@ -1,7 +1,10 @@
 @use "./utilities/colors.scss" as *;
 @use "./mixins" as app-mixin;
 
-$max-width: 1440px;
+@use "../styles/pages/login_style.scss";
+
+// $max-width: 1440px;
+$max-width: 850px;
 $min-width: 360px;
 
 *,
