@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   sassOptions: {
     silenceDeprecations: ["legacy-js-api"],
   },
+  env: {
+    REACT_APP_BASE_URL: process.env.REACT_APP_BASE_URL,
+  },
 };
 
 export default nextConfig;
