@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "./utilities/colors.scss" as *;
+
 // Mixin for responsive media queries
 @mixin respond($breakpoint) {
   @if $breakpoint == small {
@@ -44,52 +47,34 @@
   transition: $properties $duration $timing;
 }
 
+// button
 @mixin button-style(
-  $font-size: 16px,
+  $font-size: 18px,
   $font-weight: normal,
   $font-family: var(--chillax),
-  $padding: 10px 20px,
-  $border-radius: 4px,
-  $background-color: #007bff,
-  // Background color
-  $text-color: #fff,
-  // Text color
-  $border-color: #007bff,
-  // Border color
-  $hover-background-color: darken($background-color, 10%),
-  // Hover background
+  $padding: 0.5rem 1rem,
+  $border-radius: 6px,
+  $background-color: $button-bg-color,
+  $text-color: $button-text-color,
+  $border-color: $button-bg-color,
+  $hover-background-color: color.adjust($background-color, $lightness: -10%),
   $hover-text-color: $text-color,
-  // Hover text color
-  $hover-border-color: darken($border-color, 10%),
-  // Hover border color
-  $active-background-color: darken($background-color, 15%),
-  // Active background
-  $active-border-color: darken($border-color, 15%),
-  // Active border color
+  $hover-border-color: color.adjust($border-color, $lightness: -10%),
+  $active-background-color: color.adjust($background-color, $lightness: -15%),
+  $active-border-color: color.adjust($border-color, $lightness: -15%),
   $transition: 0.3s,
-  // Transition duration
   $box-shadow: none,
-  // Box shadow for the button
   $hover-box-shadow: none,
-  // Box shadow on hover
   $border-width: 1px,
-  // Border width
   $border-style: solid,
-  // Border style (e.g., solid, dashed)
   $width: auto,
-  // Custom width for buttons
   $height: auto,
-  // Custom height
-  $disabled-background-color: lighten($background-color, 30%),
-  // Disabled background
-  $disabled-text-color: lighten($text-color, 30%),
-  // Disabled text color
-  $disabled-border-color: lighten($border-color, 30%) // Disabled border color
+  $disabled-background-color: color.adjust($background-color, $lightness: 30%),
+  $disabled-text-color: color.adjust($text-color, $lightness: 30%),
+  $disabled-border-color: color.adjust($border-color, $lightness: 30%)
 ) {
-  display: inline-block; // Ensures button behaves like a block
-  font-size: $font-size;
-  font-weight: $font-weight;
-  font-family: $font-family;
+  display: inline-block;
+  @include typography($font-size, $font-weight, 1.5, $font-family, $text-color);
   padding: $padding;
   border-radius: $border-radius;
   background-color: $background-color;

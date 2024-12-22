@@ -19,8 +19,10 @@ export const loginHandler = async (
     email: userEmail,
     password: userPassword,
   };
-
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
   try {
+    await delay(10000);
     const response = await MyApi.post("users/login", payload, {
       headers: { "Content-Type": "application/json" },
     });
@@ -30,7 +32,7 @@ export const loginHandler = async (
     console.log("Response:", response.data.message);
 
     return {
-      message: response.data || response.data || "Success",
+      message: response.data.message || "Login Success",
       error: "",
     };
   } catch (err: any) {
