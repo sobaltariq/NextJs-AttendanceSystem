@@ -8,7 +8,7 @@ const AllDataWrapper: React.FC<{ children: React.ReactNode }> = ({
   return (
     <>
       <Header />
-      <div className="app-box">{children}</div>
+      <main className="app-container">{children}</main>
       <Footer />
     </>
   );

@@ -51,15 +51,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="width-container">
       <section className="login-container">
-        <p
-          onClick={() => {
-            logCookies(); // Log cookies when clicked
-          }}
-        >
-          Submit
-        </p>
         <h3>Login</h3>
-        <p>AAA{process.env.REACT_APP_BASE_URL}</p>
         <form action={formAction}>
           <input
             id="email"

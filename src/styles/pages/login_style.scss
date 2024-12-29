@@ -2,14 +2,18 @@
 @use "./../mixins" as *;
 
 section.login-container {
-  h3 {
-  }
+  @include display-flex(column);
   form {
     @include display-flex(column);
     gap: 1rem;
+    padding-top: 1rem;
 
     input {
       color: $text-primary-color1;
+      width: 100%;
+    }
+    button {
+      width: 100%;
     }
   }
 }

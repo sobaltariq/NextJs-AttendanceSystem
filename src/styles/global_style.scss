@@ -28,6 +28,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
+  min-height: 100vh;
   width: 100%;
 }
 
@@ -74,7 +75,7 @@ body::-webkit-scrollbar-thumb,
 // scrollbar ends
 
 .primary-button {
-  @include app-mixin.button-style();
+  @include app-mixin.button-style($padding: 0.2rem);
 }
 
 .alert-success {
