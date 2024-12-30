@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useActionState } from "react";
 import { loginHandler } from "./loginHandler";
 import { ILoginForm, IMessageAndError } from "@/types/api";
-import { useFormState, useFormStatus } from "react-dom";
 import { SubmitButton } from "@/components/buttons/custom-buttons";
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 const formMessages: IMessageAndError = {
   message: "",
@@ -22,6 +22,8 @@ const LoginPage: React.FC = () => {
     loginHandler,
     formMessages
   );
+
+  const [passwordState, setPasswordState] = useState(false);
 
   useEffect(() => {
     if (state?.message) {
@@ -42,10 +44,7 @@ const LoginPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     formMessages;
-  };
-
-  const logCookies = () => {
-    console.log("Cookies:", document.cookie);
+    setPasswordState(false);
   };
 
   return (
@@ -61,18 +60,33 @@ const LoginPage: React.FC = () => {
             value={formData.email}
             onChange={handleInputChange}
           />
-          <input
-            id="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
+          <div className="password-wrapper">
+            <input
+              id="password"
+              type={passwordState ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            {passwordState ? (
+              <LuEye
+                onMouseLeave={() => {
+                  setPasswordState(false);
+                }}
+              />
+            ) : (
+              <LuEyeClosed
+                onMouseEnter={() => {
+                  setPasswordState(true);
+                }}
+              />
+            )}
+          </div>
           {/* <button style={{ color: "red" }} type="submit" disabled={isPending}>
             Submit
           </button> */}
-          <SubmitButton />
+          <SubmitButton label="Login" />
           {state?.error && <p className="alert-error">{state?.error}</p>}
           {state?.message && <p className="alert-success">{state?.message}</p>}
         </form>

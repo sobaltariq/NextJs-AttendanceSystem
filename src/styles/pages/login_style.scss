@@ -8,6 +8,26 @@ section.login-container {
     gap: 1rem;
     padding-top: 1rem;
 
+    .password-wrapper {
+      position: relative;
+
+      > input {
+        padding-right: 2rem;
+      }
+
+      > svg {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    select {
+      width: 100%;
+      padding-right: 1.5rem;
+    }
+
     input {
       color: $text-primary-color1;
       width: 100%;
