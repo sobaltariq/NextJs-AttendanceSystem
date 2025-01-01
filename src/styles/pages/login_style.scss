@@ -10,6 +10,7 @@ section.login-container {
 
     .password-wrapper {
       position: relative;
+      width: 100%;
 
       > input {
         padding-right: 2rem;
@@ -22,10 +23,25 @@ section.login-container {
         transform: translateY(-50%);
       }
     }
-
-    select {
+    .select-wrapper {
+      position: relative;
       width: 100%;
-      padding-right: 1.5rem;
+      z-index: 2;
+      > svg {
+        z-index: 1;
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+      select {
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        padding-right: 1.5rem;
+      }
     }
 
     input {
@@ -34,6 +50,30 @@ section.login-container {
     }
     button {
       width: 100%;
+    }
+
+    .profile-pic {
+      position: relative;
+      width: 100%;
+      max-width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      img,
+      input {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
+      input {
+        bottom: 0;
+        left: 0;
+        z-index: 5;
+        opacity: 0;
+      }
+      img {
+        z-index: 1;
+      }
     }
   }
 }
