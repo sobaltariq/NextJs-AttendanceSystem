@@ -11,6 +11,7 @@ export interface ILoginForm {
 
 export interface IRegistrationForm extends ILoginForm {
   name: string;
+  gender: string;
   role: string;
   profilePicture: File | null;
 }

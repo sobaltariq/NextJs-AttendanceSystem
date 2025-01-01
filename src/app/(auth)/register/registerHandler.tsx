@@ -7,34 +7,22 @@ export const registerHandler = async (
   previousState: IMessageAndError,
   formData: FormData
 ): Promise<IMessageAndError> => {
-  const userName = formData.get("name") as string;
-  const userEmail = formData.get("email") as string;
-  const userPassword = formData.get("password") as string;
-  const userRole = formData.get("role") as string;
-  const userPic = formData.get("profilePicture") as string;
+  console.log(`Form Data: ${formData.get("gender")?.toString().trim()}`);
 
-  let validationError = "";
+  const userName = formData.get("name")?.toString().trim();
+  const userEmail = formData.get("email")?.toString().trim();
+  const userPassword = formData.get("password")?.toString().trim();
+  const userGender = formData.get("gender")?.toString().trim();
+  const userRole = formData.get("role")?.toString().trim();
+  const userPic = formData.get("profilePicture")?.toString();
 
-  switch (true) {
-    case !userPic:
-      validationError = "Name is required.";
-      break;
-    case !userName:
-      validationError = "Name is required.";
-      break;
-    case !userEmail:
-      validationError = "Email is required.";
-      break;
-    case !userPassword:
-      validationError = "Password is required.";
-      break;
-    case !userRole:
-      validationError = "Role is required.";
-      break;
-  }
-  if (validationError) {
-    return { message: "", error: validationError };
-  }
+  // Validation
+  if (!userName) return { message: "", error: "Name is required." };
+  if (!userEmail) return { message: "", error: "Email is required." };
+  if (!userPassword) return { message: "", error: "Password is required." };
+  if (!userGender) return { message: "", error: "Gender is required." };
+  if (!userRole) return { message: "", error: "Role is required." };
+  if (!userPic) return { message: "", error: "Profile picture is required." };
 
   // Prepare the payload as a JSON object
   const payload = {
@@ -42,11 +30,13 @@ export const registerHandler = async (
     name: userName,
     email: userEmail,
     password: userPassword,
+    gender: userGender,
     role: userRole,
   };
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
   try {
+    console.log("Submitting payload:", payload);
     await delay(1000);
     const response = await MyApi.post("users/register", payload, {
       headers: { "Content-Type": "application/json" },

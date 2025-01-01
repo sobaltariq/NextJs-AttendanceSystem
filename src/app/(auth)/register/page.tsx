@@ -16,6 +16,7 @@ const initialFormData: IRegistrationForm = {
   name: "",
   email: "",
   password: "",
+  gender: "",
   role: "",
   profilePicture: null,
 };
@@ -32,14 +33,20 @@ const RegisterPage: React.FC = () => {
   const [passwordState, setPasswordState] = useState(false);
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      name: prev.name,
-      email: prev.email,
-      role: prev.role,
-      password: prev.password,
-      profilePicture: prev.profilePicture,
-    }));
+    console.log("====================================");
+    console.log(formData.gender);
+    console.log("====================================");
+    if (state?.message || state?.error) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name,
+        email: prev.email,
+        password: prev.password,
+        gender: prev.gender,
+        role: prev.role,
+        profilePicture: prev.profilePicture,
+      }));
+    }
   }, [state?.message, state?.error]);
 
   const roleOptions = [
@@ -59,11 +66,33 @@ const RegisterPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setPasswordState(false);
+
+    // Clear error message when the input changes
+    if (state.error) {
+      state.error = "";
+    }
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData({ ...formData, role: e.target.value });
+
+    // Clear error message when the input changes
+    if (state.error) {
+      state.error = "";
+    }
+  };
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newGender = e.target.value;
+    console.log("Gender selected:", newGender);
+    setFormData((prev) => ({
+      ...prev,
+      gender: newGender,
+    }));
+
+    // Clear error message when the input changes
+    if (state.error) {
+      state.error = "";
+    }
   };
 
   // Handle file input change
@@ -76,6 +105,11 @@ const RegisterPage: React.FC = () => {
         setAvatarPreview(reader.result as string); // Set preview image URL
       };
       reader.readAsDataURL(file); // Create a preview of the selected image
+    }
+
+    // Clear error message when the input changes
+    if (state.error) {
+      state.error = "";
     }
   };
 
@@ -100,6 +134,7 @@ const RegisterPage: React.FC = () => {
                 src={avatarPreview}
                 alt="Profile Preview"
                 className="avatar-preview"
+                priority
               />
             ) : (
               <Image
@@ -108,6 +143,7 @@ const RegisterPage: React.FC = () => {
                 src="/assets/profile-avatar.svg"
                 alt="Profile Preview"
                 className="avatar-preview"
+                priority
               />
             )}
           </div>
@@ -152,15 +188,15 @@ const RegisterPage: React.FC = () => {
           </div>
           <div className="select-wrapper">
             <select
-              name="role"
-              id="role"
-              value={formData.role}
-              onChange={handleSelectChange}
+              name="gender"
+              id="gender"
+              value={formData.gender}
+              onChange={handleGenderChange}
             >
               <option value="" disabled>
-                Role
+                Gender
               </option>
-              {roleOptions.map((option) => (
+              {genderOptions.map((option) => (
                 <option
                   key={option.value}
                   value={option.value}
@@ -177,12 +213,12 @@ const RegisterPage: React.FC = () => {
               name="role"
               id="role"
               value={formData.role}
-              onChange={handleSelectChange}
+              onChange={handleRoleChange}
             >
               <option value="" disabled>
-                Gender
+                Role
               </option>
-              {genderOptions.map((option) => (
+              {roleOptions.map((option) => (
                 <option
                   key={option.value}
                   value={option.value}
