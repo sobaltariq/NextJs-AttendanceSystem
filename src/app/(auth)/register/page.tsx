@@ -4,13 +4,20 @@ import React, { useActionState, useEffect, useState } from "react";
 import { SubmitButton } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
-import { registerHandler } from "./registerHandler";
 import Image from "next/image";
+import MyApi from "@/api/MyApi";
 
-const formMessages: IMessageAndError = {
-  message: "",
-  error: "",
-};
+const roleOptions = [
+  { value: "user", label: "user" },
+  { value: "superAdmin", label: "super admin" },
+  { value: "admin", label: "admin" },
+];
+
+const genderOptions = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+];
 
 const initialFormData: IRegistrationForm = {
   name: "",
@@ -21,78 +28,45 @@ const initialFormData: IRegistrationForm = {
   profilePicture: null,
 };
 
+const formMessages: IMessageAndError = {
+  message: "",
+  error: "",
+};
+
 const RegisterPage: React.FC = () => {
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState<IRegistrationForm>(initialFormData);
+  const [messagesState, setMessagesState] =
+    useState<IMessageAndError>(formMessages);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-  // const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
-  const [state, formAction, isPending] = useActionState(
-    registerHandler,
-    formMessages
-  );
 
   const [passwordState, setPasswordState] = useState(false);
 
   useEffect(() => {
-    console.log("====================================");
-    console.log(formData.gender);
-    console.log("====================================");
-    if (state?.message || state?.error) {
-      setFormData((prev) => ({
-        ...prev,
-        name: prev.name,
-        email: prev.email,
-        password: prev.password,
-        gender: prev.gender,
-        role: prev.role,
-        profilePicture: prev.profilePicture,
-      }));
-    }
-  }, [state?.message, state?.error]);
+    console.log("FormData updated formData.gender:", formData.gender);
+    console.log("FormData updated formMessages.field?.gender:");
+  }, [formData]);
 
-  const roleOptions = [
-    { value: "user", label: "user" },
-    { value: "superAdmin", label: "super admin" },
-    { value: "admin", label: "admin" },
-  ];
-
-  const genderOptions = [
-    { value: "male", label: "male" },
-    { value: "female", label: "female" },
-    { value: "other", label: "other" },
-  ];
-
-  // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setPasswordState(false);
+    setMessagesState({ message: "", error: "" });
+  };
 
-    // Clear error message when the input changes
-    if (state.error) {
-      state.error = "";
-    }
+  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newGender = e.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      gender: newGender,
+    }));
+    setPasswordState(false);
+    setMessagesState({ message: "", error: "" });
   };
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({ ...formData, role: e.target.value });
-
-    // Clear error message when the input changes
-    if (state.error) {
-      state.error = "";
-    }
-  };
-  const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newGender = e.target.value;
-    console.log("Gender selected:", newGender);
-    setFormData((prev) => ({
-      ...prev,
-      gender: newGender,
-    }));
-
-    // Clear error message when the input changes
-    if (state.error) {
-      state.error = "";
-    }
+    setPasswordState(false);
+    setMessagesState({ message: "", error: "" });
   };
 
   // Handle file input change
@@ -106,10 +80,65 @@ const RegisterPage: React.FC = () => {
       };
       reader.readAsDataURL(file); // Create a preview of the selected image
     }
+    setMessagesState({ message: "", error: "" });
+  };
 
-    // Clear error message when the input changes
-    if (state.error) {
-      state.error = "";
+  const validateForm = (formData: IRegistrationForm) => {
+    const { name, email, password, gender, role, profilePicture } = formData;
+
+    // Validate each field
+    if (!name) return { message: "", error: "Name is required." };
+    if (!email) return { message: "", error: "Email is required." };
+    if (!password) return { message: "", error: "Password is required." };
+    if (!gender) return { message: "", error: "Gender is required." };
+    if (!role) return { message: "", error: "Role is required." };
+    if (!profilePicture)
+      return { message: "", error: "Profile picture is required." };
+
+    // Return no error if all fields are valid
+    return { message: "", error: "" };
+  };
+
+  const registerHandler = async (event: React.FormEvent) => {
+    event.preventDefault();
+    // Validate form data
+    const validationResult = validateForm(formData);
+    if (validationResult.error) {
+      setMessagesState(validationResult);
+      return;
+    }
+
+    const formPayload = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formPayload.append(key, value as Blob);
+    });
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+    try {
+      console.log("Submitting payload:", formPayload);
+      await delay(1000);
+      const response = await MyApi.post("users/register", formPayload, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log("Register Response:", response.data);
+
+      // const data = response.data;
+      console.log("Response:", response.data.message);
+
+      return {
+        message: response.data.message || "Register Success",
+        error: "",
+      };
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error?.msg ||
+        err.response?.data?.error ||
+        "Register Error";
+      console.log("Error Response:", errorMessage);
+      return {
+        message: "",
+        error: errorMessage || "Register Error",
+      };
     }
   };
 
@@ -117,7 +146,7 @@ const RegisterPage: React.FC = () => {
     <div className="width-container">
       <section className="login-container">
         <h3>Register</h3>
-        <form action={formAction}>
+        <form onSubmit={registerHandler}>
           <div className="profile-pic">
             <input
               id="profilePicture"
@@ -186,6 +215,7 @@ const RegisterPage: React.FC = () => {
               />
             )}
           </div>
+
           <div className="select-wrapper">
             <select
               name="gender"
@@ -194,18 +224,15 @@ const RegisterPage: React.FC = () => {
               onChange={handleGenderChange}
             >
               <option value="" disabled>
-                Gender
+                Select Gender
               </option>
               {genderOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  label={option.label}
-                >
+                <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </select>
+
             <IoIosArrowDown />
           </div>
           <div className="select-wrapper">
@@ -230,9 +257,16 @@ const RegisterPage: React.FC = () => {
             </select>
             <IoIosArrowDown />
           </div>
-          <SubmitButton label="Register" />
-          {state?.error && <p className="alert-error">{state?.error}</p>}
-          {state?.message && <p className="alert-success">{state?.message}</p>}
+          <SubmitButton
+            isLoading={messagesState?.error ? true : false}
+            label="Register"
+          />
+          {messagesState?.error && (
+            <p className="alert-error">{messagesState?.error}</p>
+          )}
+          {messagesState?.message && (
+            <p className="alert-success">{messagesState?.message}</p>
+          )}
         </form>
       </section>
     </div>
