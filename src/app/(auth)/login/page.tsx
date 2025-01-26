@@ -4,6 +4,8 @@ import { loginHandler } from "./loginHandler";
 import { ILoginForm, IMessageAndError } from "@/types/api";
 import { SubmitButton } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import composeHOCs from "@/components/hocs/composeHOCs";
+import LoginAuth from "@/components/hocs/LoginAuth";
 
 const formMessages: IMessageAndError = {
   message: "",
@@ -95,4 +97,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default composeHOCs(LoginAuth)(LoginPage);

@@ -142,3 +142,11 @@ select {
   );
   border: 1px solid $secondary-color2;
 }
+
+// loader style
+.app-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}

@@ -6,6 +6,9 @@ import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image";
 import MyApi from "@/api/MyApi";
+import { useRouter } from "next/navigation";
+import LoginAuth from "@/components/hocs/LoginAuth";
+import composeHOCs from "@/components/hocs/composeHOCs";
 
 const roleOptions = [
   { value: "user", label: "user" },
@@ -21,6 +24,7 @@ const genderOptions = [
 
 const initialFormData: IRegistrationForm = {
   name: "",
+  username: "",
   email: "",
   password: "",
   gender: "",
@@ -28,29 +32,20 @@ const initialFormData: IRegistrationForm = {
   profilePicture: null,
 };
 
-const formMessages: IMessageAndError = {
-  message: "",
-  error: "",
-};
-
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState<IRegistrationForm>(initialFormData);
-  const [messagesState, setMessagesState] =
-    useState<IMessageAndError>(formMessages);
+  const [messagesState, setMessagesState] = useState<string | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   const [passwordState, setPasswordState] = useState(false);
 
-  useEffect(() => {
-    console.log("FormData updated formData.gender:", formData.gender);
-    console.log("FormData updated formMessages.field?.gender:");
-  }, [formData]);
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setPasswordState(false);
-    setMessagesState({ message: "", error: "" });
+    setMessagesState("");
   };
 
   const handleGenderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -60,13 +55,13 @@ const RegisterPage: React.FC = () => {
       gender: newGender,
     }));
     setPasswordState(false);
-    setMessagesState({ message: "", error: "" });
+    setMessagesState("");
   };
 
   const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFormData({ ...formData, role: e.target.value });
     setPasswordState(false);
-    setMessagesState({ message: "", error: "" });
+    setMessagesState("");
   };
 
   // Handle file input change
@@ -80,30 +75,36 @@ const RegisterPage: React.FC = () => {
       };
       reader.readAsDataURL(file); // Create a preview of the selected image
     }
-    setMessagesState({ message: "", error: "" });
+    setMessagesState("");
   };
 
   const validateForm = (formData: IRegistrationForm) => {
-    const { name, email, password, gender, role, profilePicture } = formData;
+    const { name, username, email, password, gender, role, profilePicture } =
+      formData;
 
     // Validate each field
-    if (!name) return { message: "", error: "Name is required." };
-    if (!email) return { message: "", error: "Email is required." };
-    if (!password) return { message: "", error: "Password is required." };
-    if (!gender) return { message: "", error: "Gender is required." };
-    if (!role) return { message: "", error: "Role is required." };
-    if (!profilePicture)
-      return { message: "", error: "Profile picture is required." };
+    if (!name) return "Name is required.";
+    if (!username) return "Username is required.";
+    if (!email) return "Email is required.";
+    if (!password) return "Password is required.";
+    if (!gender) return "Gender is required.";
+    if (!role) return "Role is required.";
+    if (!profilePicture) return "Profile picture is required.";
 
     // Return no error if all fields are valid
-    return { message: "", error: "" };
+    return "";
   };
 
   const registerHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    // clean localStorage
+    localStorage.removeItem("loggedInToken");
+    localStorage.removeItem("loggedInUser");
+
     // Validate form data
     const validationResult = validateForm(formData);
-    if (validationResult.error) {
+    if (validationResult) {
       setMessagesState(validationResult);
       return;
     }
@@ -121,24 +122,29 @@ const RegisterPage: React.FC = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Register Response:", response.data);
+      const { token, user } = response.data;
 
       // const data = response.data;
       console.log("Response:", response.data.message);
 
-      return {
-        message: response.data.message || "Register Success",
-        error: "",
+      setMessagesState("");
+      const loggedInUser = {
+        id: user.id,
+        role: user.role,
+        username: user.username,
+        gender: user.gender,
       };
+      localStorage.setItem("loggedInToken", token);
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+
+      router.push("/");
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.error?.msg ||
         err.response?.data?.error ||
         "Register Error";
+      setMessagesState(errorMessage);
       console.log("Error Response:", errorMessage);
-      return {
-        message: "",
-        error: errorMessage || "Register Error",
-      };
     }
   };
 
@@ -166,14 +172,24 @@ const RegisterPage: React.FC = () => {
                 priority
               />
             ) : (
-              <Image
-                width={100}
-                height={100}
-                src="/assets/profile-avatar.svg"
-                alt="Profile Preview"
-                className="avatar-preview"
-                priority
-              />
+              <div className="avatar-preview-placeholder">
+                <Image
+                  width={100}
+                  height={100}
+                  src="/assets/profile-avatar.svg"
+                  alt="Profile Preview"
+                  className="avatar-preview"
+                  priority
+                />
+                <Image
+                  width={20}
+                  height={20}
+                  src="/assets/plus-icon.svg"
+                  alt="Profile Preview"
+                  className="avatar-preview"
+                  priority
+                />
+              </div>
             )}
           </div>
           <input
@@ -182,6 +198,14 @@ const RegisterPage: React.FC = () => {
             name="name"
             placeholder="name"
             value={formData.name}
+            onChange={handleInputChange}
+          />
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="username"
+            value={formData.username}
             onChange={handleInputChange}
           />
           <input
@@ -258,19 +282,14 @@ const RegisterPage: React.FC = () => {
             <IoIosArrowDown />
           </div>
           <SubmitButton
-            isLoading={messagesState?.error ? true : false}
+            isLoading={messagesState ? true : false}
             label="Register"
           />
-          {messagesState?.error && (
-            <p className="alert-error">{messagesState?.error}</p>
-          )}
-          {messagesState?.message && (
-            <p className="alert-success">{messagesState?.message}</p>
-          )}
+          {messagesState && <p className="alert-error">{messagesState}</p>}
         </form>
       </section>
     </div>
   );
 };
 
-export default RegisterPage;
+export default composeHOCs(LoginAuth)(RegisterPage);

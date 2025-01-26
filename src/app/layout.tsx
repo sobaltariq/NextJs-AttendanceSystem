@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./../styles/global_style.scss";
 import AllDataWrapper from "./AllDataWrapper";
 import chillaxFont from ".././fonts/chillaxFont";
+import { Providers } from "@/redux/Providers";
 
 export const metadata: Metadata = {
   title: "Attendance System",
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${chillaxFont.variable}`}>
-        <AllDataWrapper>{children}</AllDataWrapper>
+        <Providers>
+          <AllDataWrapper>{children}</AllDataWrapper>
+        </Providers>
       </body>
     </html>
   );
@@ -29,4 +32,4 @@ export default function RootLayout({
 // npm i yup
 // npm i socket.io-client
 // npm install react-icons --save
-// npm i @reduxjs/toolkit
+// npm install @reduxjs/toolkit react-redux

@@ -1,17 +1,13 @@
+import { AuthReduxState } from "@/types/redux_types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthState {
-  isLoggedIn: boolean;
-  loginToken: String | null;
-  userRole: String | null;
-  isSearch: boolean;
-}
-
-const initialState: AuthState = {
+const initialState: AuthReduxState = {
   isLoggedIn: false,
   loginToken: null,
   userRole: null,
-  isSearch: false,
+  username: null,
+  userGender: null,
+  userId: null,
 };
 
 const authSlice = createSlice({
@@ -24,32 +20,55 @@ const authSlice = createSlice({
         isLoggedIn: boolean;
         token: string;
         role: string;
+        username: string;
+        gender: string;
+        id: number;
       }>
     ) => {
       state.isLoggedIn = action.payload.isLoggedIn;
       state.loginToken = action.payload.token;
       state.userRole = action.payload.role;
+      state.username = action.payload.username;
+      state.userGender = action.payload.gender;
+      state.userId = action.payload.id;
     },
     logout: (state) => {
       state.isLoggedIn = false;
       state.loginToken = null;
       state.userRole = null;
-      localStorage.clear();
+      state.username = null;
+      state.userGender = null;
+      state.userId = null;
+      localStorage.removeItem("loggedInToken");
+      localStorage.removeItem("loggedInUser");
     },
     initializeAuthState: (state) => {
       // This reducer will initialize the auth state on the client side
       if (typeof window !== "undefined") {
-        state.isLoggedIn = !!localStorage.getItem("login_token");
-        state.loginToken = localStorage.getItem("login_token");
-        state.userRole = localStorage.getItem("user_role");
+        const token = localStorage.getItem("loggedInToken");
+        const user = localStorage.getItem("loggedInUser");
+
+        if (token && user) {
+          const userObj = JSON.parse(user);
+          state.isLoggedIn = true;
+          state.loginToken = token;
+          state.userRole = userObj.role;
+          state.username = userObj.username;
+          state.userGender = userObj.gender;
+          state.userId = userObj.id;
+        } else {
+          // If either token or user is not found, reset state to null
+          state.isLoggedIn = false;
+          state.loginToken = null;
+          state.userRole = null;
+          state.username = null;
+          state.userGender = null;
+          state.userId = null;
+        }
       }
-    },
-    setSearch: (state, action: PayloadAction<boolean>) => {
-      state.isSearch = action.payload;
     },
   },
 });
 
-export const { setAuthData, logout, setSearch, initializeAuthState } =
-  authSlice.actions;
+export const { setAuthData, logout, initializeAuthState } = authSlice.actions;
 export default authSlice.reducer;
