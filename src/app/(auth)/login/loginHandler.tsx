@@ -30,6 +30,13 @@ export const loginHandler = async (
 
     // const data = response.data;
     console.log("Response:", response.data.message);
+    const loggedInUser = {
+      id: response.data.user.id,
+      role: response.data.user.role,
+      username: response.data.user.username,
+      gender: response.data.user.gender,
+    };
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
     return {
       message: response.data.message || "Login Success",

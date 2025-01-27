@@ -4,8 +4,9 @@ import { loginHandler } from "./loginHandler";
 import { ILoginForm, IMessageAndError } from "@/types/api";
 import { SubmitButton } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
-import composeHOCs from "@/components/hocs/composeHOCs";
-import LoginAuth from "@/components/hocs/LoginAuth";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 const formMessages: IMessageAndError = {
   message: "",
@@ -19,7 +20,6 @@ const initialFormData: ILoginForm = {
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState(initialFormData);
-  // const [state, formAction, isPending] = useActionState(fn, initialState, permalink?);
   const [state, formAction, isPending] = useActionState(
     loginHandler,
     formMessages
@@ -27,9 +27,12 @@ const LoginPage: React.FC = () => {
 
   const [passwordState, setPasswordState] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (state?.message) {
       // Clear the entire form on success
+      router.push("/");
       setFormData((prev) => ({
         ...prev,
         email: prev.email,
@@ -90,11 +93,10 @@ const LoginPage: React.FC = () => {
           </button> */}
           <SubmitButton label="Login" />
           {state?.error && <p className="alert-error">{state?.error}</p>}
-          {state?.message && <p className="alert-success">{state?.message}</p>}
         </form>
       </section>
     </div>
   );
 };
 
-export default composeHOCs(LoginAuth)(LoginPage);
+export default LoginPage;

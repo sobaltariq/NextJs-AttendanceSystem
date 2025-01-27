@@ -134,7 +134,6 @@ const RegisterPage: React.FC = () => {
         username: user.username,
         gender: user.gender,
       };
-      localStorage.setItem("loggedInToken", token);
       localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
       router.push("/");
