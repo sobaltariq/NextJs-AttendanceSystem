@@ -26,21 +26,29 @@ export const loginHandler = async (
     const response = await MyApi.post("users/login", payload, {
       headers: { "Content-Type": "application/json" },
     });
+    const { token, user, success } = response.data;
     console.log("Login Response:", response.data);
 
     // const data = response.data;
     console.log("Response:", response.data.message);
-    const loggedInUser = {
-      id: response.data.user.id,
-      role: response.data.user.role,
-      username: response.data.user.username,
-      gender: response.data.user.gender,
-    };
-    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+    if (success) {
+      const loggedInUser = {
+        id: user.id,
+        role: user.role,
+        username: user.username,
+        gender: user.gender,
+      };
+      localStorage.setItem("loggedInToken", token);
+      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
+      return {
+        message: response.data.message || "Login Success",
+        error: "",
+      };
+    }
     return {
-      message: response.data.message || "Login Success",
-      error: "",
+      message: "",
+      error: "something went wrong",
     };
   } catch (err: any) {
     console.log("Error Response:", err.response.data);

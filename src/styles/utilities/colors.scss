@@ -27,11 +27,6 @@ $hover-color: color.adjust(
   $lightness: -10%
 ); // Darkened blue for hover effects on interactive elements
 
-// Status Colors
-$success-color: #10b981; // Green - for present/approved statuses, symbolizing success
-$warning-color: #f59e0b; // Amber - for warnings or pending statuses, eye-catching but not harsh
-$error-color: #ef4444; // Red - for error or absent statuses, provides strong contrast
-
 // Text Colors
 $text-primary-color1: #212529; // Dark Gray for primary text
 $text-primary-color2: #111827; // Dark Gray - for primary text, ensuring readability

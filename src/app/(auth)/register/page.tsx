@@ -1,7 +1,10 @@
 "use client";
 import { IMessageAndError, IRegistrationForm } from "@/types/api";
 import React, { useActionState, useEffect, useState } from "react";
-import { SubmitButton } from "@/components/buttons/custom-buttons";
+import {
+  NavigateLink,
+  SubmitButton,
+} from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image";
@@ -9,6 +12,8 @@ import MyApi from "@/api/MyApi";
 import { useRouter } from "next/navigation";
 import LoginAuth from "@/components/hocs/LoginAuth";
 import composeHOCs from "@/components/hocs/composeHOCs";
+import { useDispatch } from "react-redux";
+import { initializeAuthState } from "@/redux/features/auth/authSlice";
 
 const roleOptions = [
   { value: "user", label: "user" },
@@ -40,6 +45,8 @@ const RegisterPage: React.FC = () => {
   const [passwordState, setPasswordState] = useState(false);
 
   const router = useRouter();
+
+  const dispatch = useDispatch();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -98,10 +105,6 @@ const RegisterPage: React.FC = () => {
   const registerHandler = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // clean localStorage
-    localStorage.removeItem("loggedInToken");
-    localStorage.removeItem("loggedInUser");
-
     // Validate form data
     const validationResult = validateForm(formData);
     if (validationResult) {
@@ -122,21 +125,26 @@ const RegisterPage: React.FC = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log("Register Response:", response.data);
-      const { token, user } = response.data;
+      const { token, user, success } = response.data;
 
       // const data = response.data;
       console.log("Response:", response.data.message);
 
       setMessagesState("");
-      const loggedInUser = {
-        id: user.id,
-        role: user.role,
-        username: user.username,
-        gender: user.gender,
-      };
-      localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+      if (success) {
+        const loggedInUser = {
+          id: user.id,
+          role: user.role,
+          username: user.username,
+          gender: user.gender,
+        };
+        localStorage.setItem("loggedInToken", token);
+        localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
-      router.push("/");
+        dispatch(initializeAuthState());
+        router.push("/");
+      }
+      setMessagesState("something went wrong");
     } catch (err: any) {
       const errorMessage =
         err.response?.data?.error?.msg ||
@@ -286,6 +294,11 @@ const RegisterPage: React.FC = () => {
           />
           {messagesState && <p className="alert-error">{messagesState}</p>}
         </form>
+
+        <div className="login-links">
+          <p>already have an account?</p>
+          <NavigateLink link="/login" label="Login" />
+        </div>
       </section>
     </div>
   );

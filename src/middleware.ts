@@ -9,5 +9,5 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   // Apply to all routes except /login and /register
-  matcher: ["/login", "/register", "/profile"], // Apply to all routes except login and register
+  matcher: ["/login", "/register", "/profile", "/"], // Apply to all routes except login and register
 };

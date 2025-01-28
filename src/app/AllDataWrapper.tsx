@@ -5,41 +5,40 @@ import Header from "@/components/header/Header";
 import Image from "next/image";
 import React, { useEffect } from "react";
 
-import LoadingImg from "../../public/assets/loader.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { initializeAuthState } from "@/redux/features/auth/authSlice";
 import { setAppMainLoader } from "@/redux/features/globalSlicer";
-import { waitSec } from "@/components/utils/CommonWait";
+import { usePathname } from "next/navigation";
 
 const AllDataWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { appMainLoader } = useSelector((state: RootState) => state.global);
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const dispatch = useDispatch();
 
+  const pathname = usePathname();
+
+  // to set initial logged in state data into redux
   useEffect(() => {
     dispatch(initializeAuthState());
   }, [dispatch]);
 
   useEffect(() => {
     const setLoader = async () => {
-      if (isLoggedIn) {
+      if (appMainLoader) {
         dispatch(setAppMainLoader(false));
       }
-      await waitSec(200);
-      dispatch(setAppMainLoader(false));
     };
     setLoader();
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, appMainLoader]);
 
   if (appMainLoader) {
     return (
       <div className="app-loader">
         <Image
-          src={LoadingImg}
+          src="/assets/loader.svg"
           alt="Loading"
           height={100}
           width={100}
@@ -50,9 +49,9 @@ const AllDataWrapper: React.FC<{ children: React.ReactNode }> = ({
   } else {
     return (
       <>
-        <Header />
+        {pathname !== "/login" && pathname !== "/register" && <Header />}
         <main className="app-container">{children}</main>
-        <Footer />
+        {pathname !== "/login" && pathname !== "/register" && <Footer />}
       </>
     );
   }

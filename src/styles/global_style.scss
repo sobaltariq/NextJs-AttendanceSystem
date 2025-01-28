@@ -81,9 +81,30 @@ body::-webkit-scrollbar-thumb,
 }
 // scrollbar ends
 
-.primary-button {
-  @include app-mixin.button-style($padding: 0.2rem);
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
 }
+
+.primary-button {
+  @include app-mixin.button-style(
+    $padding: 0.2rem,
+    $text-color: $button-text-color
+  );
+}
+
+// for navigation links start
+.navigation-link-primary {
+  @include app-mixin.button-style(
+    $padding: 0,
+    $background-color: transparent,
+    $border-color: transparent,
+    $text-color: $secondary-color1,
+    $hover-text-color: $button-text-color
+  );
+}
+// for navigation links ends
 
 .alert-success {
   color: $success-color;

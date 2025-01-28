@@ -2,11 +2,15 @@
 import React, { useState, useEffect, useActionState } from "react";
 import { loginHandler } from "./loginHandler";
 import { ILoginForm, IMessageAndError } from "@/types/api";
-import { SubmitButton } from "@/components/buttons/custom-buttons";
+import {
+  NavigateLink,
+  SubmitButton,
+} from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
+import { initializeAuthState } from "@/redux/features/auth/authSlice";
 
 const formMessages: IMessageAndError = {
   message: "",
@@ -29,9 +33,12 @@ const LoginPage: React.FC = () => {
 
   const router = useRouter();
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (state?.message) {
       // Clear the entire form on success
+      dispatch(initializeAuthState());
       router.push("/");
       setFormData((prev) => ({
         ...prev,
@@ -94,6 +101,10 @@ const LoginPage: React.FC = () => {
           <SubmitButton label="Login" />
           {state?.error && <p className="alert-error">{state?.error}</p>}
         </form>
+        <div className="login-links">
+          <p>don't have an account?</p>
+          <NavigateLink link="/register" label="Register" />
+        </div>
       </section>
     </div>
   );
