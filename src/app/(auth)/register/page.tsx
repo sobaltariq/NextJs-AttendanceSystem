@@ -2,7 +2,7 @@
 import { IMessageAndError, IRegistrationForm } from "@/types/api";
 import React, { useActionState, useEffect, useState } from "react";
 import {
-  NavigateLink,
+  NavigationLink,
   SubmitButton,
 } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
@@ -297,7 +297,7 @@ const RegisterPage: React.FC = () => {
 
         <div className="login-links">
           <p>already have an account?</p>
-          <NavigateLink link="/login" label="Login" />
+          <NavigationLink link="/login" label="Login" />
         </div>
       </section>
     </div>

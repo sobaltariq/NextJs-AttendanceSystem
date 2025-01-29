@@ -4,7 +4,7 @@ interface SubmitButtonInterface {
   isLoading?: boolean;
 }
 
-interface NavigateLinkInterface {
+interface NavigationLinkInterface {
   label?: string;
   className?: string;
   link?: string;

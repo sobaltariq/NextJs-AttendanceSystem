@@ -2,11 +2,11 @@
 import React from "react";
 import "@/styles/layouts/header.scss";
 import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/features/auth/authSlice";
 import MyApi from "@/api/MyApi";
+import { NavigationLink } from "../buttons/custom-buttons";
 
 function Header() {
   const router = useRouter();
@@ -40,10 +40,12 @@ function Header() {
         <ul>
           {isLoggedIn && (
             <>
-              <li>Dashboard</li>
-              <li>Apply Leave</li>
-              <li>Profile</li>
-              <li>Chat</li>
+              <li>
+                <NavigationLink link="/" label="Home" />
+              </li>
+              <li>
+                <NavigationLink link="/profile" label="Profile" />
+              </li>
               <li>
                 <button onClick={logoutHandler}>Logout</button>
               </li>

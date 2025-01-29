@@ -3,7 +3,7 @@ import React, { useState, useEffect, useActionState } from "react";
 import { loginHandler } from "./loginHandler";
 import { ILoginForm, IMessageAndError } from "@/types/api";
 import {
-  NavigateLink,
+  NavigationLink,
   SubmitButton,
 } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
@@ -103,7 +103,7 @@ const LoginPage: React.FC = () => {
         </form>
         <div className="login-links">
           <p>don't have an account?</p>
-          <NavigateLink link="/register" label="Register" />
+          <NavigationLink link="/register" label="Register" />
         </div>
       </section>
     </div>

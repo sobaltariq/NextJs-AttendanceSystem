@@ -17,13 +17,13 @@ export const SubmitButton: React.FC<SubmitButtonInterface> = ({
   );
 };
 
-export const NavigateLink: React.FC<NavigateLinkInterface> = ({
+export const NavigationLink: React.FC<NavigationLinkInterface> = ({
   label = "Submit",
   className = "navigation-link-primary",
   link = "/",
 }) => {
   return (
-    <Link href={link} type="submit" className={className}>
+    <Link href={link} className={className}>
       {label}
     </Link>
   );
