@@ -1,0 +1,67 @@
+// Common Card Styles
+.card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.3s, transform 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+// Default Card
+.card-default {
+  @extend .card;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+// Primary Card (Emphasized)
+.card-primary {
+  @extend .card;
+  background-color: var(--primary-blue);
+  color: var(--text-inverse);
+
+  .card-title {
+    color: var(--text-inverse);
+  }
+
+  .card-description {
+    color: var(--text-inverse);
+  }
+}
+
+// Status Card (With Colored Border)
+.card-status {
+  @extend .card;
+  background-color: var(--card-background);
+  border-left: 4px solid transparent; // Default border
+
+  &.status-present {
+    border-left-color: var(--primary-green); // Green for present
+  }
+
+  &.status-absent {
+    border-left-color: var(--primary-red); // Red for absent
+  }
+
+  &.status-late {
+    border-left-color: var(--primary-yellow); // Yellow for late
+  }
+}
+
+// Card Title
+.card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+// Card Description
+.card-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}

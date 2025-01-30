@@ -49,61 +49,60 @@
 
 // button
 @mixin button-style(
-  $font-size: 18px,
-  $font-weight: 500,
-  $font-family: var(--chillax),
-  $padding: 0.5rem 1rem,
+  $background-color: var(--primary-blue),
+  $text-color: var(--text-inverse),
+  $border-color: $background-color,
   $border-radius: 6px,
-  $background-color: $button-bg-color,
-  $text-color: $button-text-color,
-  $border-color: $button-bg-color,
-  $hover-background-color: color.adjust($background-color, $lightness: -10%),
-  $hover-text-color: $text-color,
-  $hover-border-color: color.adjust($border-color, $lightness: -10%),
-  $active-background-color: color.adjust($background-color, $lightness: -15%),
-  $active-border-color: color.adjust($border-color, $lightness: -15%),
+  $padding: 0.5rem 1rem,
+  $font-size: 16px,
+  $font-weight: 500,
+  $font-family: inherit,
   $transition: 0.3s,
   $box-shadow: none,
-  $hover-box-shadow: none,
-  $border-width: 1px,
-  $border-style: solid,
-  $width: auto,
-  $height: auto,
-  $disabled-background-color: color.adjust($background-color, $lightness: 30%),
-  $disabled-text-color: color.adjust($text-color, $lightness: 30%),
-  $disabled-border-color: color.adjust($border-color, $lightness: 30%)
+  $hover-lightness: -10%,
+  $active-lightness: -15%,
+  $disabled-opacity: 0.6
 ) {
+  // Base button styles
   display: inline-block;
-  @include typography($font-size, $font-weight, 1.5, $font-family, $text-color);
   padding: $padding;
   border-radius: $border-radius;
   background-color: $background-color;
-  color: $text-color !important;
-  border: $border-width $border-style $border-color;
+  color: $text-color;
+  border: 1px solid $border-color;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  font-family: $font-family;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   transition: all $transition ease-in-out;
   box-shadow: $box-shadow;
-  width: $width;
-  height: $height;
 
-  &:hover {
-    background-color: $hover-background-color;
-    color: $hover-text-color;
-    border-color: $hover-border-color;
-    box-shadow: $hover-box-shadow;
+  // Hover state
+  &:hover:not(:disabled) {
+    background-color: color.adjust(
+      $background-color,
+      $lightness: $hover-lightness
+    );
+    border-color: color.adjust($border-color, $lightness: $hover-lightness);
   }
 
-  &:active {
-    background-color: $active-background-color;
-    border-color: $active-border-color;
+  // Active state
+  &:active:not(:disabled) {
+    background-color: color.adjust(
+      $background-color,
+      $lightness: $active-lightness
+    );
+    border-color: color.adjust($border-color, $lightness: $active-lightness);
   }
 
+  // Disabled state
   &:disabled {
-    background-color: $disabled-background-color;
-    color: $disabled-text-color;
-    border-color: $disabled-border-color;
+    opacity: $disabled-opacity;
     cursor: not-allowed;
   }
+
+  // Allow additional custom styles
+  @content;
 }

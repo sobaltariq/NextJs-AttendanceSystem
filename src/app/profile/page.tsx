@@ -25,7 +25,7 @@ const page: React.FC = () => {
   return (
     <div className="width-container">
       <div className="profile-page">
-        <Suspense fallback={<p>Loading weather...</p>}>
+        <div>
           <div>
             <Image
               src={profile?.profilePicture ?? "/assets/profile-avatar.svg"}
@@ -34,8 +34,9 @@ const page: React.FC = () => {
               alt={profile?.name ?? "profile"}
             />
           </div>
-        </Suspense>
-        <h3>{profile?.name}</h3>
+
+          <h3>{profile?.name}</h3>
+        </div>
 
         <div>
           <div>

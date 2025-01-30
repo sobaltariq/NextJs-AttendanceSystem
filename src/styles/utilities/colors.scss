@@ -1,63 +1,151 @@
 @use "sass:color";
 
-// Light Theme Colors
-// Primary Colors
-$primary-color1: #1f2937; // Charcoal - a dark, professional tone for headers and primary elements
-$primary-color2: #007bff; // Bright Blue for primary actions (e.g., buttons, links)
+// ====================
+// 🎨 Base Brand Colors
+// ====================
 
-// Secondary Colors
-$secondary-color1: #4b5563; // Slate Gray - for secondary elements like sidebars or backgrounds
-$secondary-color2: #6c757d; // Gray for secondary actions and text
+$primary-blue: #2563eb; // Main action color (buttons, links)
+$primary-green: #10b981; // Success states (e.g., success messages)
+$primary-red: #dc2626; // Errors & alert states (e.g., failed validation)
 
-// Background Colors
-$background-color: #f3f4f6; // Light Gray - soft background for a clean look
-$background-light: #f8f9fa; // Light background for chat windows and general areas
-$background-dark: #343a40; // Dark background for sidebars or footer
-$background-modal: rgba(0, 0, 0, 0.7); // Semi-transparent background for modals
+$secondary-orange: #f97316; // Warnings, attention-grabbing
+$secondary-teal: #14b8a6; // Secondary action, UI highlights
+$secondary-purple: #7c3aed; // Accent color for decorative elements
 
-// Status Colors
-$success-color: #28a745; // Green for success messages (e.g., message sent confirmation)
-$warning-color: #ffc107; // Yellow for warnings or cautionary messages
-$error-color: #dc3545; // Red for error messages or alerts
+// ====================
+// 🎨 Neutral Colors (Grayscale)
+// ====================
 
-// Accent Colors
-$accent-color: #3b82f6; // Blue - used for buttons, links, and highlights
-$hover-color: color.adjust(
-  $accent-color,
-  $lightness: -10%
-); // Darkened blue for hover effects on interactive elements
+$black: #0a0a0a; // Deep black for dark mode text
+$dark-gray: #1e1e1e; // Dark backgrounds
+$gray: #4a4a4a; // Primary text color (light theme)
+$light-gray: #767676; // Secondary text color (light theme)
+$extra-light-gray: #e5e7eb; // Borders, dividers
+$white: #ffffff; // Pure white for light mode
 
-// Text Colors
-$text-primary-color1: #212529; // Dark Gray for primary text
-$text-primary-color2: #111827; // Dark Gray - for primary text, ensuring readability
-$text-secondary-color1: #868e96; // Medium Gray for secondary text
-$secondary-text-color2: #6b7280; // Medium Gray - for secondary text like labels and helper text
-$text-inverse-color: #ffffff; // White for text on dark backgrounds
-$link-color: $accent-color; // Blue - links, matching the accent for consistent branding
+// ====================
+// 🎨 Background Colors
+// ====================
 
-// Border and Divider Colors
-$border-color: #e5e7eb; // Light Gray - for input borders, card dividers, and section separators
-$input-border-focus-color: $accent-color; // Blue - focused input borders for accessibility
+$background-main: #f9fafb; // Main page background (light mode)
+$background-dark: #111827; // Main page background (dark mode)
+$background-card: #f3f4f6; // Card backgrounds (light)
+$background-sidebar: #1f2937; // Sidebar & navbar (dark mode)
+$background-hover: #d1d5db; // Hover effects (light mode)
 
-// Button Styles
-$button-bg-color: $accent-color;
-$button-text-color: #ffffff; // White - for button text
-$button-hover-bg-color: $hover-color;
+// ====================
+// 🎨 Text Colors
+// ====================
 
-// Backgrounds
-$card-background: #ffffff; // White - for cards and modals, ensuring focus on content
-$sidebar-background: #374151; // Dark Slate - for a stable, professional sidebar
+$text-primary: $gray; // Primary text color (headings, main content)
+$text-secondary: $light-gray; // Secondary text color (descriptions, labels)
+$text-accent: $primary-blue; // Accent text color (links, important highlights)
+$text-success: $primary-green; // Success messages
+$text-error: $primary-red; // Error messages
+$text-warning: $secondary-orange; // Warning messages
+$text-info: $secondary-teal; // Info messages
+$text-muted: #9ca3af; // Muted/inactive text
+$text-inverse: $white; // Text on dark backgrounds
+$text-dark: $black; // Strong emphasis text
 
-// Dark Theme Overrides
-// These variables can be used when applying the dark theme class (e.g., [data-theme="dark"] in your HTML)
-$dark-background-color: #121212; // Dark background for the entire app
-$dark-text-primary-color1: #e0e0e0; // Light text for primary text in dark mode
-$dark-text-secondary-color1: #bdbdbd; // Light secondary text in dark mode
-$dark-button-bg-color: #4b5563; // Darker button background color for dark mode
-$dark-button-hover-bg-color: color.adjust(
-  $dark-button-bg-color,
-  $lightness: -10%
-);
-// Darker hover for buttons in dark mode
-$dark-background-dark: #1e1e1e; // Dark background for sidebars or footer in dark mode
-$dark-sidebar-background: #2d2d2d; // Dark sidebar background in dark mode
+// ====================
+// 🎨 Card Colors
+// ====================
+
+$card-primary: #f3f4f6; // Default card background (light)
+$card-secondary: #e5e7eb; // Secondary cards (e.g., alternate sections)
+$card-info: #d1fae5; // Informational cards (e.g., status cards)
+
+// ====================
+// 🎨 Light Theme
+// ====================
+
+:root {
+  // Brand Colors
+  --primary-blue: #{$primary-blue};
+  --primary-green: #{$primary-green};
+  --primary-red: #{$primary-red};
+
+  --secondary-orange: #{$secondary-orange};
+  --secondary-teal: #{$secondary-teal};
+  --secondary-purple: #{$secondary-purple};
+
+  // Neutral Colors
+  --black: #{$black};
+  --dark-gray: #{$dark-gray};
+  --gray: #{$gray};
+  --light-gray: #{$light-gray};
+  --extra-light-gray: #{$extra-light-gray};
+  --white: #{$white};
+
+  // Background Colors
+  --background-main: #{$background-main};
+  --background-dark: #{$background-dark};
+  --background-card: #{$background-card};
+  --background-sidebar: #{$background-sidebar};
+  --background-hover: #{$background-hover};
+
+  // Text Colors
+  --text-primary: #{$text-primary};
+  --text-secondary: #{$text-secondary};
+  --text-accent: #{$text-accent};
+  --text-success: #{$text-success};
+  --text-error: #{$text-error};
+  --text-warning: #{$text-warning};
+  --text-info: #{$text-info};
+  --text-muted: #{$text-muted};
+  --text-inverse: #{$text-inverse};
+  --text-dark: #{$text-dark};
+
+  // Card Colors
+  --card-primary: #{$card-primary};
+  --card-secondary: #{$card-secondary};
+  --card-info: #{$card-info};
+}
+
+// ====================
+// 🎨 Dark Theme
+// ====================
+
+[data-theme="dark"] {
+  // Brand Colors (Same as light mode for consistency)
+  --primary-blue: #{$primary-blue};
+  --primary-green: #{$primary-green};
+  --primary-red: #{$primary-red};
+
+  --secondary-orange: #{$secondary-orange};
+  --secondary-teal: #{$secondary-teal};
+  --secondary-purple: #{$secondary-purple};
+
+  // Neutral Colors (Adjusted for dark mode)
+  --black: #{$black};
+  --dark-gray: #{$dark-gray};
+  --gray: #e0e0e0; // Light gray for text
+  --light-gray: #9e9e9e; // Muted text
+  --extra-light-gray: #424242; // Borders, dividers
+  --white: #f5f5f5; // Soft white for text in dark mode
+
+  // Background Colors
+  --background-main: #{$background-dark};
+  --background-dark: #{$black};
+  --background-card: #1f2937;
+  --background-sidebar: #374151;
+  --background-hover: #6b7280;
+
+  // Text Colors
+  --text-primary: var(--gray);
+  --text-secondary: var(--light-gray);
+  --text-accent: var(--primary-blue);
+  --text-success: var(--primary-green);
+  --text-error: var(--primary-red);
+  --text-warning: var(--secondary-orange);
+  --text-info: var(--secondary-teal);
+  --text-muted: var(--light-gray);
+  --text-inverse: var(--black);
+  --text-dark: var(--white);
+
+  // Card Colors
+  --card-primary: #1f2937;
+  --card-secondary: #2d3748;
+  --card-info: #374151;
+}

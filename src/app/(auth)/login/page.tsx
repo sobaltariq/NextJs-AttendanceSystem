@@ -8,25 +8,24 @@ import {
 } from "@/components/buttons/custom-buttons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 import { useRouter } from "next/navigation";
 import { initializeAuthState } from "@/redux/features/auth/authSlice";
 
-const formMessages: IMessageAndError = {
+const FORM_MESSAGES: IMessageAndError = {
   message: "",
   error: "",
 };
 
-const initialFormData: ILoginForm = {
+const INITIAL_FORM_DATA: ILoginForm = {
   email: "",
   password: "",
 };
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
   const [state, formAction, isPending] = useActionState(
     loginHandler,
-    formMessages
+    FORM_MESSAGES
   );
 
   const [passwordState, setPasswordState] = useState(false);
@@ -55,55 +54,57 @@ const LoginPage: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    formMessages;
+    FORM_MESSAGES;
     setPasswordState(false);
   };
 
   return (
     <div className="width-container">
-      <section className="login-container">
-        <h3>Login</h3>
-        <form action={formAction}>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          <div className="password-wrapper">
+      <section className="login-container card-default">
+        <div className="form-wrapper">
+          <h3>Login</h3>
+          <form action={formAction}>
             <input
-              id="password"
-              type={passwordState ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
               onChange={handleInputChange}
             />
-            {passwordState ? (
-              <LuEye
-                onMouseLeave={() => {
-                  setPasswordState(false);
-                }}
+            <div className="password-wrapper">
+              <input
+                id="password"
+                type={passwordState ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
               />
-            ) : (
-              <LuEyeClosed
-                onMouseEnter={() => {
-                  setPasswordState(true);
-                }}
-              />
-            )}
-          </div>
-          {/* <button style={{ color: "red" }} type="submit" disabled={isPending}>
+              {passwordState ? (
+                <LuEye
+                  onMouseLeave={() => {
+                    setPasswordState(false);
+                  }}
+                />
+              ) : (
+                <LuEyeClosed
+                  onMouseEnter={() => {
+                    setPasswordState(true);
+                  }}
+                />
+              )}
+            </div>
+            {/* <button style={{ color: "red" }} type="submit" disabled={isPending}>
             Submit
           </button> */}
-          <SubmitButton label="Login" />
-          {state?.error && <p className="alert-error">{state?.error}</p>}
-        </form>
-        <div className="login-links">
-          <p>don't have an account?</p>
-          <NavigationLink link="/register" label="Register" />
+            <SubmitButton label="Login" />
+            {state?.error && <p className="alert-error">{state?.error}</p>}
+          </form>
+          <div className="login-links">
+            <p>don't have an account?</p>
+            <NavigationLink link="/register" label="Register" />
+          </div>
         </div>
       </section>
     </div>

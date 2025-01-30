@@ -159,145 +159,147 @@ const RegisterPage: React.FC = () => {
     <div className="width-container">
       <section className="login-container">
         <h3>Register</h3>
-        <form onSubmit={registerHandler}>
-          <div className="profile-pic">
-            <input
-              id="profilePicture"
-              type="file"
-              name="profilePicture"
-              accept="image/*"
-              onChange={handleFileChange}
-              capture
-            />
-            {avatarPreview ? (
-              <Image
-                width={100}
-                height={100}
-                src={avatarPreview}
-                alt="Profile Preview"
-                className="avatar-preview"
-                priority
+        <div className="form-wrapper">
+          <form onSubmit={registerHandler}>
+            <div className="profile-pic">
+              <input
+                id="profilePicture"
+                type="file"
+                name="profilePicture"
+                accept="image/*"
+                onChange={handleFileChange}
+                capture
               />
-            ) : (
-              <div className="avatar-preview-placeholder">
+              {avatarPreview ? (
                 <Image
                   width={100}
                   height={100}
-                  src="/assets/profile-avatar.svg"
+                  src={avatarPreview}
                   alt="Profile Preview"
                   className="avatar-preview"
                   priority
                 />
-                <Image
-                  width={20}
-                  height={20}
-                  src="/assets/plus-icon.svg"
-                  alt="Profile Preview"
-                  className="avatar-preview"
-                  priority
-                />
-              </div>
-            )}
-          </div>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            placeholder="name"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="username"
-            value={formData.username}
-            onChange={handleInputChange}
-          />
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-          <div className="password-wrapper">
+              ) : (
+                <div className="avatar-preview-placeholder">
+                  <Image
+                    width={100}
+                    height={100}
+                    src="/assets/profile-avatar.svg"
+                    alt="Profile Preview"
+                    className="avatar-preview"
+                    priority
+                  />
+                  <Image
+                    width={20}
+                    height={20}
+                    src="/assets/plus-icon.svg"
+                    alt="Profile Preview"
+                    className="avatar-preview"
+                    priority
+                  />
+                </div>
+              )}
+            </div>
             <input
-              id="password"
-              type={passwordState ? "text" : "password"}
-              name="password"
-              placeholder="Password"
-              value={formData.password}
+              type="text"
+              id="name"
+              name="name"
+              placeholder="name"
+              value={formData.name}
               onChange={handleInputChange}
             />
-            {passwordState ? (
-              <LuEye
-                onMouseLeave={() => {
-                  setPasswordState(false);
-                }}
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="username"
+              value={formData.username}
+              onChange={handleInputChange}
+            />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            <div className="password-wrapper">
+              <input
+                id="password"
+                type={passwordState ? "text" : "password"}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleInputChange}
               />
-            ) : (
-              <LuEyeClosed
-                onMouseEnter={() => {
-                  setPasswordState(true);
-                }}
-              />
-            )}
-          </div>
+              {passwordState ? (
+                <LuEye
+                  onMouseLeave={() => {
+                    setPasswordState(false);
+                  }}
+                />
+              ) : (
+                <LuEyeClosed
+                  onMouseEnter={() => {
+                    setPasswordState(true);
+                  }}
+                />
+              )}
+            </div>
 
-          <div className="select-wrapper">
-            <select
-              name="gender"
-              id="gender"
-              value={formData.gender}
-              onChange={handleGenderChange}
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              {genderOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+            <div className="select-wrapper">
+              <select
+                name="gender"
+                id="gender"
+                value={formData.gender}
+                onChange={handleGenderChange}
+              >
+                <option value="" disabled>
+                  Select Gender
                 </option>
-              ))}
-            </select>
+                {genderOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-            <IoIosArrowDown />
-          </div>
-          <div className="select-wrapper">
-            <select
-              name="role"
-              id="role"
-              value={formData.role}
-              onChange={handleRoleChange}
-            >
-              <option value="" disabled>
-                Role
-              </option>
-              {roleOptions.map((option) => (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  label={option.label}
-                >
-                  {option.label}
+              <IoIosArrowDown />
+            </div>
+            <div className="select-wrapper">
+              <select
+                name="role"
+                id="role"
+                value={formData.role}
+                onChange={handleRoleChange}
+              >
+                <option value="" disabled>
+                  Role
                 </option>
-              ))}
-            </select>
-            <IoIosArrowDown />
-          </div>
-          <SubmitButton
-            isLoading={messagesState ? true : false}
-            label="Register"
-          />
-          {messagesState && <p className="alert-error">{messagesState}</p>}
-        </form>
+                {roleOptions.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                    label={option.label}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <IoIosArrowDown />
+            </div>
+            <SubmitButton
+              isLoading={messagesState ? true : false}
+              label="Register"
+            />
+            {messagesState && <p className="alert-error">{messagesState}</p>}
+          </form>
 
-        <div className="login-links">
-          <p>already have an account?</p>
-          <NavigationLink link="/login" label="Login" />
+          <div className="login-links">
+            <p>already have an account?</p>
+            <NavigationLink link="/login" label="Login" />
+          </div>
         </div>
       </section>
     </div>
