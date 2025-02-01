@@ -3,8 +3,8 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer>
-      <div className="width-container">
+    <footer className="width-container">
+      <div>
         <p>Copyright by {APP_NAME} 2025. All rights reserved.</p>
       </div>
     </footer>

@@ -59,10 +59,10 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="width-container">
+    <div className="width-container" style={{ minHeight: "100vh" }}>
       <section className="login-container card-default">
         <div className="form-wrapper">
-          <h3>Login</h3>
+          <h1>Login</h1>
           <form action={formAction}>
             <input
               id="email"
@@ -83,12 +83,14 @@ const LoginPage: React.FC = () => {
               />
               {passwordState ? (
                 <LuEye
+                  color="#10b981"
                   onMouseLeave={() => {
                     setPasswordState(false);
                   }}
                 />
               ) : (
                 <LuEyeClosed
+                  color="#10b981"
                   onMouseEnter={() => {
                     setPasswordState(true);
                   }}

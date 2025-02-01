@@ -40,14 +40,16 @@ function Header() {
         <ul>
           {isLoggedIn && (
             <>
-              <li>
+              <li className={`link ${pathname === "/" ? "active" : ""}`}>
                 <NavigationLink link="/" label="Home" />
               </li>
-              <li>
+              <li className={`link ${pathname === "/profile" ? "active" : ""}`}>
                 <NavigationLink link="/profile" label="Profile" />
               </li>
               <li>
-                <button onClick={logoutHandler}>Logout</button>
+                <p className="primary-link" onClick={logoutHandler}>
+                  Logout
+                </p>
               </li>
             </>
           )}

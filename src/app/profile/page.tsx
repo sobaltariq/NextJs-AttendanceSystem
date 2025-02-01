@@ -4,6 +4,12 @@ import MyApi from "@/api/MyApi";
 import { MyProfileInterface } from "@/types/api";
 import Image from "next/image";
 
+import { BsGenderAmbiguous } from "react-icons/bs";
+import { MdAlternateEmail } from "react-icons/md";
+import { TiBusinessCard } from "react-icons/ti";
+import { FaUserClock } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+
 const page: React.FC = () => {
   const [profile, setProfile] = React.useState<MyProfileInterface | null>(null);
   const getMyProfile = async () => {
@@ -24,79 +30,91 @@ const page: React.FC = () => {
   }, []);
   return (
     <div className="width-container">
-      <div className="profile-page">
-        <div>
-          <div>
-            <Image
-              src={profile?.profilePicture ?? "/assets/profile-avatar.svg"}
-              width={50}
-              height={50}
-              alt={profile?.name ?? "profile"}
-            />
+      <section className="profile-page">
+        <div className="profile-wrapper">
+          <div className="profile-header">
+            <div className="profile-top-banner">
+              <h3>{profile?.name ?? profile?.username}</h3>
+              <button title={`last update ${profile?.updatedAt}`}>
+                <CiEdit />
+              </button>
+            </div>
+            <div className="profile-header-content-wrapper">
+              <div className="profile-picture">
+                <Image
+                  src={profile?.profilePicture ?? "/assets/profile-avatar.svg"}
+                  width={200}
+                  height={200}
+                  alt={profile?.name ?? "profile"}
+                />
+              </div>
+              <div className="header_details">
+                <div className="details_wrapper">
+                  <MdAlternateEmail />
+                  <p style={{ textTransform: "lowercase" }}>{profile?.email}</p>
+                </div>
+                <div className="details_wrapper">
+                  <BsGenderAmbiguous />
+                  <p>{profile?.gender}</p>
+                </div>
+                <div className="details_wrapper">
+                  <TiBusinessCard />
+                  <p>{profile?.position}</p>
+                </div>
+                <div className="details_wrapper">
+                  <FaUserClock />
+                  <p>{profile?.userStatus}</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <h3>{profile?.name}</h3>
-        </div>
+          <div className="profile-content">
+            <div className="profile-content-wrapper">
+              <p>Username: </p>
+              <p>{profile?.username}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>EMP Win: </p>
+              <p>{profile?.employeeOfTheMonthCount}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Leave Balance: </p>
+              <p>{profile?.leaveBalance}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Monthly Points: </p>
+              <p>{profile?.monthlyPoints}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Paid Leaves: </p>
+              <p>{profile?.paidLeavesTaken}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Role: </p>
+              <p>{profile?.role}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Joining: </p>
+              <p>{profile?.hireDate}</p>
+            </div>
 
-        <div>
-          <div>
-            <p>Username: </p>
-            <p>{profile?.username}</p>
-          </div>
-          <div>
-            <p>Email: </p>
-            <p>{profile?.email}</p>
-          </div>
-          <div>
-            <p>Gender: </p>
-            <p>{profile?.gender}</p>
-          </div>
-          <div>
-            <p>EMP Win: </p>
-            <p>{profile?.employeeOfTheMonthCount}</p>
-          </div>
-          <div>
-            <p>Joining: </p>
-            <p>{profile?.hireDate}</p>
-          </div>
-          <div>
-            <p>Leave Balance: </p>
-            <p>{profile?.leaveBalance}</p>
-          </div>
-          <div>
-            <p>Leave Requests: </p>
-            <p>{profile?.leaveRequests}</p>
-          </div>
-          <div>
-            <p>Monthly Points: </p>
-            <p>{profile?.monthlyPoints}</p>
-          </div>
-          <div>
-            <p>Notifications: </p>
-            <p>{profile?.notifications}</p>
-          </div>
-          <div>
-            <p>Paid Leaves: </p>
-            <p>{profile?.paidLeavesTaken}</p>
-          </div>
-          <div>
-            <p>Position: </p>
-            <p>{profile?.position}</p>
-          </div>
-          <div>
-            <p>Role: </p>
-            <p>{profile?.role}</p>
-          </div>
-          <div>
-            <p>Id: </p>
-            <p>{profile?.id}</p>
-          </div>
-          <div>
-            <p>Edited At: </p>
-            <p>{profile?.updatedAt}</p>
+            {/* ????? */}
+            <div className="profile-content-wrapper">
+              <p>Id: </p>
+              <p>{profile?._id}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Leave Requests: </p>
+              <p>{profile?.leaveRequests}</p>
+            </div>
+            <div className="profile-content-wrapper">
+              <p>Notifications: </p>
+              <p>{profile?.notifications}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

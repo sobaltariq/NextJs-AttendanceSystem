@@ -1,0 +1,36 @@
+@use "./../mixins" as *;
+
+// Primary Button
+.btn-primary {
+  @include button-style($background-color: #673ab7, $text-color: white);
+}
+
+// links
+// Primary Link: Bold & Noticeable
+.primary-link {
+  @include link-style();
+}
+
+// Secondary Link: Muted but Clickable
+.secondary-link {
+  @include link-style(
+    $light-bg-color: #757575,
+    $dark-bg-color: #b0bec5,
+    $hover-color: #424242,
+    $visited-color: #212121,
+    $underline: false,
+    $font-weight: 500
+  );
+}
+
+// Subtle Link: Low Emphasis
+.subtle-link {
+  @include link-style(
+    $light-bg-color: #9e9e9e,
+    $dark-bg-color: #cfd8dc,
+    $hover-color: #616161,
+    $visited-color: #455a64,
+    $underline: false,
+    $font-weight: 400
+  );
+}

@@ -2,11 +2,35 @@
 @use "./../mixins" as *;
 
 header {
+  align-content: stretch !important;
   nav {
-    background-color: var(--background-dark);
-    ul {
-      @include display-flex(row, space-between, center);
+    border-radius: 8px;
+    background: var(--gradient-accent);
+    > ul {
+      @include display-flex(row, space-evenly, center);
+
       li {
+        border: 1px solid transparent;
+        > a,
+        > p {
+          color: var(--white);
+          display: block;
+          cursor: pointer;
+          padding: 0.5rem 1.5rem;
+
+          &:hover {
+            background-color: var(--background-main);
+          }
+        }
+
+        &.active {
+          border: 1px solid var(--secondary-teal);
+          > a,
+          > p {
+            background-color: var(--background-main);
+            color: var(--secondary-teal);
+          }
+        }
       }
     }
   }

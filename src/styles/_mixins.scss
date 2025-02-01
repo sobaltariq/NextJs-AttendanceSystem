@@ -1,5 +1,5 @@
 @use "sass:color";
-@use "./utilities/colors.scss" as *;
+@use "./utilities//colors.scss" as *;
 
 // Mixin for responsive media queries
 @mixin respond($breakpoint) {
@@ -49,60 +49,105 @@
 
 // button
 @mixin button-style(
-  $background-color: var(--primary-blue),
-  $text-color: var(--text-inverse),
+  $background-color: #2563eb,
+  $text-color: #ffffff,
   $border-color: $background-color,
+  $border-width: 1px,
   $border-radius: 6px,
-  $padding: 0.5rem 1rem,
+  $padding: 0.5rem 1.5rem,
   $font-size: 16px,
-  $font-weight: 500,
+  $font-weight: 600,
   $font-family: inherit,
-  $transition: 0.3s,
+  $transition: 0.3s ease-in-out,
   $box-shadow: none,
-  $hover-lightness: -10%,
-  $active-lightness: -15%,
-  $disabled-opacity: 0.6
+  $hover-darken: 10%,
+  $active-darken: 15%,
+  $disabled-opacity: 0.6,
+  $gradient: null
 ) {
   // Base button styles
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: $padding;
-  border-radius: $border-radius;
-  background-color: $background-color;
-  color: $text-color;
-  border: 1px solid $border-color;
   font-size: $font-size;
   font-weight: $font-weight;
   font-family: $font-family;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  transition: all $transition ease-in-out;
+  border: $border-width solid $border-color;
+  border-radius: $border-radius;
+  transition: all $transition;
   box-shadow: $box-shadow;
+
+  // Handle Gradient Background
+  @if $gradient != null {
+    background: $gradient;
+    background-size: 200% auto;
+    color: $text-color;
+  } @else {
+    background-color: $background-color;
+    color: $text-color;
+  }
 
   // Hover state
   &:hover:not(:disabled) {
-    background-color: color.adjust(
-      $background-color,
-      $lightness: $hover-lightness
-    );
-    border-color: color.adjust($border-color, $lightness: $hover-lightness);
+    @if $gradient != null {
+      background-position: right center;
+    } @else {
+      background-color: color.adjust(
+        $background-color,
+        $lightness: $hover-darken
+      );
+      border-color: color.adjust($border-color, $lightness: $hover-darken);
+    }
   }
 
   // Active state
   &:active:not(:disabled) {
     background-color: color.adjust(
       $background-color,
-      $lightness: $active-lightness
+      $lightness: $active-darken
     );
-    border-color: color.adjust($border-color, $lightness: $active-lightness);
+    border-color: color.adjust($border-color, $lightness: $active-darken);
   }
 
   // Disabled state
   &:disabled {
     opacity: $disabled-opacity;
     cursor: not-allowed;
+    pointer-events: none;
   }
 
-  // Allow additional custom styles
   @content;
+}
+
+// link
+// Link Mixin with Different Background Schemes
+@mixin link-style(
+  $light-bg-color: #ffffff,
+  // Default link color on light backgrounds
+  $dark-bg-color: #b39ddb,
+  // Link color on dark backgrounds
+  $hover-color: #9ca3af,
+  // Hover color
+  $visited-color: #ffffff,
+  // Visited link color
+  $underline: false,
+  // Enable underline
+  $font-weight: 500,
+  // Default font weight
+  $transition: 0.3s ease-in-out
+) {
+  color: $light-bg-color;
+  font-weight: $font-weight;
+  text-decoration: if($underline, underline, none);
+  transition: all $transition;
+
+  // Hover State
+  &:hover {
+    color: $hover-color;
+  }
 }

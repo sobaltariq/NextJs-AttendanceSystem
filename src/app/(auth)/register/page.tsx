@@ -27,12 +27,21 @@ const genderOptions = [
   { value: "other", label: "Other" },
 ];
 
+const statusOptions = [
+  { value: "Permanent", label: "Permanent" },
+  { value: "Contract", label: "Contract" },
+  { value: "Internship", label: "Internship" },
+  { value: "Probation", label: "Probation" },
+  { value: "Other", label: "Other" },
+];
+
 const initialFormData: IRegistrationForm = {
   name: "",
   username: "",
   email: "",
   password: "",
   gender: "",
+  userStatus: "",
   role: "",
   profilePicture: null,
 };
@@ -71,6 +80,12 @@ const RegisterPage: React.FC = () => {
     setMessagesState("");
   };
 
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData({ ...formData, userStatus: e.target.value });
+    setPasswordState(false);
+    setMessagesState("");
+  };
+
   // Handle file input change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,8 +101,16 @@ const RegisterPage: React.FC = () => {
   };
 
   const validateForm = (formData: IRegistrationForm) => {
-    const { name, username, email, password, gender, role, profilePicture } =
-      formData;
+    const {
+      name,
+      username,
+      email,
+      password,
+      gender,
+      role,
+      profilePicture,
+      userStatus,
+    } = formData;
 
     // Validate each field
     if (!name) return "Name is required.";
@@ -97,6 +120,7 @@ const RegisterPage: React.FC = () => {
     if (!gender) return "Gender is required.";
     if (!role) return "Role is required.";
     if (!profilePicture) return "Profile picture is required.";
+    if (!userStatus) return "Status is required.";
 
     // Return no error if all fields are valid
     return "";
@@ -156,10 +180,10 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className="width-container">
-      <section className="login-container">
-        <h3>Register</h3>
+    <div className="width-container" style={{ minHeight: "100vh" }}>
+      <section className="login-container card-default">
         <div className="form-wrapper">
+          <h1>Register</h1>
           <form onSubmit={registerHandler}>
             <div className="profile-pic">
               <input
@@ -235,12 +259,14 @@ const RegisterPage: React.FC = () => {
               />
               {passwordState ? (
                 <LuEye
+                  color="#10b981"
                   onMouseLeave={() => {
                     setPasswordState(false);
                   }}
                 />
               ) : (
                 <LuEyeClosed
+                  color="#10b981"
                   onMouseEnter={() => {
                     setPasswordState(true);
                   }}
@@ -287,6 +313,25 @@ const RegisterPage: React.FC = () => {
                   </option>
                 ))}
               </select>
+              <IoIosArrowDown />
+            </div>
+            <div className="select-wrapper">
+              <select
+                name="status"
+                id="status"
+                value={formData.userStatus}
+                onChange={handleStatusChange}
+              >
+                <option value="" disabled>
+                  Select Status
+                </option>
+                {statusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+
               <IoIosArrowDown />
             </div>
             <SubmitButton

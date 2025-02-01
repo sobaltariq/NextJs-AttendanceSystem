@@ -3,12 +3,12 @@
 
 section.login-container {
   @include display-flex(column);
-  background-color: var(--secondary-purple);
+  background: var(--gradient-accent);
   &:hover {
     transform: none;
   }
   > .form-wrapper {
-    h3 {
+    h1 {
       text-align: center;
     }
     > form {
@@ -36,6 +36,7 @@ section.login-container {
         width: 100%;
         z-index: 2;
         > svg {
+          color: var(--secondary-teal);
           z-index: 1;
           position: absolute;
           right: 0.5rem;
@@ -53,8 +54,19 @@ section.login-container {
       }
 
       input {
-        color: var(--primary-blue);
         width: 100%;
+      }
+      input[type="submit"] {
+        padding: 0.3rem;
+        background: transparent;
+        color: var(--white);
+        border-color: var(--white);
+
+        &:hover {
+          color: var(--secondary-teal);
+          background: var(--white);
+          border-color: var(--white);
+        }
       }
       button {
         width: 100%;
@@ -95,7 +107,7 @@ section.login-container {
     > .login-links {
       margin-top: 1rem;
       a {
-        color: var(--extra-light-gray);
+        color: var(--white);
       }
     }
   }

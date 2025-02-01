@@ -12,6 +12,10 @@ $secondary-orange: #f97316; // Warnings, attention-grabbing
 $secondary-teal: #14b8a6; // Secondary action, UI highlights
 $secondary-purple: #7c3aed; // Accent color for decorative elements
 
+$success-color: #10b981;
+$warning-color: #f59e0b;
+$error-color: #ef4444;
+
 // ====================
 // 🎨 Neutral Colors (Grayscale)
 // ====================
@@ -32,6 +36,18 @@ $background-dark: #111827; // Main page background (dark mode)
 $background-card: #f3f4f6; // Card backgrounds (light)
 $background-sidebar: #1f2937; // Sidebar & navbar (dark mode)
 $background-hover: #d1d5db; // Hover effects (light mode)
+
+$background-gradient-light: linear-gradient(135deg, #ffffff, #f0f0f5);
+$background-gradient-dark: linear-gradient(135deg, #1e1e2f, #111827);
+
+// ====================
+// 🎨 New Gradient Colors
+// ====================
+
+$gradient-primary: linear-gradient(135deg, #673ab7, #512da8);
+$gradient-secondary: linear-gradient(135deg, #ff6b6b, #ff4757);
+$gradient-accent: linear-gradient(135deg, #10b981, #0d9488);
+$gradient-background: linear-gradient(135deg, #1e1e2f, #111827);
 
 // ====================
 // 🎨 Text Colors
@@ -70,6 +86,10 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --secondary-teal: #{$secondary-teal};
   --secondary-purple: #{$secondary-purple};
 
+  --success-color: #{$success-color};
+  --warning-color: #{$warning-color};
+  --error-color: #{$error-color};
+
   // Neutral Colors
   --black: #{$black};
   --dark-gray: #{$dark-gray};
@@ -84,6 +104,9 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --background-card: #{$background-card};
   --background-sidebar: #{$background-sidebar};
   --background-hover: #{$background-hover};
+
+  --background-gradient-light: #{$background-gradient-light};
+  --background-gradient-dark: #{$background-gradient-dark};
 
   // Text Colors
   --text-primary: #{$text-primary};
@@ -101,6 +124,12 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --card-primary: #{$card-primary};
   --card-secondary: #{$card-secondary};
   --card-info: #{$card-info};
+
+  // Gradient Colors
+  --gradient-primary: #{$gradient-primary};
+  --gradient-secondary: #{$gradient-secondary};
+  --gradient-accent: #{$gradient-accent};
+  --gradient-background: #{$gradient-background};
 }
 
 // ====================
@@ -116,6 +145,10 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --secondary-orange: #{$secondary-orange};
   --secondary-teal: #{$secondary-teal};
   --secondary-purple: #{$secondary-purple};
+
+  --success-color: #{$success-color};
+  --warning-color: #{$warning-color};
+  --error-color: #{$error-color};
 
   // Neutral Colors (Adjusted for dark mode)
   --black: #{$black};
@@ -148,4 +181,10 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --card-primary: #1f2937;
   --card-secondary: #2d3748;
   --card-info: #374151;
+
+  // Gradient Colors
+  --gradient-primary: #{$gradient-primary};
+  --gradient-secondary: #{$gradient-secondary};
+  --gradient-accent: #{$gradient-accent};
+  --gradient-background: #{$gradient-background};
 }

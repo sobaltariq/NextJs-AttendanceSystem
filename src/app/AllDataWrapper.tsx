@@ -51,7 +51,6 @@ const AllDataWrapper: React.FC<{ children: React.ReactNode }> = ({
       <>
         {pathname !== "/login" && pathname !== "/register" && <Header />}
         <main className="app-container">{children}</main>
-        {pathname !== "/login" && pathname !== "/register" && <Footer />}
       </>
     );
   }

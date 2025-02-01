@@ -3,7 +3,7 @@ import { useFormStatus } from "react-dom";
 
 export const SubmitButton: React.FC<SubmitButtonInterface> = ({
   label = "Submit",
-  className = "primary-button",
+  className = "btn-primary",
   isLoading = false,
 }) => {
   const { pending } = useFormStatus();
@@ -19,12 +19,12 @@ export const SubmitButton: React.FC<SubmitButtonInterface> = ({
 
 export const NavigationLink: React.FC<NavigationLinkInterface> = ({
   label = "Submit",
-  className = "navigation-link-primary",
+  className = "primary-link",
   link = "/",
 }) => {
   return (
     <Link href={link} className={className}>
-      {label}
+      <span>{label}</span>
     </Link>
   );
 };

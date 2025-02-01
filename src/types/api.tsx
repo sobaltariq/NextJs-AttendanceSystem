@@ -13,13 +13,14 @@ export interface IRegistrationForm extends ILoginForm {
   name: string;
   username: string;
   gender: string;
+  userStatus: string;
   role: string;
   profilePicture: File | null;
 }
 
 // logged in user's profile
 export interface MyProfileInterface {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   profilePicture: string;
@@ -37,4 +38,5 @@ export interface MyProfileInterface {
   updatedAt: string;
   createdAt: string;
   username: string;
+  userStatus: string;
 }
