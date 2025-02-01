@@ -5,7 +5,7 @@ import { ILoginForm, IMessageAndError } from "@/types/api";
 import {
   NavigationLink,
   SubmitButton,
-} from "@/components/buttons/custom-buttons";
+} from "@/components/buttons/CustomButtons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";

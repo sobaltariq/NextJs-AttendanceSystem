@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/features/auth/authSlice";
 import MyApi from "@/api/MyApi";
-import { NavigationLink } from "../buttons/custom-buttons";
+import { NavigationLink } from "../buttons/CustomButtons";
 
 function Header() {
   const router = useRouter();

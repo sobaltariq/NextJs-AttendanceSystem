@@ -4,7 +4,7 @@ import React, { useActionState, useEffect, useState } from "react";
 import {
   NavigationLink,
   SubmitButton,
-} from "@/components/buttons/custom-buttons";
+} from "@/components/buttons/CustomButtons";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image";
