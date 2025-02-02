@@ -22,7 +22,7 @@ const AppModal = ({ isOpen, onClose, title, children }: ModalProps) => {
           </button>
         </div>
 
-        <div>{children}</div>
+        <div className={styles.modalBody}>{children}</div>
       </div>
     </div>
   );
