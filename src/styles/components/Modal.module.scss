@@ -23,6 +23,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 1rem;
 
   > h2 {
     margin: 0;
@@ -34,5 +35,11 @@
       height: 25px;
       width: 25px;
     }
+  }
+}
+
+.modalBody {
+  > .change-profile-pic {
+    display: flex;
   }
 }

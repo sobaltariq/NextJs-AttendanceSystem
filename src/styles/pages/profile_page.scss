@@ -39,10 +39,42 @@ section.profile-page {
 
         .profile-picture {
           flex: 1;
-          align-self: center;
-          > img {
-            max-width: 100%;
-            border-radius: 50%;
+          @include display-flex(column, flex-start, flex-start);
+          gap: 1rem;
+          width: 200px;
+
+          > .pic-box {
+            @include display-flex(row, space-between, center);
+            gap: 0.4rem;
+            height: 100%;
+            background: var(--card-secondary);
+            border-radius: 4px;
+            border-top-right-radius: 50%;
+            border-bottom-right-radius: 50%;
+
+            > button {
+              height: auto;
+              align-self: stretch;
+              border-top-left-radius: 4px;
+              border-bottom-left-radius: 4px;
+              background-color: var(--light-gray);
+
+              > svg {
+                height: 20px;
+                width: 20px;
+              }
+            }
+
+            > img {
+              max-width: 100%;
+              border-radius: 50%;
+            }
+          }
+          > button {
+            text-align: start;
+            font-size: 20px;
+            font-weight: 500;
+            width: fit-content;
           }
         }
 
@@ -100,6 +132,7 @@ section.profile-page {
           &:nth-child(2) {
             font-size: 22px;
             text-transform: capitalize;
+            font-weight: 500;
             color: var(--white);
           }
         }

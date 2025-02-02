@@ -4,21 +4,32 @@ import MyApi from "@/api/MyApi";
 import { MyProfileInterface } from "@/types/api";
 import Image from "next/image";
 
+import { formatDate } from "@/components/utils/globalUse";
+import AppModal from "@/components/modal/AppModal";
+import EditMyProfile from "@/components/profile/EditMyProfile";
+import EditMyProfilePicture from "@/components/profile/ChangeProfilePic";
+
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
 import { TiBusinessCard } from "react-icons/ti";
 import { FaUserClock } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
-import { formatDate } from "@/components/utils/globalUse";
-import AppModal from "@/components/modal/AppModal";
-import EditMyProfile from "@/components/profile/EditMyProfile";
+import { MdArrowLeft } from "react-icons/md";
+import { MdArrowRight } from "react-icons/md";
 
 const page: React.FC = () => {
   const [profile, setProfile] = React.useState<MyProfileInterface | null>(null);
   const [shouldShowEditModel, setShouldShowEditModel] =
     React.useState<boolean>(false);
+  const [shouldShowEditPicModel, setShouldShowEditPicModel] =
+    React.useState<boolean>(false);
+  const [profilePicToggle, setProfilePicToggle] = React.useState<boolean>(true);
 
   const getMyProfile = async () => {
+    const isProfilePicVisible = localStorage.getItem("profilePicStatus");
+    if (isProfilePicVisible == "false") {
+      setProfilePicToggle(false);
+    }
     try {
       const response = await MyApi.get("users/profile");
       console.log(response.data.user);
@@ -34,6 +45,7 @@ const page: React.FC = () => {
   useEffect(() => {
     getMyProfile();
   }, []);
+
   return (
     <>
       <div className="width-container">
@@ -53,20 +65,40 @@ const page: React.FC = () => {
               </div>
               <div className="profile-header-content-wrapper">
                 <div className="profile-picture">
-                  <Image
-                    src={
-                      profile?.profilePicture ?? "/assets/profile-avatar.svg"
-                    }
-                    width={200}
-                    height={200}
-                    alt={profile?.name ?? "profile"}
-                  />
+                  <div className="pic-box">
+                    <button
+                      onClick={() => {
+                        setProfilePicToggle((prev) => {
+                          const newValue = !prev;
+                          localStorage.setItem(
+                            "profilePicStatus",
+                            JSON.stringify(newValue)
+                          );
+                          return newValue;
+                        });
+                      }}
+                    >
+                      {profilePicToggle ? <MdArrowLeft /> : <MdArrowRight />}
+                    </button>
+                    <Image
+                      src={
+                        profilePicToggle
+                          ? profile?.profilePicture ??
+                            "/assets/profile-avatar.svg"
+                          : "/assets/profile-avatar.svg"
+                      }
+                      width={200}
+                      height={200}
+                      alt={profile?.name ?? "profile"}
+                    />
+                  </div>
                   <button
+                    className="btn-primary"
                     onClick={() => {
-                      setShouldShowEditModel(true);
+                      setShouldShowEditPicModel(true);
                     }}
                   >
-                    Edit Profile
+                    Change Picture
                   </button>
                 </div>
                 <div className="header_details">
@@ -138,6 +170,7 @@ const page: React.FC = () => {
           </div>
         </section>
       </div>
+
       <AppModal
         isOpen={shouldShowEditModel}
         // isOpen={true}
@@ -146,6 +179,20 @@ const page: React.FC = () => {
         }}
         title="Edit Profile"
         children={<EditMyProfile />}
+      />
+      <AppModal
+        isOpen={shouldShowEditPicModel}
+        // isOpen={true}
+        onClose={() => {
+          setShouldShowEditPicModel(false);
+        }}
+        title="Change Profile Picture"
+        children={
+          <EditMyProfilePicture
+            profilePic={profile?.profilePicture ?? ""}
+            userName={profile?.name ?? ""}
+          />
+        }
       />
     </>
   );
