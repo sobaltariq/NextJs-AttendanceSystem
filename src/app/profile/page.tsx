@@ -25,6 +25,9 @@ const page: React.FC = () => {
     React.useState<boolean>(false);
   const [profilePicToggle, setProfilePicToggle] = React.useState<boolean>(true);
 
+  // to set profile pic after change
+  const [newProfilePic, setNewProfilePic] = React.useState<string | null>(null);
+
   const getMyProfile = async () => {
     const isProfilePicVisible = localStorage.getItem("profilePicStatus");
     if (isProfilePicVisible == "false") {
@@ -80,17 +83,32 @@ const page: React.FC = () => {
                     >
                       {profilePicToggle ? <MdArrowLeft /> : <MdArrowRight />}
                     </button>
-                    <Image
-                      src={
-                        profilePicToggle
-                          ? profile?.profilePicture ??
-                            "/assets/profile-avatar.svg"
-                          : "/assets/profile-avatar.svg"
-                      }
-                      width={200}
-                      height={200}
-                      alt={profile?.name ?? "profile"}
-                    />
+                    {newProfilePic === null ? (
+                      <Image
+                        src={
+                          profilePicToggle
+                            ? profile?.profilePicture ??
+                              "/assets/profile-avatar.svg"
+                            : "/assets/profile-avatar.svg"
+                        }
+                        width={200}
+                        height={200}
+                        alt={profile?.name ?? "profile"}
+                        priority
+                      />
+                    ) : (
+                      <Image
+                        src={
+                          profilePicToggle
+                            ? newProfilePic ?? "/assets/profile-avatar.svg"
+                            : "/assets/profile-avatar.svg"
+                        }
+                        width={200}
+                        height={200}
+                        alt={profile?.name ?? "profile"}
+                        priority
+                      />
+                    )}
                   </div>
                   <button
                     className="btn-primary"
@@ -189,8 +207,12 @@ const page: React.FC = () => {
         title="Change Profile Picture"
         children={
           <EditMyProfilePicture
-            profilePic={profile?.profilePicture ?? ""}
+            profilePic={newProfilePic ?? profile?.profilePicture ?? ""}
             userName={profile?.name ?? ""}
+            onClose={(newProfilePic) => {
+              setShouldShowEditPicModel(false);
+              setNewProfilePic(newProfilePic);
+            }}
           />
         }
       />

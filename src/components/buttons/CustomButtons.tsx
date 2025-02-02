@@ -12,7 +12,7 @@ export const SubmitButton: React.FC<SubmitButtonInterface> = ({
       type="submit"
       className={className}
       value={label}
-      disabled={pending || pending}
+      disabled={pending || isLoading}
     />
   );
 };

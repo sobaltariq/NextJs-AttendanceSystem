@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "../../styles/components/modal.module.scss"; // Import SCSS file
+import styles from "../../styles/components/modal.module.scss";
 import { RxCross2 } from "react-icons/rx";
 
 interface ModalProps {
@@ -22,7 +22,7 @@ const AppModal = ({ isOpen, onClose, title, children }: ModalProps) => {
           </button>
         </div>
 
-        <div className={styles.modalBody}>{children}</div>
+        <div className="modalBody">{children}</div>
       </div>
     </div>
   );
