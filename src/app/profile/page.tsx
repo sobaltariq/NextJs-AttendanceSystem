@@ -6,8 +6,8 @@ import Image from "next/image";
 
 import { formatDate } from "@/components/utils/globalUse";
 import AppModal from "@/components/modal/AppModal";
-import EditMyProfile from "@/components/profile/EditMyProfile";
-import EditMyProfilePicture from "@/components/profile/ChangeProfilePic";
+import EditMyProfile from "@/components/modal/ChangePassowrdModal";
+import EditMyProfilePicture from "@/components/modal/ChangeProfilePicModal";
 
 import { BsGenderAmbiguous } from "react-icons/bs";
 import { MdAlternateEmail } from "react-icons/md";
@@ -19,7 +19,7 @@ import { MdArrowRight } from "react-icons/md";
 
 const page: React.FC = () => {
   const [profile, setProfile] = React.useState<MyProfileInterface | null>(null);
-  const [shouldShowEditModel, setShouldShowEditModel] =
+  const [changePasswordModel, setChangePasswordModel] =
     React.useState<boolean>(false);
   const [shouldShowEditPicModel, setShouldShowEditPicModel] =
     React.useState<boolean>(false);
@@ -57,14 +57,17 @@ const page: React.FC = () => {
             <div className="profile-header">
               <div className="profile-top-banner">
                 <h3>{profile?.name ?? profile?.username}</h3>
-                <button
-                  title={`Update at ${formatDate(profile?.updatedAt ?? "")}`}
-                  onClick={() => {
-                    setShouldShowEditModel(true);
-                  }}
-                >
-                  <CiEdit />
-                </button>
+                <div>
+                  <button
+                    className="btn-primary"
+                    title={`Update at ${formatDate(profile?.updatedAt ?? "")}`}
+                    onClick={() => {
+                      setChangePasswordModel(true);
+                    }}
+                  >
+                    Change Password
+                  </button>
+                </div>
               </div>
               <div className="profile-header-content-wrapper">
                 <div className="profile-picture">
@@ -190,12 +193,12 @@ const page: React.FC = () => {
       </div>
 
       <AppModal
-        isOpen={shouldShowEditModel}
+        isOpen={changePasswordModel}
         // isOpen={true}
         onClose={() => {
-          setShouldShowEditModel(false);
+          setChangePasswordModel(false);
         }}
-        title="Edit Profile"
+        title="Change Password"
         children={<EditMyProfile />}
       />
       <AppModal

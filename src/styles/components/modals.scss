@@ -2,6 +2,7 @@
 @use "../mixins" as *;
 
 .modalBody {
+  // change profile pic
   > .change-profile-pic {
     display: flex;
     justify-content: space-between;
@@ -61,6 +62,41 @@
             color: var(--primary-red);
             cursor: pointer;
           }
+        }
+      }
+    }
+  }
+
+  //   edit my profile
+  > .change-password-modal {
+    > form {
+      @include display-flex(column);
+      gap: 1rem;
+
+      > div {
+        flex: 1;
+        gap: 0.75rem;
+
+        .password-wrapper {
+          @include display-flex(row);
+          border: 1px solid var(--light-gray);
+          border-radius: 6px;
+
+          &[data-error="true"] {
+            border-color: red;
+          }
+
+          svg {
+            padding-right: 0.75rem;
+            width: 100%;
+            cursor: pointer;
+            color: var(--gray) !important;
+          }
+        }
+
+        p.error-text {
+          color: var(--primary-red);
+          padding: 0.3rem 0;
         }
       }
     }

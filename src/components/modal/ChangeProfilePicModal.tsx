@@ -13,7 +13,7 @@ interface EditMyProfilePicInterface {
   onClose: (newProfilePic: string) => void;
 }
 
-const EditMyProfilePicture: React.FC<EditMyProfilePicInterface> = ({
+const EditMyProfilePictureModal: React.FC<EditMyProfilePicInterface> = ({
   profilePic,
   userName,
   onClose,
@@ -112,4 +112,4 @@ const EditMyProfilePicture: React.FC<EditMyProfilePicInterface> = ({
   );
 };
 
-export default EditMyProfilePicture;
+export default EditMyProfilePictureModal;

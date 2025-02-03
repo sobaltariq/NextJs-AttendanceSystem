@@ -16,7 +16,7 @@ section.profile-page {
         width: 100%;
 
         h3 {
-          width: 100%;
+          flex: 3;
           color: var(--primary-blue);
           font-size: 48px;
           text-transform: capitalize;
@@ -24,11 +24,10 @@ section.profile-page {
           text-align: center;
           margin: 0;
         }
-        button {
-          svg {
-            color: var(--primary-blue);
-            height: 50px;
-            width: 50px;
+        > div {
+          flex: 1;
+          button {
+            width: 100%;
           }
         }
       }
