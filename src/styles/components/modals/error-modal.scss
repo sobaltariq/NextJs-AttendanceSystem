@@ -1,0 +1,55 @@
+/* Modal wrapper styling */
+.error-modal {
+  position: fixed;
+  top: -100px; /* Initially positioned above the viewport */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 8px;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Slide down animation */
+.error-modal.show {
+  top: 20px; /* Slide to the top of the viewport */
+  opacity: 1; /* Make it visible */
+  animation: slideIn 0.5s ease-in-out forwards;
+}
+
+/* Fade out animation after a certain duration */
+@keyframes slideIn {
+  0% {
+    top: -100px;
+    opacity: 0;
+  }
+  100% {
+    top: 20px;
+    opacity: 1;
+  }
+}
+
+/* Modal types (success, warning, error) */
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Optional: close button */
+.error-modal-wrapper p {
+  margin: 0;
+  padding: 0;
+}

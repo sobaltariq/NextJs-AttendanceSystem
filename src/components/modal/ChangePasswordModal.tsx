@@ -3,8 +3,20 @@ import React, { useState } from "react";
 
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import { SubmitButton } from "../buttons/CustomButtons";
+import MyApi from "@/api/MyApi";
+import { useMessageModal } from "./providers/MessageModalProvider";
 
-const ChangePasswordModal: React.FC = () => {
+interface ChangePasswordInterface {
+  onClose: () => void;
+}
+
+interface LoggedInUserInterface {
+  id: string;
+}
+
+const ChangePasswordModal: React.FC<ChangePasswordInterface> = ({
+  onClose,
+}) => {
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -22,6 +34,10 @@ const ChangePasswordModal: React.FC = () => {
     newPassword: "",
     confirmPassword: "",
   });
+
+  const [disableButton, setDisableButton] = useState<boolean>(true);
+
+  const { showMessageModal } = useMessageModal();
 
   const validateForm = () => {
     let isValid = true;
@@ -41,7 +57,7 @@ const ChangePasswordModal: React.FC = () => {
       newErrors.confirmPassword = "Confirm password is required.";
       isValid = false;
     } else if (formData.newPassword !== formData.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match.";
+      newErrors.confirmPassword = "New and Confirm Passwords do not match.";
       isValid = false;
     }
 
@@ -49,11 +65,48 @@ const ChangePasswordModal: React.FC = () => {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Clear error message when user types
+    setErrors({ ...errors, [name]: "" });
+    setDisableButton(false);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      console.log("Password changed successfully!");
-      // Add API call or password update logic here
+    setDisableButton(true);
+    if (!validateForm()) {
+      return;
+    }
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    try {
+      if (!loggedInUser) {
+        await showMessageModal("error", "Something Went Wrong");
+        return;
+      }
+      const { id }: LoggedInUserInterface = JSON.parse(loggedInUser);
+      console.log("Password changed successfully!", formData);
+
+      const endpoint = `/users/change-password/${id}`;
+
+      const response = await MyApi.patch(endpoint, formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      const { success, message } = response.data;
+      if (success) {
+        await showMessageModal("success", "Password changed successfully");
+        onClose();
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error?.msg ||
+        err.response?.data?.error ||
+        "Register Error";
+      await showMessageModal("warning", errorMessage);
+      console.log("Error Response:", errorMessage);
+      setDisableButton(false);
     }
   };
 
@@ -70,8 +123,8 @@ const ChangePasswordModal: React.FC = () => {
               id="oldPassword"
               name="oldPassword"
               placeholder="Old Password"
-              // value={formData.name}
-              // onChange={handleInputChange}
+              value={formData.oldPassword}
+              onChange={handleInputChange}
             />
             {passwordState.oldPassword ? (
               <LuEye
@@ -103,8 +156,8 @@ const ChangePasswordModal: React.FC = () => {
               id="newPassword"
               name="newPassword"
               placeholder="New Password"
-              // value={formData.name}
-              // onChange={handleInputChange}
+              value={formData.newPassword}
+              onChange={handleInputChange}
             />
             {passwordState.newPassword ? (
               <LuEye
@@ -136,8 +189,8 @@ const ChangePasswordModal: React.FC = () => {
               id="confirmPassword"
               name="confirmPassword"
               placeholder="Confirm Password"
-              // value={formData.name}
-              // onChange={handleInputChange}
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
             />
             {passwordState.confirmPassword ? (
               <LuEye
@@ -164,9 +217,11 @@ const ChangePasswordModal: React.FC = () => {
             isLoading={
               errors.confirmPassword ?? errors.newPassword ?? errors.oldPassword
                 ? true
+                : disableButton
+                ? true
                 : false
             }
-            label="Change Password"
+            label="Save Password"
           />
         </div>
       </form>

@@ -4,6 +4,7 @@ import "./../styles/global_style.scss";
 import AllDataWrapper from "./AllDataWrapper";
 import chillaxFont from ".././fonts/chillaxFont";
 import { Providers } from "@/redux/Providers";
+import { MessageModalProvider } from "@/components/modal/providers/MessageModalProvider";
 
 export const metadata: Metadata = {
   title: "Attendance System",
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${chillaxFont.variable}`}>
         <Providers>
-          <AllDataWrapper>{children}</AllDataWrapper>
+          <MessageModalProvider>
+            <AllDataWrapper>{children}</AllDataWrapper>
+          </MessageModalProvider>
         </Providers>
       </body>
     </html>

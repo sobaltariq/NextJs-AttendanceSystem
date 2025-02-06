@@ -157,7 +157,7 @@ const RegisterPage: React.FC = () => {
       setMessagesState("");
       if (success) {
         const loggedInUser = {
-          id: user.id,
+          id: user._id,
           role: user.role,
           username: user.username,
           gender: user.gender,

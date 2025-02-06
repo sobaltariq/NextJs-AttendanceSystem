@@ -6,7 +6,8 @@
 
 @use "../styles/components/cards.scss";
 @use "../styles/components/buttons_links.scss";
-@use "../styles/components/modals.scss";
+@use "../styles/components/modals//modals.scss";
+@use "../styles/components/modals/error-modal.scss";
 
 // $max-width: 1440px;
 $max-width: 1280px;

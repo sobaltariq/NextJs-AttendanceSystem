@@ -41,7 +41,7 @@ function Header() {
           {isLoggedIn && (
             <>
               <li className={`link ${pathname === "/" ? "active" : ""}`}>
-                <NavigationLink link="/" label="Home" />
+                <NavigationLink link="/" label="Dashboard" />
               </li>
               <li className={`link ${pathname === "/profile" ? "active" : ""}`}>
                 <NavigationLink link="/profile" label="Profile" />

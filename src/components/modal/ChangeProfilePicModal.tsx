@@ -6,6 +6,7 @@ import { IoMdCloudUpload } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
 import { SubmitButton } from "../buttons/CustomButtons";
 import MyApi from "@/api/MyApi";
+import { useMessageModal } from "./providers/MessageModalProvider";
 
 interface EditMyProfilePicInterface {
   profilePic: string;
@@ -21,6 +22,7 @@ const EditMyProfilePictureModal: React.FC<EditMyProfilePicInterface> = ({
   const [messagesState, setMessagesState] = useState<string | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>("start");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const { showMessageModal } = useMessageModal();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -51,6 +53,10 @@ const EditMyProfilePictureModal: React.FC<EditMyProfilePicInterface> = ({
       if (response.status) {
         setMessagesState(null);
         onClose(URL.createObjectURL(selectedFile));
+        await showMessageModal(
+          "success",
+          "Profile picture updated successfully"
+        );
       }
     } catch (err: any) {
       const errorMessage =

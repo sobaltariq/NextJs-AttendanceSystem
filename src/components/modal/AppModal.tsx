@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import styles from "../../styles/components/modal.module.scss";
+import styles from "../../styles/components/modals/modal.module.scss";
 import { RxCross2 } from "react-icons/rx";
 
 interface ModalProps {

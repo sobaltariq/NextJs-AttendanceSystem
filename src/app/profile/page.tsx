@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import { formatDate } from "@/components/utils/globalUse";
 import AppModal from "@/components/modal/AppModal";
-import EditMyProfile from "@/components/modal/ChangePassowrdModal";
+import ChangePasswordModal from "@/components/modal/ChangePasswordModal";
 import EditMyProfilePicture from "@/components/modal/ChangeProfilePicModal";
 
 import { BsGenderAmbiguous } from "react-icons/bs";
@@ -199,7 +199,13 @@ const page: React.FC = () => {
           setChangePasswordModel(false);
         }}
         title="Change Password"
-        children={<EditMyProfile />}
+        children={
+          <ChangePasswordModal
+            onClose={() => {
+              setChangePasswordModel(false);
+            }}
+          />
+        }
       />
       <AppModal
         isOpen={shouldShowEditPicModel}

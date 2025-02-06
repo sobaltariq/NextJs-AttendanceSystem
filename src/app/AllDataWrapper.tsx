@@ -10,6 +10,7 @@ import { RootState } from "@/redux/store";
 import { initializeAuthState } from "@/redux/features/auth/authSlice";
 import { setAppMainLoader } from "@/redux/features/globalSlicer";
 import { usePathname } from "next/navigation";
+import ErrorModal from "@/components/modal/ErrorModal";
 
 const AllDataWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
