@@ -4,13 +4,15 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export interface GlobalInterface {
   appStatus: number;
   appMainLoader: boolean;
+  isProfilePicVisible: boolean;
 }
 const initialState: GlobalInterface = {
   appStatus: 200,
   appMainLoader: true,
+  isProfilePicVisible: true,
 };
 
-export const chatSlice = createSlice({
+export const globalSlice = createSlice({
   name: "global",
   initialState,
   reducers: {
@@ -20,10 +22,28 @@ export const chatSlice = createSlice({
     setAppMainLoader: (state, action: PayloadAction<boolean>) => {
       state.appMainLoader = action.payload;
     },
+    toggleProfilePic: (state, action: PayloadAction<boolean>) => {
+      state.isProfilePicVisible = !action.payload;
+      localStorage.setItem("profilePicStatus", String(action.payload));
+    },
+    initialImageToggleCall: (state) => {
+      if (typeof window !== "undefined") {
+        const profilePicStatus =
+          localStorage.getItem("profilePicStatus") !== "false";
+        state.isProfilePicVisible = profilePicStatus;
+      } else {
+        state.isProfilePicVisible = true;
+      }
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setAppStatus, setAppMainLoader } = chatSlice.actions;
+export const {
+  setAppStatus,
+  setAppMainLoader,
+  toggleProfilePic,
+  initialImageToggleCall,
+} = globalSlice.actions;
 
-export default chatSlice.reducer;
+export default globalSlice.reducer;
