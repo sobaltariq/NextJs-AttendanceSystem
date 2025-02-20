@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
     if (state?.message) {
       // Clear the entire form on success
       dispatch(initializeAuthState());
-      router.push("/");
+      router.push("/dashboard");
       setFormData((prev) => ({
         ...prev,
         email: prev.email,

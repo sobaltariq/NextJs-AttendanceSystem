@@ -40,8 +40,10 @@ function Header() {
         <ul>
           {isLoggedIn && (
             <>
-              <li className={`link ${pathname === "/" ? "active" : ""}`}>
-                <NavigationLink link="/" label="Dashboard" />
+              <li
+                className={`link ${pathname === "/dashboard" ? "active" : ""}`}
+              >
+                <NavigationLink link="/dashboard" label="Dashboard" />
               </li>
               <li className={`link ${pathname === "/profile" ? "active" : ""}`}>
                 <NavigationLink link="/profile" label="Profile" />

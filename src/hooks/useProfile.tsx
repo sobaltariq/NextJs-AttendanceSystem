@@ -1,3 +1,4 @@
+"use client";
 import MyApi from "@/api/MyApi";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import {
@@ -18,7 +19,6 @@ export const useProfile = () => {
 
   useEffect(() => {
     let isMounted = true;
-    dispatch(setAppMainLoader(true));
     const isProfilePicVisible = localStorage.getItem("profilePicStatus");
     if (isProfilePicVisible == "false") {
       toggleProfilePic(false);
@@ -36,14 +36,13 @@ export const useProfile = () => {
           const errorMessage =
             err.response?.data?.error?.msg ||
             err.response?.data?.error ||
-            "Register Error";
+            "Profile Error";
           showMessageModal("error", errorMessage, 5000);
           console.log("Error Response:", errorMessage);
         }
       } finally {
         if (isMounted) {
           dispatch(initialImageToggleCall());
-          dispatch(setAppMainLoader(false));
         }
       }
     };

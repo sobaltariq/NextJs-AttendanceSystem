@@ -166,7 +166,7 @@ const RegisterPage: React.FC = () => {
         localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
 
         dispatch(initializeAuthState());
-        router.push("/");
+        router.push("/dashboard");
       }
       setMessagesState("something went wrong");
     } catch (err: any) {

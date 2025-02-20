@@ -41,7 +41,7 @@ const page: React.FC = () => {
       const errorMessage =
         err.response?.data?.error?.msg ||
         err.response?.data?.error ||
-        "Register Error";
+        "Profile Error";
       console.log("Error Response:", errorMessage);
     }
   };

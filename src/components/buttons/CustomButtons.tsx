@@ -20,7 +20,7 @@ export const SubmitButton: React.FC<SubmitButtonInterface> = ({
 export const NavigationLink: React.FC<NavigationLinkInterface> = ({
   label = "Submit",
   className = "primary-link",
-  link = "/",
+  link = "/dashboard",
 }) => {
   return (
     <Link href={link} className={className}>

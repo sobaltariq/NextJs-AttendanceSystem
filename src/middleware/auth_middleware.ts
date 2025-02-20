@@ -12,7 +12,7 @@ export function authMiddleware(request: NextRequest) {
     (request.nextUrl.pathname === "/login" ||
       request.nextUrl.pathname === "/register")
   ) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // If the user is not logged in and tries to access protected routes, redirect to login

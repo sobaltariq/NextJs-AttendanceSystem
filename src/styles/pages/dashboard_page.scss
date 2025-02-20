@@ -2,4 +2,78 @@
 @use "./../mixins" as *;
 
 section.dashboard-page {
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--primary-blue);
+  box-shadow: inset 0 0 5px var(--primary-blue);
+  @include display-flex(row, space-between, flex-start);
+  gap: 2rem;
+
+  > .calendar-container {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    > .calendar-nav {
+      margin-bottom: 1rem;
+      > button {
+        padding: 0.5rem 1rem;
+        border: none;
+        background-color: #1976d2;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 0 0.5rem;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #1565c0;
+        }
+      }
+    }
+
+    > .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+
+      &.header {
+        font-weight: bold;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      > .calendar-cell {
+        padding: 10px;
+        border: 1px solid black;
+        min-height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        background-color: gray;
+
+        &.empty {
+          background-color: #f9f9f9;
+          border: none;
+        }
+
+        &.today {
+          background-color: #ffeb3b;
+          font-weight: bold;
+        }
+      }
+    }
+
+    > .user-info {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  }
 }
