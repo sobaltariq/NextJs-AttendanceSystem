@@ -11,9 +11,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
   const today = new Date();
 
   const [currentYear, setCurrentYear] = useState<number>(today.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState<number>(
-    today.getMonth() + 1
-  );
+  const [currentMonth, setCurrentMonth] = useState<number>(today.getMonth());
 
   const days = getDaysInMonth(currentYear, currentMonth);
   console.log(today);
@@ -59,6 +57,13 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
         Calendar for {monthNames[currentMonth]} {currentYear}
       </h3>
 
+      <div className="colors-indicators">
+        <p className="today">Today</p>
+        <p className="present">Present</p>
+        <p className="leave">Leave</p>
+        <p className="absent">Absent</p>
+      </div>
+
       <div className="calendar-nav">
         <button onClick={handlePrevMonth}>Previous</button>
         <button onClick={handleNextMonth}>Next</button>
@@ -67,9 +72,9 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       {/* Render Weekdays Header */}
       <div className="calendar-grid header">
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-          <div key={day} className="calendar-cell">
-            <strong>{day}</strong>
-          </div>
+          <p key={day} className="calendar-cell">
+            {day}
+          </p>
         ))}
       </div>
 
@@ -80,7 +85,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
           const emptyCells = [];
           for (let i = 0; i < firstDayIndex; i++) {
             emptyCells.push(
-              <div key={`empty-${i}`} className="calendar-cell empty" />
+              <p key={`empty-${i}`} className="calendar-cell empty"></p>
             );
           }
           return emptyCells;
@@ -90,12 +95,13 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
         {days.map((day) => {
           const isToday = day.toDateString() === new Date().toDateString();
           return (
-            <div
+            <p
               key={day.toISOString()}
               className={`calendar-cell ${isToday ? "today" : ""}`}
             >
               {day.getDate()}
-            </div>
+              {isToday && <span></span>}
+            </p>
           );
         })}
       </div>

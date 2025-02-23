@@ -12,6 +12,8 @@ $secondary-orange: #f97316; // Warnings, attention-grabbing
 $secondary-teal: #14b8a6; // Secondary action, UI highlights
 $secondary-purple: #7c3aed; // Accent color for decorative elements
 
+$present-color: #97ef9b;
+
 $success-color: #10b981;
 $warning-color: #f59e0b;
 $error-color: #ef4444;
@@ -36,6 +38,7 @@ $background-dark: #111827; // Main page background (dark mode)
 $background-card: #f3f4f6; // Card backgrounds (light)
 $background-sidebar: #1f2937; // Sidebar & navbar (dark mode)
 $background-hover: #d1d5db; // Hover effects (light mode)
+$background-shade: #eef9f8;
 
 $background-gradient-light: linear-gradient(135deg, #ffffff, #f0f0f5);
 $background-gradient-dark: linear-gradient(135deg, #1e1e2f, #111827);
@@ -90,6 +93,8 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --warning-color: #{$warning-color};
   --error-color: #{$error-color};
 
+  --present-color: #{$present-color};
+
   // Neutral Colors
   --black: #{$black};
   --dark-gray: #{$dark-gray};
@@ -104,6 +109,7 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --background-card: #{$background-card};
   --background-sidebar: #{$background-sidebar};
   --background-hover: #{$background-hover};
+  --background-shade: #{$background-shade};
 
   --background-gradient-light: #{$background-gradient-light};
   --background-gradient-dark: #{$background-gradient-dark};
