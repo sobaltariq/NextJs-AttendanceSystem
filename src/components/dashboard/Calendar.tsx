@@ -1,7 +1,7 @@
 "use client";
 import { MyAttendanceRecord, MyProfileInterface } from "@/types/api";
 import React, { useEffect, useMemo, useState } from "react";
-import { getDaysInMonth } from "../utils/calender";
+import { getDaysInMonth } from "../utils/calendar";
 import MyApi from "@/api/MyApi";
 
 interface UserProps {
@@ -66,7 +66,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
     const formattedDate = date.toISOString().split("T")[0]; // Convert date to YYYY-MM-DD
     const record = attendanceRecord.find(
       // (rec) => rec.todayDate === formattedDate
-      (rec) => rec.todayDate.split("T")[0] === date.toISOString()
+      (rec) => rec.todayDate.split("T")[0] === date.toISOString().split("T")[0]
     );
     return record?.status || null;
   };
@@ -147,10 +147,10 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       </h3>
 
       <div className="colors-indicators">
-        <p className="today">Today</p>
+        <p className="late">Late</p>
+        <p className="absent">Absent</p>
         <p className="present">Present</p>
         <p className="leave">Leave</p>
-        <p className="absent">Absent</p>
       </div>
 
       <div className="calendar-nav">

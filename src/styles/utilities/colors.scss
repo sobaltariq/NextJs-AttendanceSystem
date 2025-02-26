@@ -13,6 +13,9 @@ $secondary-teal: #14b8a6; // Secondary action, UI highlights
 $secondary-purple: #7c3aed; // Accent color for decorative elements
 
 $present-color: #97ef9b;
+$late-color: #ffcb73;
+$absent-color: #ff5050;
+$leave-color: #9a9aff;
 
 $success-color: #10b981;
 $warning-color: #f59e0b;
@@ -94,6 +97,9 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   --error-color: #{$error-color};
 
   --present-color: #{$present-color};
+  --late-color: #{$late-color};
+  --absent-color: #{$absent-color};
+  --leave-color: #{$leave-color};
 
   // Neutral Colors
   --black: #{$black};

@@ -91,17 +91,17 @@ section.dashboard-page {
         padding: 0.2rem 0.4rem;
         font-size: 16px;
       }
-      .today {
-        background: var(--secondary-orange);
-      }
       .present {
         background: var(--present-color);
       }
       .leave {
-        background: var(--warning-color);
+        background: var(--leave-color);
       }
       .absent {
-        background: var(--primary-red);
+        background: var(--absent-color);
+      }
+      .late {
+        background: var(--late-color);
       }
     }
 
@@ -160,6 +160,20 @@ section.dashboard-page {
             display: block;
             background: var(--secondary-orange);
             font-weight: bold;
+          }
+
+          &.present,
+          &.early {
+            background: var(--present-color);
+          }
+          &.leave {
+            background: var(--leave-color);
+          }
+          &.absent {
+            background: var(--absent-color);
+          }
+          &.late {
+            background: var(--late-color);
           }
         }
       }
