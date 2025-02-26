@@ -28,7 +28,7 @@ export const useProfile = () => {
       try {
         const response = await MyApi.get("users/profile");
         if (isMounted) {
-          console.log(response.data.user);
+          // console.log(response.data.user);
           setProfile(response.data.user);
         }
       } catch (err: any) {

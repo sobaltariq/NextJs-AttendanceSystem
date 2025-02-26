@@ -117,46 +117,50 @@ section.dashboard-page {
       }
     }
 
-    > .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-
-      &.header {
-        font-weight: bold;
-        background: var(--secondary-teal);
-        > .calendar-cell {
-          background: transparent;
-          color: var(--black);
-          font-weight: 500;
-        }
-      }
-
-      > .calendar-cell {
-        position: relative;
-        padding: 10px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-end;
-        background: var(--background-main);
-        border: 1px solid var(--extra-light-gray);
-        aspect-ratio: 1/1;
-        font-size: 2rem;
-        color: var(--dark-gray);
-
-        &.empty {
+    > table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      tr {
+        th,
+        td {
+          position: relative;
+          border: 1px solid var(--primary-blue);
+          padding: 10px;
+          height: 135px;
+          text-align: end;
+          vertical-align: bottom;
           background: var(--white);
+          &:first-child,
+          &:last-child {
+            background: #ffdada !important;
+            color: var(--dark-gray);
+          }
         }
-
-        > span {
-          top: 10;
-          left: 10;
-          border-radius: 25px;
-          position: absolute;
-          height: 1rem;
-          width: 1rem;
-          display: block;
-          background: var(--secondary-orange);
+        th {
           font-weight: bold;
+          background: var(--background-shade);
+          color: var(--dark-gray);
+          font-weight: 500;
+          font-size: 1.5rem;
+          height: 75px;
+        }
+        td {
+          background: var(--background-main);
+          font-size: 2rem;
+          color: var(--dark-gray);
+
+          > span {
+            top: 10;
+            left: 10;
+            border-radius: 25px;
+            position: absolute;
+            height: 1rem;
+            width: 1rem;
+            display: block;
+            background: var(--secondary-orange);
+            font-weight: bold;
+          }
         }
       }
     }

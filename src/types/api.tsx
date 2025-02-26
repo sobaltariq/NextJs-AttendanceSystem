@@ -40,3 +40,14 @@ export interface MyProfileInterface {
   username: string;
   userStatus: string;
 }
+
+// get my attendance
+export interface MyAttendanceRecord {
+  _id: string;
+  userId: string;
+  todayDate: string;
+  status: "early" | "present" | "late" | "absent";
+  checkInTime: string;
+  createdAt: string;
+  updatedAt: string;
+}

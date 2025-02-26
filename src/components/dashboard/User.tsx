@@ -23,10 +23,6 @@ const User: React.FC<UserProps> = ({ profile }) => {
     }
   );
 
-  const getAttendances = () => {
-    const response = MyApi.get();
-  };
-
   return (
     <div className="user-container">
       <div className="profile-picture">
