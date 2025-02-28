@@ -84,36 +84,41 @@ section.dashboard-page {
     border: 1px solid var(--light-gray);
     border-radius: 24px;
 
-    > .colors-indicators {
-      padding: 1.5rem 0;
-      @include display-flex(row, flex-start, center);
-      p {
-        padding: 0.2rem 0.4rem;
-        font-size: 16px;
-      }
-      .present {
-        background: var(--present-color);
-      }
-      .leave {
-        background: var(--leave-color);
-      }
-      .absent {
-        background: var(--absent-color);
-      }
-      .late {
-        background: var(--late-color);
-      }
-    }
-
     h3 {
       color: var(--light-gray);
     }
 
-    > .calendar-nav {
-      margin-bottom: 1rem;
-      @include display-flex(row, space-between, center);
-      > button {
-        @include button-style();
+    .heading-wrapper {
+      @include display-flex(row, space-between, end);
+      padding: 1.5rem 0;
+
+      > .colors-indicators {
+        @include display-flex(row, flex-start, flex-end);
+        p {
+          padding: 0.2rem 0.4rem;
+          font-size: 16px;
+        }
+        .present {
+          background: var(--present-color);
+        }
+        .leave {
+          background: var(--leave-color);
+        }
+        .absent {
+          background: var(--absent-color);
+        }
+        .late {
+          background: var(--late-color);
+        }
+      }
+
+      > .calendar-nav {
+        @include display-flex(row, center, end);
+        gap: 0.5rem;
+
+        > button {
+          @include button-style();
+        }
       }
     }
 

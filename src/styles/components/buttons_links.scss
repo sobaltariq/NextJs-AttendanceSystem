@@ -4,6 +4,9 @@
 .btn-primary {
   @include button-style($background-color: #673ab7, $text-color: white);
 }
+.btn-primary {
+  @include button-style($background-color: #28a745, $text-color: white);
+}
 
 // links
 // Primary Link: Bold & Noticeable

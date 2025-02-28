@@ -3,6 +3,7 @@ import { MyAttendanceRecord, MyProfileInterface } from "@/types/api";
 import React, { useEffect, useMemo, useState } from "react";
 import { getDaysInMonth } from "../utils/calendar";
 import MyApi from "@/api/MyApi";
+import { SubmitButton } from "../buttons/CustomButtons";
 
 interface UserProps {
   profile: MyProfileInterface;
@@ -16,6 +17,8 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
   const [attendanceRecord, setAttendanceRecord] = useState<
     MyAttendanceRecord[]
   >([]);
+
+  const [PunchInStatus, setPunchInStatus] = useState<string | null>(null);
 
   // Memoize the days so they are recalculated only when year or month changes.
   const days = useMemo(
@@ -88,6 +91,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       const statusClass = status ? status : "";
       cells.push(
         <td
+          title={statusClass}
           key={day.toISOString()}
           className={`calendar-cell ${isToday ? "today" : ""} ${statusClass}`}
         >
@@ -124,6 +128,8 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       const { success, attendanceRecords } = response.data;
       if (success) {
         setAttendanceRecord(attendanceRecords);
+        const todayStatus = getStatusForDate(new Date());
+        setPunchInStatus(todayStatus);
       }
     } catch (err: any) {
       const errorMessage =
@@ -140,22 +146,51 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
     getAttendances();
   }, [currentYear, currentMonth, profile._id]);
 
+  const handlePunchIn = async () => {
+    setPunchInStatus("marked");
+    try {
+      const response = await MyApi.post(`/attendance/`);
+      console.log(response);
+
+      if (response.data.success) {
+        // Refresh attendance records to update the status
+        getAttendances();
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.error?.msg ||
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        "Punch In Error";
+      console.log("Error Response:", errorMessage);
+    }
+  };
+
   return (
     <div className="calendar-container">
       <h3>
         Calendar for {monthNames[currentMonth]} {currentYear}
       </h3>
 
-      <div className="colors-indicators">
-        <p className="late">Late</p>
-        <p className="absent">Absent</p>
-        <p className="present">Present</p>
-        <p className="leave">Leave</p>
-      </div>
+      <div className="heading-wrapper">
+        <div className="colors-indicators">
+          <p className="late">Late</p>
+          <p className="absent">Absent</p>
+          <p className="present">Present</p>
+          <p className="leave">Leave</p>
+        </div>
+        <div className="punch-in-button">
+          {!PunchInStatus && (
+            <button className="btn-primary" onClick={handlePunchIn}>
+              Punch In
+            </button>
+          )}
+        </div>
+        <div className="calendar-nav">
+          <button onClick={handlePrevMonth}>Previous</button>
 
-      <div className="calendar-nav">
-        <button onClick={handlePrevMonth}>Previous</button>
-        <button onClick={handleNextMonth}>Next</button>
+          <button onClick={handleNextMonth}>Next</button>
+        </div>
       </div>
 
       <table>
