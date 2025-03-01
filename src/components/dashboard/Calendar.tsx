@@ -128,8 +128,21 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       const { success, attendanceRecords } = response.data;
       if (success) {
         setAttendanceRecord(attendanceRecords);
-        const todayStatus = getStatusForDate(new Date());
-        setPunchInStatus(todayStatus);
+
+        const today = new Date().toISOString().split("T")[0];
+        const existingRecord = attendanceRecords.find(
+          (record: MyAttendanceRecord) =>
+            record.todayDate.split("T")[0] === today
+        );
+        console.log("====================================");
+        console.log(attendanceRecords[0].todayDate.split("T")[0], today);
+        console.log("====================================");
+
+        if (existingRecord) {
+          console.log("Attendance record for today exists:", existingRecord);
+
+          setPunchInStatus(existingRecord);
+        }
       }
     } catch (err: any) {
       const errorMessage =
@@ -180,7 +193,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
           <p className="leave">Leave</p>
         </div>
         <div className="punch-in-button">
-          {!PunchInStatus && (
+          {PunchInStatus ? null : (
             <button className="btn-primary" onClick={handlePunchIn}>
               Punch In
             </button>

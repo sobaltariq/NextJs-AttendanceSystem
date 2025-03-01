@@ -39,7 +39,7 @@ $white: #ffffff; // Pure white for light mode
 $background-main: #f9fafb; // Main page background (light mode)
 $background-dark: #111827; // Main page background (dark mode)
 $background-card: #f3f4f6; // Card backgrounds (light)
-$background-sidebar: #1f2937; // Sidebar & navbar (dark mode)
+$background-sidebar: #5c5c7c; // Sidebar & navbar (dark mode)
 $background-hover: #d1d5db; // Hover effects (light mode)
 $background-shade: #eef9f8;
 
@@ -53,7 +53,7 @@ $background-gradient-dark: linear-gradient(135deg, #1e1e2f, #111827);
 $gradient-primary: linear-gradient(135deg, #673ab7, #512da8);
 $gradient-secondary: linear-gradient(135deg, #ff6b6b, #ff4757);
 $gradient-accent: linear-gradient(135deg, #10b981, #0d9488);
-$gradient-background: linear-gradient(135deg, #1e1e2f, #111827);
+$gradient-background: linear-gradient(135deg, #5c5c7c, #6a758d);
 
 // ====================
 // 🎨 Text Colors
@@ -84,9 +84,7 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
 
 :root {
   // Brand Colors
-  --primary-blue: #{$primary-blue};
   --primary-green: #{$primary-green};
-  --primary-red: #{$primary-red};
 
   --secondary-orange: #{$secondary-orange};
   --secondary-teal: #{$secondary-teal};
@@ -150,9 +148,7 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
 
 [data-theme="dark"] {
   // Brand Colors (Same as light mode for consistency)
-  --primary-blue: #{$primary-blue};
   --primary-green: #{$primary-green};
-  --primary-red: #{$primary-red};
 
   --secondary-orange: #{$secondary-orange};
   --secondary-teal: #{$secondary-teal};
@@ -180,9 +176,8 @@ $card-info: #d1fae5; // Informational cards (e.g., status cards)
   // Text Colors
   --text-primary: var(--gray);
   --text-secondary: var(--light-gray);
-  --text-accent: var(--primary-blue);
+  --text-accent: $primary-blue;
   --text-success: var(--primary-green);
-  --text-error: var(--primary-red);
   --text-warning: var(--secondary-orange);
   --text-info: var(--secondary-teal);
   --text-muted: var(--light-gray);

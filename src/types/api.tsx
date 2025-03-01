@@ -51,3 +51,16 @@ export interface MyAttendanceRecord {
   createdAt: string;
   updatedAt: string;
 }
+
+// notice board
+export interface CreatedBy {
+  _id: string;
+  name: string;
+}
+export interface NoticesInterface {
+  title: String;
+  content: String;
+  createdBy: CreatedBy;
+  type: "Reminder" | "Alert" | "Notice";
+  createdAt: string;
+}

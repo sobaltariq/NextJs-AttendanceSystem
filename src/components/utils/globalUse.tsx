@@ -8,3 +8,19 @@ export const formatDate = (timestamp: string): string => {
 
   return `${day}-${month}-${year}`;
 };
+
+export const formattedDay = (timestamp: string): string => {
+  if (!timestamp) return "";
+  const date = new Date(timestamp);
+  return String(date.getDate()).padStart(2, "0");
+};
+export const formattedMonth = (timestamp: string): string => {
+  if (!timestamp) return "";
+  const date = new Date(timestamp);
+  return date.toLocaleString("en-US", { month: "short" });
+};
+export const formattedYear = (timestamp: string): number => {
+  if (!timestamp) return 0;
+  const date = new Date(timestamp);
+  return date.getFullYear();
+};

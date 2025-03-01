@@ -1,4 +1,6 @@
 // Common Card Styles
+@use "../utilities/colors.scss" as *;
+
 .card {
   padding: 1.5rem;
   border-radius: 8px;
@@ -21,7 +23,7 @@
 // Primary Card (Emphasized)
 .card-primary {
   @extend .card;
-  background-color: var(--primary-blue);
+  background-color: $primary-blue;
   color: var(--text-inverse);
 
   .card-title {
@@ -44,7 +46,7 @@
   }
 
   &.status-absent {
-    border-left-color: var(--primary-red); // Red for absent
+    border-left-color: $primary-red; // Red for absent
   }
 
   &.status-late {

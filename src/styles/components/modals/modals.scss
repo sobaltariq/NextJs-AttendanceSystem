@@ -59,7 +59,7 @@
           svg {
             height: 40px;
             width: 40px;
-            color: var(--primary-red);
+            color: $primary-red;
             cursor: pointer;
           }
         }
@@ -97,7 +97,7 @@
         }
 
         p.error-text {
-          color: var(--primary-red);
+          color: $primary-red;
           padding: 0.3rem 0;
         }
       }

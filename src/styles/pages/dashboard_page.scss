@@ -1,75 +1,187 @@
-@use "./../utilities/colors" as *;
+@use "../utilities/colors.scss" as *;
 @use "./../mixins" as *;
+@use "sass:color";
 
 section.dashboard-page {
   .user-container {
+    @include display-flex(row, space-between, flex-start);
+    gap: 1rem;
     margin-bottom: 2rem;
-    padding: 1.5rem;
-    border-radius: 12px;
-    background: var(--background-card);
 
-    > .profile-picture {
+    > .box-wrapper {
       flex: 1;
-      @include display-flex(column, flex-start, flex-start);
-      gap: 1rem;
-      width: 200px;
-      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      background: var(--background-gradient-light);
+      @include box-shadow();
 
-      > .pic-box {
-        @include display-flex(row, space-between, center);
-        gap: 0.4rem;
-        height: 100%;
-        background: var(--background-shade);
-        border-radius: 4px;
-        border-top-right-radius: 50%;
-        border-bottom-right-radius: 50%;
+      > .profile-picture {
+        flex: 1;
+        @include display-flex(column, flex-start, flex-start);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
 
+        > .pic-box {
+          @include display-flex(row, space-between, center);
+          gap: 3.4rem;
+          height: 100%;
+          background: var(--background-shade);
+          border-radius: 4px;
+          border-top-right-radius: 50%;
+          border-bottom-right-radius: 50%;
+
+          > button {
+            height: auto;
+            align-self: stretch;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+            background-color: $background-hover;
+
+            > svg {
+              color: $white;
+              height: 20px;
+              width: 20px;
+            }
+          }
+
+          > img {
+            max-width: 100%;
+            border-radius: 50%;
+          }
+        }
         > button {
-          height: auto;
-          align-self: stretch;
-          border-top-left-radius: 4px;
-          border-bottom-left-radius: 4px;
-          background-color: var(--light-gray);
+          text-align: start;
+          font-size: 20px;
+          font-weight: 500;
+          width: fit-content;
+        }
+      }
+
+      > .user-inner-container {
+        border: 1px solid var(--background-sidebar);
+        border-radius: 6px;
+
+        > .headings {
+          @include display-flex(row, start, end);
+          gap: 1rem;
+          width: 100%;
+          background: var(--gradient-background);
+          padding: 0.5rem;
+
+          > p {
+            font-weight: 500;
+            font-size: 24px;
+          }
 
           > svg {
-            height: 20px;
-            width: 20px;
+            height: 2rem;
+            width: 2rem;
+          }
+          > svg:last-child {
+            margin-left: auto;
+            cursor: pointer;
           }
         }
 
-        > img {
-          max-width: 100%;
-          border-radius: 50%;
-        }
-      }
-      > button {
-        text-align: start;
-        font-size: 20px;
-        font-weight: 500;
-        width: fit-content;
-      }
-    }
+        > .details-container {
+          @include display-flex(column, flex-start, flex-start);
+          gap: 0.5rem;
+          padding: 0.5rem;
 
-    > .user-inner-container {
-      @include display-flex(column, flex-start, flex-start);
-      gap: 0.75rem;
-      > .user-content-wrapper {
-        @include display-flex(row, flex-start, flex-start);
-        gap: 0.75rem;
+          &.s-bar {
+            overflow-y: scroll;
+            min-height: 25rem;
+            max-height: 25rem;
+          }
 
-        p:first-child {
-          color: var(--dark-gray);
-          font-weight: 400;
-        }
-        p {
-          color: var(--black);
-          font-size: 22px;
-          font-weight: 500;
-          &.user-name {
-            font-size: 2rem;
-            font-weight: 500;
-            padding: 0.5rem 0;
-            text-transform: capitalize;
+          &.notice-wrapper {
+            gap: 2rem;
+          }
+
+          > .user-content-wrapper {
+            @include display-flex(row, flex-start, flex-start);
+            gap: 0.75rem;
+
+            p:first-child {
+              color: var(--dark-gray);
+              font-weight: 500;
+            }
+            p {
+              color: var(--black);
+              font-size: 18px;
+              font-weight: 400;
+              &.user-name {
+                font-size: 24px;
+                font-weight: 500;
+                padding: 0.5rem 0;
+                text-transform: capitalize;
+              }
+            }
+          }
+
+          > .notice-box {
+            display: grid;
+            grid-row: inherit;
+            grid-template-columns: 1fr 6fr;
+            gap: 0.5rem;
+
+            > .date-wrapper {
+              min-height: 100px;
+              max-height: 100px;
+              width: 100px;
+              padding: 0.3rem;
+              border-radius: 6px;
+              @include display-flex(column, center, center);
+              gap: 0.5rem;
+
+              > p {
+                vertical-align: middle;
+                font-size: 24px;
+                text-align: center;
+              }
+
+              &.reminder {
+                color: $white;
+                background: color.scale($primary-blue, $lightness: 30%);
+              }
+
+              &.alert {
+                color: $white;
+                background: color.scale($primary-red, $lightness: 30%);
+              }
+
+              &.notice {
+                color: $white;
+                background: color.scale($warning-color, $lightness: 30%);
+              }
+            }
+
+            > .user-content-wrapper {
+              @include display-flex(column, flex-start, flex-start);
+
+              > h4 {
+                text-transform: capitalize;
+              }
+              > p {
+                color: var(--black);
+                font-size: 16px;
+              }
+              > span {
+                font-size: 12px;
+                color: var(--light-gray);
+              }
+              > .reminder {
+                color: $primary-blue;
+              }
+
+              > .alert {
+                color: $primary-red;
+              }
+
+              > .notice {
+                color: $warning-color;
+              }
+            }
           }
         }
       }
@@ -130,7 +242,7 @@ section.dashboard-page {
         th,
         td {
           position: relative;
-          border: 1px solid var(--primary-blue);
+          border: 1px solid $primary-blue;
           padding: 10px;
           height: 135px;
           text-align: end;
