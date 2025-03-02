@@ -1,17 +1,27 @@
 import React from "react";
-
-const Feedback = () => {
+interface AddFeedbackInterface {
+  onClose: (newProfilePic: string) => void;
+}
+const FeedbackModal: React.FC<AddFeedbackInterface> = ({ onClose }) => {
+  const dropDown = ["Bug Report", "Feature Request"];
   return (
     <div className="feedback-container">
-      <div className="feedback-header">
-        <h2>Feedback</h2>
-        <button>Give Feedback</button>
-      </div>
-      <div className="feedback-list-wrapper">
-        <p>2</p>
-      </div>
+      <form className="feedback-form">
+        <select name="" id="">
+          {dropDown.map((item, i) => {
+            return (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            );
+          })}
+        </select>
+        <input type="text" />
+        <input type="text" />
+        <input type="submit" />
+      </form>
     </div>
   );
 };
 
-export default Feedback;
+export default FeedbackModal;

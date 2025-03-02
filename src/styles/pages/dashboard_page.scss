@@ -301,7 +301,7 @@ section.dashboard-page {
       margin-top: 2rem;
       > button {
         @include button-style(
-          $background-color: $primary-blue,
+          $background-color: $primary-green,
           $text-color: $white,
           $font-weight: 500
         );

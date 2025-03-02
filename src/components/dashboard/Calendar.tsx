@@ -4,6 +4,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getDaysInMonth } from "../utils/calendar";
 import MyApi from "@/api/MyApi";
 import { SubmitButton } from "../buttons/CustomButtons";
+import AppModal from "../modal/AppModal";
+import FeedbackModal from "../modal/FeedbackModal";
 
 interface UserProps {
   profile: MyProfileInterface;
@@ -19,6 +21,8 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
   >([]);
 
   const [PunchInStatus, setPunchInStatus] = useState<string | null>(null);
+
+  const [feedbackModal, setFeedbackModal] = useState<boolean>(false);
 
   // Memoize the days so they are recalculated only when year or month changes.
   const days = useMemo(
@@ -180,50 +184,69 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
   };
 
   return (
-    <div className="calendar-container">
-      <h3>
-        Calendar for {monthNames[currentMonth]} {currentYear}
-      </h3>
+    <>
+      <div className="calendar-container">
+        <h3>
+          Calendar for {monthNames[currentMonth]} {currentYear}
+        </h3>
 
-      <div className="heading-wrapper">
-        <div className="colors-indicators">
-          <p className="late">Late</p>
-          <p className="absent">Absent</p>
-          <p className="present">Present</p>
-          <p className="leave">Leave</p>
-        </div>
-        <div className="punch-in-button">
-          {PunchInStatus ? null : (
-            <button className="btn-primary" onClick={handlePunchIn}>
-              Punch In
-            </button>
-          )}
-        </div>
-        <div className="calendar-nav">
-          <button onClick={handlePrevMonth}>Previous</button>
+        <div className="heading-wrapper">
+          <div className="colors-indicators">
+            <p className="late">Late</p>
+            <p className="absent">Absent</p>
+            <p className="present">Present</p>
+            <p className="leave">Leave</p>
+          </div>
+          <div className="punch-in-button">
+            {PunchInStatus ? null : (
+              <button className="btn-primary" onClick={handlePunchIn}>
+                Punch In
+              </button>
+            )}
+          </div>
+          <div className="calendar-nav">
+            <button onClick={handlePrevMonth}>Previous</button>
 
-          <button onClick={handleNextMonth}>Next</button>
+            <button onClick={handleNextMonth}>Next</button>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                (day, i) => (
+                  <th key={day} className={`${weekDay == i ? "today" : ""}`}>
+                    {day}
+                  </th>
+                )
+              )}
+            </tr>
+          </thead>
+          <tbody>{getCalendarDays()}</tbody>
+        </table>
+
+        {/* Optionally, display user info from profile */}
+        <div className="feed-back-button">
+          <button onClick={() => setFeedbackModal(true)}>Give Feedback</button>
         </div>
       </div>
-
-      <table>
-        <thead>
-          <tr>
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, i) => (
-              <th key={day} className={`${weekDay == i ? "today" : ""}`}>
-                {day}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>{getCalendarDays()}</tbody>
-      </table>
-
-      {/* Optionally, display user info from profile */}
-      <div className="feed-back-button">
-        <button>Give Feedback</button>
-      </div>
-    </div>
+      <AppModal
+        isOpen={feedbackModal}
+        // isOpen={true}
+        onClose={() => {
+          setFeedbackModal(false);
+        }}
+        title="Change Password"
+        children={
+          <FeedbackModal
+            onClose={() => {
+              setFeedbackModal(false);
+            }}
+          />
+        }
+      />
+    </>
   );
 };
 
