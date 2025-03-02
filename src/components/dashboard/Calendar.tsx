@@ -220,10 +220,8 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       </table>
 
       {/* Optionally, display user info from profile */}
-      <div className="user-info">
-        <p>
-          Viewing calendar for <strong>{profile.name}</strong>
-        </p>
+      <div className="feed-back-button">
+        <button>Give Feedback</button>
       </div>
     </div>
   );

@@ -296,10 +296,31 @@ section.dashboard-page {
       }
     }
 
-    > .user-info {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #555;
+    > .feed-back-button {
+      @include display-flex(row, flex-start);
+      margin-top: 2rem;
+      > button {
+        @include button-style(
+          $background-color: $primary-blue,
+          $text-color: $white,
+          $font-weight: 500
+        );
+      }
+    }
+  }
+
+  > .feedback-container {
+    background: $background-sidebar;
+    @include box-shadow($color: $background-sidebar);
+    margin-top: 2rem;
+    padding: 2rem 1rem;
+    border-radius: 12px;
+
+    > .feedback-header {
+      > h2 {
+        margin: 0;
+      }
+      @include display-flex(row, space-between, center);
     }
   }
 }
