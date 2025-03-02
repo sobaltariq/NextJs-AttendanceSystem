@@ -142,9 +142,11 @@ h5 {
 }
 
 input,
-select {
+select,
+textarea {
   padding: 0.5rem 0.75rem;
   outline: none;
+  resize: none;
   border-radius: 0.5rem;
   @include app-mixin.typography(
     $size: 16px,

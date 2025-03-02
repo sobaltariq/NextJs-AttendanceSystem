@@ -91,7 +91,6 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
         day.getMonth() === today.getMonth() &&
         day.getFullYear() === today.getFullYear();
       const status = getStatusForDate(day);
-      status && console.log(status);
       const statusClass = status ? status : "";
       cells.push(
         <td
@@ -237,7 +236,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
         onClose={() => {
           setFeedbackModal(false);
         }}
-        title="Change Password"
+        title="Give Feedback"
         children={
           <FeedbackModal
             onClose={() => {
