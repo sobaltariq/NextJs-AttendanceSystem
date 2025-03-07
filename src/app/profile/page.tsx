@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import MyApi from "@/api/MyApi";
 import { MyProfileInterface } from "@/types/api";
 import Image from "next/image";
@@ -16,11 +16,16 @@ import { FaUserClock } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 import { MdArrowLeft } from "react-icons/md";
 import { MdArrowRight } from "react-icons/md";
+import EditProfileRequest from "@/components/modal/EditProfileRequest";
 
 const page: React.FC = () => {
   const [profile, setProfile] = React.useState<MyProfileInterface | null>(null);
   const [changePasswordModel, setChangePasswordModel] =
     React.useState<boolean>(false);
+
+  const [changeProfileModalState, setChangeProfileModalState] =
+    useState<boolean>(false);
+
   const [shouldShowEditPicModel, setShouldShowEditPicModel] =
     React.useState<boolean>(false);
   const [profilePicToggle, setProfilePicToggle] = React.useState<boolean>(true);
@@ -66,6 +71,15 @@ const page: React.FC = () => {
                     }}
                   >
                     Change Password
+                  </button>
+                  <button
+                    className="btn-primary"
+                    title={`Update at ${formatDate(profile?.updatedAt ?? "")}`}
+                    onClick={() => {
+                      setChangeProfileModalState(true);
+                    }}
+                  >
+                    Edit Profile
                   </button>
                 </div>
               </div>
@@ -221,6 +235,22 @@ const page: React.FC = () => {
             onClose={(newProfilePic) => {
               setShouldShowEditPicModel(false);
               setNewProfilePic(newProfilePic);
+            }}
+          />
+        }
+      />
+      <AppModal
+        isOpen={changeProfileModalState}
+        // isOpen={true}
+        onClose={() => {
+          setChangeProfileModalState(true);
+        }}
+        title="Edit Picture Request"
+        children={
+          <EditProfileRequest
+            onClose={() => {
+              setChangeProfileModalState(true);
+              getMyProfile();
             }}
           />
         }

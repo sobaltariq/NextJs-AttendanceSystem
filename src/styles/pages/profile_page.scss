@@ -16,7 +16,6 @@ section.profile-page {
         width: 100%;
 
         h3 {
-          flex: 3;
           color: $primary-blue;
           font-size: 48px;
           text-transform: capitalize;
@@ -25,9 +24,13 @@ section.profile-page {
           margin: 0;
         }
         > div {
-          flex: 1;
+          @include display-flex(row, flex-end, center);
+          gap: 1.5rem;
+
           button {
-            width: 100%;
+            &:last-child {
+              @include button-style($background-sidebar);
+            }
           }
         }
       }
