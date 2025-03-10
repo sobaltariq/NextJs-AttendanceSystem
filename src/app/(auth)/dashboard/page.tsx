@@ -2,6 +2,7 @@
 import Calendar from "@/components/dashboard/Calendar";
 import User from "@/components/dashboard/User";
 import { useProfile } from "@/hooks/useProfile";
+import Link from "next/link";
 import React from "react";
 
 const DashboardPage: React.FC = () => {
@@ -13,6 +14,11 @@ const DashboardPage: React.FC = () => {
   return (
     <div className="width-container">
       <section className="dashboard-page">
+        <div className="top-bar">
+          <Link href={"/leave"}>Apply Leave</Link>
+          <div></div>
+          <div></div>
+        </div>
         <User profile={profile} />
         <Calendar profile={profile} />
       </section>

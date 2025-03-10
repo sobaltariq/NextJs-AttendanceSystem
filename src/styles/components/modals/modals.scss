@@ -67,7 +67,7 @@
     }
   }
 
-  //   edit my profile
+  //   edit my password
   > .change-password-modal {
     > form {
       @include display-flex(column);
@@ -104,6 +104,7 @@
     }
   }
 
+  // feedback
   > .give-feedback-modal {
     > form {
       @include display-flex(column);
@@ -134,6 +135,31 @@
 
         &[data-error="true"] {
           border-color: red;
+        }
+      }
+    }
+  }
+
+  // request to update profile
+  > .edit-profile-request-modal {
+    background: $background-gradient-dark;
+    padding: 0.75rem;
+    > form {
+      border-radius: 0.5rem;
+      @include display-flex(column, flex-start, flex-start);
+      gap: 0.5rem;
+
+      &.s-bar {
+        overflow-y: scroll;
+        min-height: 25rem;
+        max-height: 25rem;
+      }
+
+      > .form-item {
+        width: 100%;
+
+        > input {
+          width: 100%;
         }
       }
     }

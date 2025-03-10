@@ -3,6 +3,25 @@
 @use "sass:color";
 
 section.dashboard-page {
+  > .top-bar {
+    @include display-flex(row, space-between, center);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: $background-sidebar;
+    padding: 1.5rem;
+    border-radius: 6px;
+    @include box-shadow();
+
+    a {
+      @include link-style(
+        $light-bg-color: $extra-light-gray,
+        $hover-color: $white
+      );
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
   .user-container {
     @include display-flex(row, space-between, flex-start);
     gap: 1rem;

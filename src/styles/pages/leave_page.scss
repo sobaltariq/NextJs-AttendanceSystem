@@ -1,0 +1,12 @@
+@use "../utilities/colors.scss" as *;
+@use "./../mixins" as *;
+@use "sass:color";
+
+.leave-page {
+  background: $black;
+
+  > .apply-leave {
+  }
+  > .leave-record {
+  }
+}

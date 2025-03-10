@@ -36,7 +36,7 @@ export const useProfile = () => {
           const errorMessage =
             err.response?.data?.error?.msg ||
             err.response?.data?.error ||
-            "Profile Error";
+            "Something went wrong";
           showMessageModal("error", errorMessage, 5000);
           console.log("Error Response:", errorMessage);
         }

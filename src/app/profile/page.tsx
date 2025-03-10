@@ -17,6 +17,7 @@ import { CiEdit } from "react-icons/ci";
 import { MdArrowLeft } from "react-icons/md";
 import { MdArrowRight } from "react-icons/md";
 import EditProfileRequest from "@/components/modal/EditProfileRequest";
+import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 
 const page: React.FC = () => {
   const [profile, setProfile] = React.useState<MyProfileInterface | null>(null);
@@ -33,6 +34,9 @@ const page: React.FC = () => {
   // to set profile pic after change
   const [newProfilePic, setNewProfilePic] = React.useState<string | null>(null);
 
+  // to show any message popup
+  const { showMessageModal } = useMessageModal();
+
   const getMyProfile = async () => {
     const isProfilePicVisible = localStorage.getItem("profilePicStatus");
     if (isProfilePicVisible == "false") {
@@ -46,7 +50,8 @@ const page: React.FC = () => {
       const errorMessage =
         err.response?.data?.error?.msg ||
         err.response?.data?.error ||
-        "Profile Error";
+        "Something went wrong";
+      showMessageModal("error", errorMessage, 5000);
       console.log("Error Response:", errorMessage);
     }
   };
@@ -243,13 +248,13 @@ const page: React.FC = () => {
         isOpen={changeProfileModalState}
         // isOpen={true}
         onClose={() => {
-          setChangeProfileModalState(true);
+          setChangeProfileModalState(false);
         }}
         title="Edit Picture Request"
         children={
           <EditProfileRequest
             onClose={() => {
-              setChangeProfileModalState(true);
+              setChangeProfileModalState(false);
               getMyProfile();
             }}
           />
