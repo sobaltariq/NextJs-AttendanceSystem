@@ -64,3 +64,11 @@ export interface NoticesInterface {
   type: "Reminder" | "Alert" | "Notice";
   createdAt: string;
 }
+
+// leave request
+export interface ApplyLeaveInterface {
+  leaveType: "casual" | "sick" | "personal";
+  startDate: string;
+  endDate: string;
+  reason: string;
+}

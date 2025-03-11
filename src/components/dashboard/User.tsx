@@ -33,6 +33,7 @@ const User: React.FC<UserProps> = ({ profile }) => {
   );
 
   const [noticesList, setNoticesList] = useState<NoticesInterface[]>([]);
+
   // to show any message popup
   const { showMessageModal } = useMessageModal();
 

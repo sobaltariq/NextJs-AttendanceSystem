@@ -1,11 +1,16 @@
 @use "./../mixins" as *;
+@use "../utilities/colors.scss" as *;
+@use "sass:color";
 
 // Primary Button
 .btn-primary {
   @include button-style($background-color: #673ab7, $text-color: white);
 }
-.btn-primary {
+.btn-secondary {
   @include button-style($background-color: #28a745, $text-color: white);
+}
+.btn-ternary {
+  @include button-style($background-color: #ff6b6b, $text-color: white);
 }
 
 // links

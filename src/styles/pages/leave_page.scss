@@ -2,11 +2,49 @@
 @use "./../mixins" as *;
 @use "sass:color";
 
+%common-header {
+  padding: 1.5rem;
+  width: 100%;
+  background: $secondary-purple;
+  border-radius: 6px;
+  @include box-shadow($blur: 15px, $color: $secondary-purple);
+  max-height: 600px;
+  min-height: 600px;
+
+  > .header {
+    > h2 {
+      margin: 0;
+    }
+    @include display-flex(column, space-between, flex-start);
+    gap: 0.5rem;
+  }
+}
+
 .leave-page {
-  background: $black;
+  @include display-flex(row, space-between, flex-start);
+  gap: 2rem;
 
   > .apply-leave {
+    width: 35%;
+    @extend %common-header;
+
+    > form {
+      margin-top: 2rem;
+      @include display-flex(column, flex-start, flex-start);
+      gap: 0.75rem;
+
+      > div {
+        width: 100%;
+        @include display-flex(column, space-between, flex-start);
+
+        > :last-child {
+          width: 100%;
+        }
+      }
+    }
   }
   > .leave-record {
+    width: 65%;
+    @extend %common-header;
   }
 }
