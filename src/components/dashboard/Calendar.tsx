@@ -94,7 +94,7 @@ const Calendar: React.FC<UserProps> = ({ profile }) => {
       const statusClass = status ? status : "";
       cells.push(
         <td
-          title={statusClass}
+          // title={statusClass}
           key={day.toISOString()}
           className={`calendar-cell ${isToday ? "today" : ""} ${statusClass}`}
         >

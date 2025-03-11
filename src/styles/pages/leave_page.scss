@@ -17,6 +17,11 @@
     }
     @include display-flex(column, space-between, flex-start);
     gap: 0.5rem;
+
+    > .inner-top {
+      width: 100%;
+      @include display-flex(row, space-between, center);
+    }
   }
 }
 
@@ -44,7 +49,74 @@
     }
   }
   > .leave-record {
+    @include display-flex(column, flex-start, flex-start);
     width: 65%;
     @extend %common-header;
+    > .header {
+      width: 100%;
+    }
+
+    > .leaves-list-container {
+      margin-top: 2rem;
+      overflow-y: scroll;
+      width: 100%;
+      padding: 0 0.5rem 0.5rem 0.5rem;
+      background: $background-shade;
+      border-radius: 6px;
+
+      > .list-item {
+        @include display-flex(row, flex-start, stretch);
+        gap: 0.5rem;
+        margin: 0.5rem 0;
+        background: $card-secondary;
+        color: $gray;
+        border-radius: 4px;
+
+        > p {
+          @include display-flex(row, center, center);
+          vertical-align: middle;
+          text-align: center;
+          font-size: 24px;
+          width: 3rem;
+          color: $white;
+
+          &.approved {
+            color: $white;
+            background: color.scale($success-color, $lightness: 30%);
+          }
+
+          &.rejected {
+            color: $white;
+            background: $absent-color;
+          }
+
+          &.pending {
+            color: $white;
+            background: color.scale($warning-color, $lightness: 30%);
+          }
+        }
+
+        > .inner-wrapper {
+          width: 100%;
+          padding: 0.5rem 1rem;
+
+          > .top {
+            @include display-flex(row, space-between, center);
+
+            &:nth-child(2) {
+              margin: 1rem 0;
+            }
+
+            &:last-child {
+              margin-top: 1rem;
+            }
+
+            p {
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+    }
   }
 }

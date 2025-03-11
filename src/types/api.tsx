@@ -72,3 +72,17 @@ export interface ApplyLeaveInterface {
   endDate: string;
   reason: string;
 }
+
+// get my leaves
+export interface MyLeaveInterface {
+  _id: string;
+  userId: string;
+  leaveType: "casual" | "sick" | "personal";
+  status: "pending" | "approved" | "rejected";
+  startDate: string;
+  endDate: string;
+  reason: string;
+  daysRequested: number;
+  createdAt: string;
+  updatedAt: string;
+}
