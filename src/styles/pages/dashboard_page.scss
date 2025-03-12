@@ -328,6 +328,17 @@ section.dashboard-page {
     }
   }
 
+  > .emp-container {
+    background: $background-gradient-dark;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+
+    > .emp-list-wrapper {
+      max-height: 200px;
+    }
+  }
+
   > .feedback-container {
     background: $background-sidebar;
     @include box-shadow($color: $background-sidebar);

@@ -1,5 +1,6 @@
 "use client";
 import Calendar from "@/components/dashboard/Calendar";
+import EmployOfTheMonth from "@/components/dashboard/EmployOfTheMonth";
 import User from "@/components/dashboard/User";
 import { useProfile } from "@/hooks/useProfile";
 import Link from "next/link";
@@ -17,9 +18,9 @@ const DashboardPage: React.FC = () => {
         <div className="top-bar">
           <Link href={"/leave"}>Apply Leave</Link>
           <div></div>
-          <div></div>
         </div>
         <User profile={profile} />
+        <EmployOfTheMonth />
         <Calendar profile={profile} />
       </section>
     </div>

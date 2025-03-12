@@ -86,3 +86,28 @@ export interface MyLeaveInterface {
   createdAt: string;
   updatedAt: string;
 }
+
+// employ of the month
+export interface EmpInterface {
+  _id: string;
+  employeeId: string;
+  username: string;
+  month:
+    | "January"
+    | "February"
+    | "March"
+    | "April"
+    | "May"
+    | "June"
+    | "July"
+    | "August"
+    | "September"
+    | "October"
+    | "November"
+    | "December";
+  year: number;
+  reason: string;
+  awardedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
