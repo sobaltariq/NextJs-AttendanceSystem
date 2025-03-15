@@ -111,3 +111,20 @@ export interface EmpInterface {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface CurrentEmpInterface {
+  _id: string;
+  employeeId: {
+    _id: string;
+    name: string;
+    username: string;
+  };
+  username: string;
+  month: string;
+  year: number;
+  reason: string;
+  awardedAt: string; // ISO string date format
+  createdAt: string; // ISO string date format
+  updatedAt: string; // ISO string date format
+  __v: number;
+}
