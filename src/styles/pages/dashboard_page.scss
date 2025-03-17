@@ -329,25 +329,36 @@ section.dashboard-page {
   }
 
   > .emp-container {
-    background: $background-gradient-dark;
+    background: $gradient-background;
     padding: 1rem;
     border-radius: 12px;
     margin-bottom: 2rem;
     display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 2rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
 
     > .all-time-list {
+      width: 100%;
+      padding: 1rem;
+
+      &:nth-child(2) {
+        border-left: 1px solid $extra-light-gray;
+        border-right: 1px solid $extra-light-gray;
+      }
+
       > .emp-list-wrapper {
         max-height: 200px;
+        min-height: 200px;
         overflow-y: scroll;
+        @include display-flex(column, flex-start, flex-start);
+        gap: 1rem;
 
         > .inner-content {
           @include display-flex(column, flex-start, flex-start);
           gap: 0.5rem;
-          padding: 1rem 0;
           border-radius: 6px;
-          @include box-shadow();
+          width: 100%;
+          padding-right: 1rem;
 
           > h3 {
             text-transform: capitalize;
@@ -355,8 +366,10 @@ section.dashboard-page {
           }
 
           > .date-wrapper {
-            @include display-flex(row, flex-start, flex-start);
-            gap: 1rem;
+            @include display-flex(row, space-between, center);
+            gap: 5rem;
+            width: 100%;
+
             > p {
               text-transform: capitalize;
             }

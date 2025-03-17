@@ -17,7 +17,11 @@ const DashboardPage: React.FC = () => {
       <section className="dashboard-page">
         <div className="top-bar">
           <Link href={"/leave"}>Apply Leave</Link>
-          <div></div>
+          <div>
+            <Link href={"/team-interaction-center"}>
+              Team Interaction Center <span>{}</span>
+            </Link>
+          </div>
         </div>
         <User profile={profile} />
         <EmployOfTheMonth />

@@ -90,7 +90,12 @@ export interface MyLeaveInterface {
 // employ of the month
 export interface EmpInterface {
   _id: string;
-  employeeId: string;
+  employeeId: {
+    _id: string;
+    name: string;
+    username: string;
+    monthlyPoints: number;
+  };
   username: string;
   month:
     | "January"
@@ -118,6 +123,7 @@ export interface CurrentEmpInterface {
     _id: string;
     name: string;
     username: string;
+    monthlyPoints: number;
   };
   username: string;
   month: string;
