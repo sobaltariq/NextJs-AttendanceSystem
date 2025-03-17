@@ -134,3 +134,13 @@ export interface CurrentEmpInterface {
   updatedAt: string; // ISO string date format
   __v: number;
 }
+
+// interaction
+
+export interface UsersListInterface {
+  _id: string;
+  name: string;
+  username: string;
+  profilePicture: string | null;
+  role: string;
+}

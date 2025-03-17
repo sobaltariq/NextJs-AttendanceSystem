@@ -1,0 +1,35 @@
+@use "../utilities/colors.scss" as *;
+@use "./../mixins" as *;
+@use "sass:color";
+
+.interaction-container {
+  background: $background-gradient-dark;
+
+  > .users-list {
+    min-height: 20rem;
+    max-height: 25rem;
+    overflow: scroll;
+
+    > .list-item {
+      @include display-flex(row, space-between, start);
+      border-bottom: 1px solid $background-hover;
+      margin-bottom: 1rem 0;
+      padding: 1rem;
+
+      &:last-child {
+        border: none;
+        margin-bottom: 0;
+      }
+
+      > img {
+        height: 50px;
+        width: 50px;
+      }
+
+      > p {
+        font-size: 32px;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
