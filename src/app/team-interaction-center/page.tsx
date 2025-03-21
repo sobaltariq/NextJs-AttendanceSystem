@@ -1,5 +1,6 @@
 "use client";
 import MyApi from "@/api/MyApi";
+import ChatBox from "@/components/interaction/ChatBox";
 import UsersList from "@/components/interaction/UsersList";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import { UsersListInterface } from "@/types/api";
@@ -18,7 +19,7 @@ function TeamInteractionCenter() {
         await showMessageModal("error", "Something Went Wrong");
         return;
       }
-      const response = await MyApi.get(`/users/get-all-user`, { signal });
+      const response = await MyApi.get(`/users/get-all-user`);
       const { success, totalUsers, users } = response.data;
       console.log("0000", response.data.users);
 
@@ -27,11 +28,11 @@ function TeamInteractionCenter() {
       }
     } catch (err: any) {
       const errorMessage =
-        err.response?.data?.error || err.response?.data?.message;
-      // ||
-      // "Something went wrong";
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        "Something went wrong";
       showMessageModal("error", errorMessage, 5000);
-      console.log(errorMessage);
+      console.log("errorMessage", err);
     }
   };
 
@@ -49,9 +50,11 @@ function TeamInteractionCenter() {
   return (
     <div className="width-container">
       <section className="interaction-container">
-        <h2>TeamInteractionCenter</h2>
-
-        <UsersList users={users} />
+        <h2>Team Interaction Center</h2>
+        <div className="interaction-wrapper">
+          <UsersList users={users} />
+          <ChatBox />
+        </div>
       </section>
     </div>
   );
