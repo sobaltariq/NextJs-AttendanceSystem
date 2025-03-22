@@ -21,7 +21,7 @@ function TeamInteractionCenter() {
       }
       const response = await MyApi.get(`/users/get-all-user`);
       const { success, totalUsers, users } = response.data;
-      console.log("0000", response.data.users);
+      // console.log("0000", response.data.users);
 
       if (success) {
         setUsers(users);

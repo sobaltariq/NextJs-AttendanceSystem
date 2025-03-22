@@ -22,6 +22,7 @@
       min-height: 20rem;
       max-height: 25rem;
       overflow-y: scroll;
+      padding-right: 0.2rem;
 
       > .list-item {
         @include display-flex(row, start, start);
@@ -54,6 +55,7 @@
 
     > .chat-container {
       @include display-flex(column, space-between, flex-start);
+      gap: 0.5rem;
 
       > .message-list {
         min-height: 20rem;

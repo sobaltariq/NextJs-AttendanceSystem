@@ -2,9 +2,17 @@ import React, { useEffect, useState } from "react";
 import { SubmitButton } from "../buttons/CustomButtons";
 import MyApi from "@/api/MyApi";
 import { useMessageModal } from "../modal/providers/MessageModalProvider";
+import useSocket from "@/hooks/useSocket";
 
-const ChatBox = () => {
+const ChatBox: React.FC = () => {
   const [chatHistory, setChatHistory] = useState();
+
+  // const { socket, isConnected, emitEvent, onEvent, offEvent, reconnect } =
+  //   useSocket({
+  //     onConnect: () => console.log("Connected to server"),
+  //     onDisconnect: (reason) => console.log(`Disconnected: ${reason}`),
+  //     onError: (error) => console.error("Connection error:", error),
+  //   });
 
   // to show any message popup
   const { showMessageModal } = useMessageModal();
@@ -26,13 +34,15 @@ const ChatBox = () => {
         err.response?.data?.message ||
         "Notice Error";
       showMessageModal("error", errorMessage, 5000);
-      console.log(errorMessage);
+      console.log(err);
     }
   };
 
   useEffect(() => {
-    getHistory();
+    // getHistory();
   }, []);
+
+  // useEffect(() => {}, [isConnected, onEvent, offEvent]);
 
   const messages = [
     "Hello there!",
