@@ -1,14 +1,28 @@
+"use client";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
 import { io, Socket } from "socket.io-client";
 
-interface UseSocketOptions {
-  onConnect?: () => void;
-  onDisconnect?: (reason: string) => void;
-  onError?: (error: Error) => void;
+interface SocketContextType {
+  isConnected: boolean;
+  emitEvent: <T>(event: string, data?: T) => void;
+  onEvent: <T>(event: string, callback: (data: T) => void) => void;
+  offEvent: (event: string) => void;
+  reconnect: () => void;
 }
 
-const useSocket = ({ onConnect, onDisconnect, onError }: UseSocketOptions) => {
+const SocketContext = createContext<SocketContextType | null>(null);
+
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const socketRef = useRef<Socket | null>(null);
 
@@ -26,11 +40,6 @@ const useSocket = ({ onConnect, onDisconnect, onError }: UseSocketOptions) => {
     // console.log("socketRef.current", socketRef.current);
 
     if (!socketRef.current || !socketRef.current.connected) {
-      // console.log(
-      //   "55555555555555555555555555555555555555555",
-      //   socketRef.current
-      // );
-
       // Initialize the socket connection only if it's not already created
       const newSocket = io(`${process.env.REACT_APP_BASE_URL}`, {
         transports: ["websocket"], // Use WebSocket transport
@@ -49,7 +58,6 @@ const useSocket = ({ onConnect, onDisconnect, onError }: UseSocketOptions) => {
       const handleConnect = () => {
         console.log("Connected to WebSocket server");
         setIsConnected(true);
-        onConnect?.(); // Call the optional onConnect callback
       };
 
       // Event: Connection lost
@@ -57,81 +65,88 @@ const useSocket = ({ onConnect, onDisconnect, onError }: UseSocketOptions) => {
         console.log("Disconnected from WebSocket server, Reason:", reason);
         showMessageModal("error", reason, 5000);
         setIsConnected(false);
-        onDisconnect?.(reason); // Call the optional onDisconnect callback
+      };
+
+      // Event: Connection error
+      const handleMessage = (error: Error) => {
+        console.error("WebSocket message:", error);
+        showMessageModal("error", error.message, 5000);
       };
 
       // Event: Connection error
       const handleError = (error: Error) => {
         console.error("WebSocket connection error:", error);
         showMessageModal("error", error.message, 5000);
-        onError?.(error); // Call the optional onError callback
       };
 
       // Attach event listeners
       newSocket.on("connect", handleConnect);
       newSocket.on("disconnect", handleDisconnect);
-      newSocket.on("connect_error", handleError);
+      newSocket.on("message", handleMessage);
+      newSocket.on("error", handleError);
 
       return () => {
         newSocket.off("connect", handleConnect);
         newSocket.off("disconnect", handleDisconnect);
-        newSocket.off("connect_error", handleError);
+        newSocket.off("message", handleMessage);
+        newSocket.off("error", handleError);
         newSocket.disconnect(); // Disconnect socket when unmounting.
       };
     }
-  }, [onDisconnect, onError]);
+  }, [showMessageModal]);
 
-  // Emit a custom event
-  const emitEvent = useCallback(
-    <T,>(event: string, data?: T) => {
-      if (socketRef.current?.connected) {
-        socketRef.current.emit(event, data);
-      } else {
-        console.error("Socket is not connected.");
-        showMessageModal("error", "network error", 5000);
-      }
-    },
-    [isConnected]
-  );
+  const emitEvent = useCallback(<T,>(event: string, data?: T) => {
+    if (socketRef.current?.connected) {
+      socketRef.current.emit(event, data);
+    } else {
+      console.error("Socket is not connected.");
+    }
+  }, []);
 
-  // Listen to a custom event
   const onEvent = useCallback(
     <T,>(event: string, callback: (data: T) => void) => {
       if (socketRef.current) {
         socketRef.current.on(event, callback);
       } else {
         console.error("Socket is not initialized.");
-        showMessageModal("error", "network error", 5000);
       }
     },
     []
   );
 
-  // Remove a custom event listener
   const offEvent = useCallback((event: string) => {
     if (socketRef.current) {
       socketRef.current.off(event);
     } else {
       console.error("Socket is not initialized.");
-      showMessageModal("error", "network error", 5000);
     }
   }, []);
 
-  // Manually reconnect the socket
   const reconnect = useCallback(() => {
     if (socketRef.current) {
-      socketRef.current.connect();
+      const loggedInToken = localStorage.getItem("loggedInToken");
+      if (loggedInToken) {
+        socketRef.current.auth = { token: `Bearer ${loggedInToken}` };
+        socketRef.current.connect();
+      } else {
+        console.error("No loggedInToken found in localStorage.");
+      }
     }
   }, []);
 
-  return {
-    socket: socketRef.current,
-    isConnected,
-    emitEvent,
-    onEvent,
-    offEvent,
-    reconnect,
-  };
+  return (
+    <SocketContext.Provider
+      value={{ isConnected, emitEvent, onEvent, offEvent, reconnect }}
+    >
+      {children}
+    </SocketContext.Provider>
+  );
 };
 
-export default useSocket;
+export const useSocket = () => {
+  const context = useContext(SocketContext);
+  if (!context) {
+    throw new Error("useSocket must be used within a SocketProvider");
+  }
+  return context;
+};

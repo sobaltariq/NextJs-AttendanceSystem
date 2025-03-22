@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UsersListInterface } from "@/types/api";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import Image from "next/image";
 import UserImage from "./UserImage";
-import useSocket from "@/hooks/useSocket";
+import { useSocket } from "@/context/SocketContext";
 
 interface UsersListProps {
   users: UsersListInterface[];
+  onUserSelect: (chatId: string) => void;
 }
 
-const UsersList: React.FC<UsersListProps> = ({ users }) => {
+const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
+  const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
+  const [activeUserId, setActiveUserId] = useState<string | null>(null);
+
   // to show any message popup
   const { showMessageModal } = useMessageModal();
+  const { emitEvent, onEvent } = useSocket(); // Access the socket instance
 
-  const { socket, isConnected, emitEvent, onEvent, offEvent, reconnect } =
-    useSocket({
-      onConnect: () => console.log("Connected to server"),
-      onDisconnect: (reason) => console.log(`Disconnected: ${reason}`),
-      onError: (error) => console.error("Connection error:", error),
-    });
+  useEffect(() => {
+    // Fetch logged-in user ID from localStorage
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      try {
+        const { id } = JSON.parse(loggedInUser);
+        setLoggedInUserId(id);
+      } catch (error) {
+        console.error("Error parsing loggedInUser:", error);
+      }
+    }
+  }, [loggedInUserId]);
 
   // Grouping users by role
   const groupedUsers = Object.groupBy(users, (user) => user.role);
@@ -29,43 +40,39 @@ const UsersList: React.FC<UsersListProps> = ({ users }) => {
     ...(groupedUsers.user || []),
   ];
 
-  // const handleSelectedUser = (userId: string, type: string) => {
-  //   if (!isConnected) return;
+  const handleSelectedUser = (userId: string, chatType: string) => {
+    console.log("ok", { userId, chatType });
 
-  //   // Join the room
-  //   emitEvent("joinRoom", { userId: userId, chatType: type });
-
-  //   // Listen for incoming messages
-  //   onEvent("message", (data: { user: string; message: string }) => {
-  //     console.log("New message received:", data);
-  //   });
-
-  //   // Clean up the listener on unmount
-  //   return () => {
-  //     offEvent("message");
-  //   };
-  // };
+    emitEvent("joinRoom", { userId, chatType });
+    onEvent<{ chatId: string; chatType: string; message: string }>(
+      "roomJoined",
+      (data) => {
+        console.log("Private Chat Event:", data);
+        onUserSelect(data.chatId); // Update URL
+        setActiveUserId(userId);
+      }
+    );
+  };
 
   return (
     <div className="users-list s-bar">
       {sortedUsers.map((user, i) => {
-        const loggedInUser = localStorage.getItem("loggedInUser");
-        const { id } = JSON.parse(loggedInUser ?? "");
-
-        return user._id === id ? null : (
-          <div
+        return user._id === loggedInUserId ? null : (
+          <button
             key={i}
             className={`list-item type-${user.role}`}
             onClick={() => {
-              // handleSelectedUser(user._id, "private");
+              user._id != activeUserId &&
+                handleSelectedUser(user._id, "private");
             }}
+            data-active={activeUserId === user._id}
           >
             <UserImage
               src={user.profilePicture ?? "/assets/profile-avatar.svg"}
               alt={user.name}
             />
             <p>{user.name}</p>
-          </div>
+          </button>
         );
       })}
     </div>

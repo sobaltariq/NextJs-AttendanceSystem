@@ -144,3 +144,26 @@ export interface UsersListInterface {
   profilePicture: string | null;
   role: string;
 }
+
+// chat
+export interface ChatInterface {
+  _id: string;
+  chatType: "private" | "group";
+  groupName: string;
+  participants: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface IMessageInterface {
+  _id: string; // MongoDB ID will be returned as a string
+  chatId: string;
+  senderId: string;
+  content: string;
+  attachments?: string[];
+  status: "sent" | "delivered" | "read";
+  deliveredAt?: string | null; // Dates are returned as strings in JSON responses
+  readAt?: string | null;
+  timestamp: string;
+}

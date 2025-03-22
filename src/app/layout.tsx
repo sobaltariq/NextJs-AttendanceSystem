@@ -5,6 +5,7 @@ import AllDataWrapper from "./AllDataWrapper";
 import chillaxFont from ".././fonts/chillaxFont";
 import { Providers } from "@/redux/Providers";
 import { MessageModalProvider } from "@/components/modal/providers/MessageModalProvider";
+import { SocketProvider } from "@/context/SocketContext";
 
 export const metadata: Metadata = {
   title: "Attendance System",
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body className={`${chillaxFont.variable}`}>
         <Providers>
           <MessageModalProvider>
-            <AllDataWrapper>{children}</AllDataWrapper>
+            <SocketProvider>
+              <AllDataWrapper>{children}</AllDataWrapper>
+            </SocketProvider>
           </MessageModalProvider>
         </Providers>
       </body>

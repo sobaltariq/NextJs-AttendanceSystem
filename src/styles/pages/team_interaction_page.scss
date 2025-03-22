@@ -17,6 +17,9 @@
     grid-template-columns: 2fr 5fr;
     gap: 0.5rem;
     margin-top: 2rem;
+    &[data-chat="true"] {
+      grid-template-columns: 1fr;
+    }
 
     > .users-list {
       min-height: 20rem;
@@ -31,6 +34,13 @@
         margin-bottom: 1rem 0;
         padding: 1rem;
         cursor: pointer;
+        width: 100%;
+        color: $extra-light-gray;
+
+        &[data-active="true"] {
+          background: $background-sidebar;
+          @include box-shadow();
+        }
 
         &.type-admin {
           font-weight: 600;
@@ -44,6 +54,7 @@
         > img {
           height: 50px;
           width: 50px;
+          border-radius: 50%;
         }
 
         > p {

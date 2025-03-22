@@ -2,28 +2,37 @@ import React, { useEffect, useState } from "react";
 import { SubmitButton } from "../buttons/CustomButtons";
 import MyApi from "@/api/MyApi";
 import { useMessageModal } from "../modal/providers/MessageModalProvider";
-import useSocket from "@/hooks/useSocket";
+import { useSocket } from "@/context/SocketContext";
+import { IMessageInterface } from "@/types/api";
 
-const ChatBox: React.FC = () => {
-  const [chatHistory, setChatHistory] = useState();
+interface CurrentIdInterface {
+  currentChatId: string;
+}
 
-  // const { socket, isConnected, emitEvent, onEvent, offEvent, reconnect } =
-  //   useSocket({
-  //     onConnect: () => console.log("Connected to server"),
-  //     onDisconnect: (reason) => console.log(`Disconnected: ${reason}`),
-  //     onError: (error) => console.error("Connection error:", error),
-  //   });
+const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
+  const [chatHistory, setChatHistory] = useState<IMessageInterface[]>([]);
 
   // to show any message popup
   const { showMessageModal } = useMessageModal();
+  const { emitEvent, onEvent } = useSocket(); // Access the socket instance
 
   const messageSender = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    emitEvent("sendMessage", { chatId: currentChatId, message: "ok" });
+    // onEvent<{ chatId: string; chatType: string; message: string }>(
+    //   "roomJoined",
+    //   (data) => {
+    //     console.log("Private Chat Event:", data);
+    //     onUserSelect(data.chatId); // Update URL
+    //     setActiveUserId(userId);
+    //   }
+    // );
   };
 
   const getHistory = async () => {
     try {
-      const response = await MyApi.get("/chat/");
+      const response = await MyApi.get(`/chats/${currentChatId}`);
       const { success, data } = response.data;
       if (success) {
         setChatHistory(data);
@@ -39,50 +48,22 @@ const ChatBox: React.FC = () => {
   };
 
   useEffect(() => {
-    // getHistory();
-  }, []);
-
-  // useEffect(() => {}, [isConnected, onEvent, offEvent]);
-
-  const messages = [
-    "Hello there!",
-    "How's your day going?",
-    "Welcome to the chat!",
-    "React is awesome!",
-    "Keep pushing forward!",
-    "What's your favorite movie?",
-    "Did you try the new feature?",
-    "Learning never stops!",
-    "Enjoy the little things!",
-    "Stay positive, stay coding!",
-    "Here's a fun fact for you.",
-    "Need help with your code?",
-    "What's your latest project?",
-    "Have a great day!",
-    "Good luck with your work!",
-    "Enjoy the little things!",
-    "Welcome to the chat!",
-    "React is awesome!",
-    "Keep pushing forward!",
-    "What's your favorite movie?",
-    "Did you try the new feature?",
-    "Learning never stops!",
-    "Stay positive, stay coding!",
-    "Here's a fun fact for you.",
-    "Need help with your code?",
-    "What's your latest project?",
-    "Have a great day!",
-  ];
+    getHistory();
+  }, [currentChatId]);
 
   return (
     <div className="chat-container">
-      <div className="message-list s-bar">
-        {messages.map((message, index) => (
-          <div key={index} className="message">
-            {message}
-          </div>
-        ))}
-      </div>
+      {chatHistory.length < 1 ? (
+        <p style={{ textAlign: "center" }}>Say Hi!</p>
+      ) : (
+        <div className="message-list s-bar">
+          {chatHistory.map((message, index) => (
+            <div key={index} className="message">
+              <p>{message.content}</p>
+            </div>
+          ))}
+        </div>
+      )}
       <form onSubmit={messageSender}>
         <input type="text" name="chat" id="chat" placeholder="Type here..." />
         <SubmitButton label="Send" />
