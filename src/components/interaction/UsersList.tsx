@@ -4,6 +4,7 @@ import { useMessageModal } from "@/components/modal/providers/MessageModalProvid
 import Image from "next/image";
 import UserImage from "./UserImage";
 import { useSocket } from "@/context/SocketContext";
+import { useRouter } from "next/navigation";
 
 interface UsersListProps {
   users: UsersListInterface[];
@@ -13,6 +14,8 @@ interface UsersListProps {
 const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
   const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
   const [activeUserId, setActiveUserId] = useState<string | null>(null);
+
+  const router = useRouter();
 
   // to show any message popup
   const { showMessageModal } = useMessageModal();
@@ -50,6 +53,8 @@ const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
         console.log("Private Chat Event:", data);
         onUserSelect(data.chatId); // Update URL
         setActiveUserId(userId);
+        // Update the URL without refreshing the page
+        router.push(`/team-interaction-center?chatId=${data.chatId}`);
       }
     );
   };

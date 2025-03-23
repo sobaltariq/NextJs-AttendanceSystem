@@ -7,7 +7,7 @@ import { UsersListInterface } from "@/types/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 // get - all - user;
-function TeamInteractionCenter() {
+const TeamInteractionCenter: React.FC = () => {
   const [users, setUsers] = useState<UsersListInterface[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
 
@@ -77,6 +77,6 @@ function TeamInteractionCenter() {
       </section>
     </div>
   );
-}
+};
 
 export default TeamInteractionCenter;

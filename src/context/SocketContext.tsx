@@ -82,18 +82,16 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
       // Attach event listeners
       newSocket.on("connect", handleConnect);
       newSocket.on("disconnect", handleDisconnect);
-      newSocket.on("message", handleMessage);
       newSocket.on("error", handleError);
 
       return () => {
         newSocket.off("connect", handleConnect);
         newSocket.off("disconnect", handleDisconnect);
-        newSocket.off("message", handleMessage);
         newSocket.off("error", handleError);
         newSocket.disconnect(); // Disconnect socket when unmounting.
       };
     }
-  }, [showMessageModal]);
+  }, []);
 
   const emitEvent = useCallback(<T,>(event: string, data?: T) => {
     if (socketRef.current?.connected) {

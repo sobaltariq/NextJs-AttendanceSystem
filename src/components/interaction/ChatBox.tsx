@@ -3,32 +3,19 @@ import { SubmitButton } from "../buttons/CustomButtons";
 import MyApi from "@/api/MyApi";
 import { useMessageModal } from "../modal/providers/MessageModalProvider";
 import { useSocket } from "@/context/SocketContext";
-import { IMessageInterface } from "@/types/api";
+import { IMessageInterface, ReceivedMessageInterface } from "@/types/api";
 
 interface CurrentIdInterface {
   currentChatId: string;
 }
 
 const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
+  const [message, setMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessageInterface[]>([]);
 
   // to show any message popup
   const { showMessageModal } = useMessageModal();
-  const { emitEvent, onEvent } = useSocket(); // Access the socket instance
-
-  const messageSender = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    emitEvent("sendMessage", { chatId: currentChatId, message: "ok" });
-    // onEvent<{ chatId: string; chatType: string; message: string }>(
-    //   "roomJoined",
-    //   (data) => {
-    //     console.log("Private Chat Event:", data);
-    //     onUserSelect(data.chatId); // Update URL
-    //     setActiveUserId(userId);
-    //   }
-    // );
-  };
+  const { emitEvent, onEvent, offEvent } = useSocket(); // Access the socket instance
 
   const getHistory = async () => {
     try {
@@ -51,6 +38,42 @@ const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
     getHistory();
   }, [currentChatId]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    console.log(e.target.value);
+    setMessage(value);
+  };
+
+  const messageSender = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    emitEvent("sendMessage", { chatId: currentChatId, message });
+
+    onEvent<{ chatId: string; message: string }>("messageSent", (data) => {
+      console.log("messageSent Private Chat Event:", data);
+    });
+
+    setMessage("");
+  };
+
+  useEffect(() => {
+    console.log("Listening for messages...");
+
+    // Listening for incoming messages
+    onEvent("messageReceived", (data: ReceivedMessageInterface) => {
+      const { chatId, message } = data;
+      console.log("Message received:", chatId === currentChatId, data);
+      if (chatId === currentChatId) {
+        setChatHistory((prevMessages) => [...prevMessages, message]);
+      }
+    });
+
+    return () => {
+      console.log("Removing message listener...");
+      offEvent("messageReceived");
+    };
+  }, [currentChatId, onEvent]);
+
   return (
     <div className="chat-container">
       {chatHistory.length < 1 ? (
@@ -65,8 +88,15 @@ const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
         </div>
       )}
       <form onSubmit={messageSender}>
-        <input type="text" name="chat" id="chat" placeholder="Type here..." />
-        <SubmitButton label="Send" />
+        <input
+          type="text"
+          name="message"
+          id="message"
+          placeholder="Type here..."
+          value={message}
+          onChange={handleInputChange}
+        />
+        <SubmitButton label="Send" isLoading={message ? false : true} />
       </form>
     </div>
   );

@@ -167,3 +167,8 @@ export interface IMessageInterface {
   readAt?: string | null;
   timestamp: string;
 }
+
+export interface ReceivedMessageInterface {
+  chatId: string;
+  message: IMessageInterface;
+}
