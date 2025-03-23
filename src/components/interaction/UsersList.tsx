@@ -9,9 +9,14 @@ import { useRouter } from "next/navigation";
 interface UsersListProps {
   users: UsersListInterface[];
   onUserSelect: (chatId: string) => void;
+  setSelectedUserName: (userName: string) => void;
 }
 
-const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
+const UsersList: React.FC<UsersListProps> = ({
+  users,
+  onUserSelect,
+  setSelectedUserName,
+}) => {
   const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
   const [activeUserId, setActiveUserId] = useState<string | null>(null);
 
@@ -54,7 +59,7 @@ const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
         onUserSelect(data.chatId); // Update URL
         setActiveUserId(userId);
         // Update the URL without refreshing the page
-        router.push(`/team-interaction-center?chatId=${data.chatId}`);
+        // router.push(`/team-interaction-center?chatId=${data.chatId}`);
       }
     );
   };
@@ -69,6 +74,7 @@ const UsersList: React.FC<UsersListProps> = ({ users, onUserSelect }) => {
             onClick={() => {
               user._id != activeUserId &&
                 handleSelectedUser(user._id, "private");
+              setSelectedUserName(user.name);
             }}
             data-active={activeUserId === user._id}
           >

@@ -58,7 +58,7 @@
         }
 
         > p {
-          font-size: 32px;
+          font-size: 24px;
           text-transform: capitalize;
         }
       }
@@ -68,12 +68,52 @@
       @include display-flex(column, space-between, flex-start);
       gap: 0.5rem;
 
+      .say-hi {
+        font-size: 48px;
+        margin: auto;
+      }
+
       > .message-list {
         min-height: 20rem;
         max-height: 20rem;
         overflow-y: scroll;
         width: 100%;
         padding: 0 1rem;
+        display: flex;
+        flex-direction: column;
+
+        gap: 0.5rem;
+        > .inner-wrapper {
+          margin-top: auto;
+
+          > .message {
+            background: $secondary-teal;
+            padding: 0.5rem;
+            border-radius: 6px;
+            width: fit-content;
+            min-width: 15rem;
+            margin-right: auto;
+            max-width: 95%;
+
+            &[data-user="false"] {
+              background: $leave-color;
+              margin-left: auto;
+              margin-right: 0;
+            }
+
+            > .name {
+              font-size: 18;
+              font-weight: 600;
+            }
+            > .content {
+              font-size: 22px;
+            }
+            > .date {
+              font-size: 14px;
+              text-align: end;
+            }
+          }
+        }
       }
 
       > form {

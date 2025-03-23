@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SubmitButton } from "../buttons/CustomButtons";
 import MyApi from "@/api/MyApi";
 import { useMessageModal } from "../modal/providers/MessageModalProvider";
 import { useSocket } from "@/context/SocketContext";
 import { IMessageInterface, ReceivedMessageInterface } from "@/types/api";
+import { formatDate, formattedDay, formatTime } from "../utils/globalUse";
 
 interface CurrentIdInterface {
   currentChatId: string;
+  selectedUserName: string;
 }
 
-const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
+const ChatBox: React.FC<CurrentIdInterface> = ({
+  currentChatId,
+  selectedUserName,
+}) => {
   const [message, setMessage] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<IMessageInterface[]>([]);
+  const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const [displayChatTime, setDisplayChatTime] = useState<string | null>(null);
 
   // to show any message popup
   const { showMessageModal } = useMessageModal();
@@ -22,7 +30,7 @@ const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
       const response = await MyApi.get(`/chats/${currentChatId}`);
       const { success, data } = response.data;
       if (success) {
-        setChatHistory(data);
+        setChatHistory(data.reverse());
       }
     } catch (err: any) {
       const errorMessage =
@@ -74,17 +82,53 @@ const ChatBox: React.FC<CurrentIdInterface> = ({ currentChatId }) => {
     };
   }, [currentChatId, onEvent]);
 
+  useEffect(() => {
+    // Fetch logged-in user ID from localStorage
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      try {
+        const { id } = JSON.parse(loggedInUser);
+        setLoggedInUserId(id);
+      } catch (error) {
+        console.error("Error parsing loggedInUser:", error);
+      }
+    }
+  }, [loggedInUserId]);
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatHistory]);
+
   return (
     <div className="chat-container">
       {chatHistory.length < 1 ? (
-        <p style={{ textAlign: "center" }}>Say Hi!</p>
+        <p className="say-hi">Say Hi!</p>
       ) : (
         <div className="message-list s-bar">
-          {chatHistory.map((message, index) => (
-            <div key={index} className="message">
-              <p>{message.content}</p>
-            </div>
-          ))}
+          {chatHistory.map((message, index) => {
+            return (
+              <div key={index} className="inner-wrapper">
+                {/* {formattedDay(message.timestamp) === displayChatTime && (
+                  <p>{formattedDay(message.timestamp)}</p>
+                )} */}
+                <div
+                  className="message"
+                  data-user={loggedInUserId === message.senderId}
+                >
+                  <p className="name">
+                    {loggedInUserId === message.senderId
+                      ? "You"
+                      : selectedUserName}
+                  </p>
+                  <p className="content">{message.content}</p>
+                  <p className="date">{formatTime(message.timestamp)}</p>
+                </div>
+              </div>
+            );
+          })}
+          <div ref={chatEndRef} />
         </div>
       )}
       <form onSubmit={messageSender}>

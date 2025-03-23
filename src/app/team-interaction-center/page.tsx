@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 const TeamInteractionCenter: React.FC = () => {
   const [users, setUsers] = useState<UsersListInterface[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -61,8 +62,6 @@ const TeamInteractionCenter: React.FC = () => {
 
   const handleUserSelect = (chatId: string) => {
     setCurrentChatId(chatId);
-    // router.push(`/team-interaction-center?chatId=${chatId}`);
-
     console.log("chatId", currentChatId);
   };
 
@@ -71,8 +70,17 @@ const TeamInteractionCenter: React.FC = () => {
       <section className="interaction-container">
         <h2>Team Interaction Center</h2>
         <div className="interaction-wrapper" data-chat={currentChatId == null}>
-          <UsersList users={users} onUserSelect={handleUserSelect} />
-          {currentChatId && <ChatBox currentChatId={currentChatId} />}
+          <UsersList
+            users={users}
+            onUserSelect={handleUserSelect}
+            setSelectedUserName={setSelectedUserName}
+          />
+          {currentChatId && selectedUserName && (
+            <ChatBox
+              currentChatId={currentChatId}
+              selectedUserName={selectedUserName}
+            />
+          )}
         </div>
       </section>
     </div>
