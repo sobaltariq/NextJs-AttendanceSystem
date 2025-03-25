@@ -176,15 +176,45 @@
         border: 1px solid $background-sidebar;
       }
 
-      > .all-users-list {
-        overflow-y: scroll;
-        max-height: 5rem;
-        background: $primary-green;
-        padding: 0 0.5rem;
-        border-radius: 6px;
+      > .users-wrapper {
+        position: relative;
 
-        > .user-wrapper {
-          padding: 0.5rem 0;
+        > .all-users-list {
+          position: absolute;
+          z-index: 2;
+          overflow-y: scroll;
+          max-height: 10rem;
+          background: $light-gray;
+          padding: 0.5rem;
+          border-radius: 6px;
+          @include display-flex(column, flex-start, flex-start);
+          gap: 0.5rem;
+          min-width: 15rem;
+
+          > .user-wrapper {
+            cursor: pointer;
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid $background-main;
+          }
+        }
+      }
+
+      > .participants-list {
+        @include display-flex(row, flex-start, center);
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        > .participant {
+          cursor: default;
+          @include display-flex(row, flex-start, center);
+          gap: 1rem;
+          padding: 0.5rem;
+          background: $gradient-accent;
+
+          > svg {
+            cursor: pointer;
+          }
         }
       }
     }
