@@ -2,6 +2,8 @@
 import MyApi from "@/api/MyApi";
 import ChatBox from "@/components/interaction/ChatBox";
 import UsersList from "@/components/interaction/UsersList";
+import AppModal from "@/components/modal/AppModal";
+import CreateGroupChatModal from "@/components/modal/CreateGroupChatModal";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import { UsersListInterface } from "@/types/api";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -11,6 +13,8 @@ const TeamInteractionCenter: React.FC = () => {
   const [users, setUsers] = useState<UsersListInterface[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
+
+  const [createGroupChatModel, setCreateGroupChat] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -66,24 +70,52 @@ const TeamInteractionCenter: React.FC = () => {
   };
 
   return (
-    <div className="width-container">
-      <section className="interaction-container">
-        <h2>Team Interaction Center</h2>
-        <div className="interaction-wrapper" data-chat={currentChatId == null}>
-          <UsersList
-            users={users}
-            onUserSelect={handleUserSelect}
-            setSelectedUserName={setSelectedUserName}
-          />
-          {currentChatId && selectedUserName && (
-            <ChatBox
-              currentChatId={currentChatId}
-              selectedUserName={selectedUserName}
+    <>
+      <div className="width-container">
+        <section className="interaction-container">
+          <h2>Team Interaction Center</h2>
+          <button
+            className="btn-primary"
+            onClick={() => setCreateGroupChat(true)}
+          >
+            Create Group Chat
+          </button>
+          <div
+            className="interaction-wrapper"
+            data-chat={currentChatId == null}
+          >
+            <UsersList
+              users={users}
+              onUserSelect={handleUserSelect}
+              setSelectedUserName={setSelectedUserName}
             />
-          )}
-        </div>
-      </section>
-    </div>
+            {currentChatId && selectedUserName && (
+              <ChatBox
+                currentChatId={currentChatId}
+                selectedUserName={selectedUserName}
+              />
+            )}
+          </div>
+        </section>
+      </div>
+
+      <AppModal
+        isOpen={createGroupChatModel}
+        // isOpen={true}
+        onClose={() => {
+          setCreateGroupChat(false);
+        }}
+        title="Create Group Chat"
+        children={
+          <CreateGroupChatModal
+            users={users}
+            onClose={() => {
+              setCreateGroupChat(false);
+            }}
+          />
+        }
+      />
+    </>
   );
 };
 

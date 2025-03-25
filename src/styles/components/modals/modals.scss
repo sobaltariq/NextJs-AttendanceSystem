@@ -164,4 +164,29 @@
       }
     }
   }
+
+  // create group chat
+  > .create-group-modal {
+    > form {
+      @include display-flex(column, flex-start, flex-start);
+      gap: 1rem;
+
+      > input {
+        width: 100%;
+        border: 1px solid $background-sidebar;
+      }
+
+      > .all-users-list {
+        overflow-y: scroll;
+        max-height: 5rem;
+        background: $primary-green;
+        padding: 0 0.5rem;
+        border-radius: 6px;
+
+        > .user-wrapper {
+          padding: 0.5rem 0;
+        }
+      }
+    }
+  }
 }
