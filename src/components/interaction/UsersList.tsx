@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { UsersListInterface } from "@/types/api";
+import { GroupChatListInterface, UsersListInterface } from "@/types/api";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import Image from "next/image";
 import UserImage from "./UserImage";
@@ -10,12 +10,14 @@ interface UsersListProps {
   users: UsersListInterface[];
   onUserSelect: (chatId: string) => void;
   setSelectedUserName: (userName: string) => void;
+  groupsList: GroupChatListInterface[];
 }
 
 const UsersList: React.FC<UsersListProps> = ({
   users,
   onUserSelect,
   setSelectedUserName,
+  groupsList,
 }) => {
   const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
   const [activeUserId, setActiveUserId] = useState<string | null>(null);
@@ -48,24 +50,61 @@ const UsersList: React.FC<UsersListProps> = ({
     ...(groupedUsers.user || []),
   ];
 
-  const handleSelectedUser = (userId: string, chatType: string) => {
-    console.log("ok", { userId, chatType });
+  const handleSelectedUser = (
+    userId: string,
+    chatType: string,
+    groupName?: string | null,
+    participantIds?: string[] | [],
+    groupId?: string | null
+  ) => {
+    const eventData: Record<string, any> = { userId, chatType };
 
-    emitEvent("joinRoom", { userId, chatType });
-    onEvent<{ chatId: string; chatType: string; message: string }>(
-      "roomJoined",
-      (data) => {
-        console.log("Private Chat Event:", data);
-        onUserSelect(data.chatId); // Update URL
-        setActiveUserId(userId);
-        // Update the URL without refreshing the page
-        // router.push(`/team-interaction-center?chatId=${data.chatId}`);
-      }
-    );
+    if (groupName && participantIds) {
+      eventData.groupName = groupName;
+      eventData.participantIds = participantIds;
+    }
+
+    emitEvent("joinRoom", eventData);
+    onEvent<{
+      chatId: string;
+      chatType: string;
+      groupAdmin?: string;
+      message: string;
+    }>("roomJoined", (data) => {
+      console.log("Private Chat Event:", data);
+      onUserSelect(data.chatId); // Update URL
+      setActiveUserId(chatType === "private" ? userId : groupId ?? "");
+      // Update the URL without refreshing the page
+      // router.push(`/team-interaction-center?chatId=${data.chatId}`);
+    });
   };
 
   return (
     <div className="users-list s-bar">
+      {groupsList.map((group, i) => {
+        return (
+          <button
+            key={i}
+            className={`list-item group`}
+            onClick={() => {
+              handleSelectedUser(
+                loggedInUserId ?? "",
+                "group",
+                group.groupName,
+                group.participants,
+                group._id
+              );
+            }}
+            data-active={activeUserId === group._id}
+          >
+            <UserImage
+              src={"/assets/profile-avatar.svg"}
+              alt={group.groupName}
+            />
+            <p>{group.groupName}</p>
+          </button>
+        );
+      })}
       {sortedUsers.map((user, i) => {
         return user._id === loggedInUserId ? null : (
           <button

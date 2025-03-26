@@ -12,9 +12,6 @@
     text-align: center;
   }
 
-  > .admin-chat-controls {
-  }
-
   > .interaction-wrapper {
     display: grid;
     grid-template-columns: 2fr 5fr;
@@ -43,6 +40,16 @@
         &[data-active="true"] {
           background: $background-sidebar;
           @include box-shadow();
+        }
+
+        &.group::after {
+          content: "";
+          display: inline-block;
+          width: 1rem;
+          height: 1rem;
+          background: $primary-green; /* Dot color */
+          border-radius: 50%;
+          margin-left: 5px;
         }
 
         &.type-admin {

@@ -6,13 +6,14 @@ import AppModal from "@/components/modal/AppModal";
 import CreateGroupChatModal from "@/components/modal/CreateGroupChatModal";
 import { useMessageModal } from "@/components/modal/providers/MessageModalProvider";
 import { RootState } from "@/redux/store";
-import { UsersListInterface } from "@/types/api";
+import { GroupChatListInterface, UsersListInterface } from "@/types/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // get - all - user;
 const TeamInteractionCenter: React.FC = () => {
   const [users, setUsers] = useState<UsersListInterface[]>([]);
+  const [groupsList, setGroupsList] = useState<GroupChatListInterface[]>([]);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
 
@@ -36,7 +37,7 @@ const TeamInteractionCenter: React.FC = () => {
       }
       const response = await MyApi.get(`/users/get-all-user`);
       const { success, totalUsers, users } = response.data;
-      // console.log("0000", response.data.users);
+      // console.log("11111", response.data.users);
 
       if (success) {
         setUsers(users);
@@ -73,7 +74,7 @@ const TeamInteractionCenter: React.FC = () => {
       console.log("0000", response.data);
 
       if (success) {
-        // setUsers(users);
+        setGroupsList(users);
       }
     } catch (err: any) {
       const errorMessage =
@@ -127,6 +128,7 @@ const TeamInteractionCenter: React.FC = () => {
           >
             <UsersList
               users={users}
+              groupsList={groupsList}
               onUserSelect={handleUserSelect}
               setSelectedUserName={setSelectedUserName}
             />

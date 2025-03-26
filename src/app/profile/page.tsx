@@ -116,6 +116,10 @@ const page: React.FC = () => {
                         width={200}
                         height={200}
                         alt={profile?.name ?? "profile"}
+                        onError={() => {
+                          // fallback image if the original fails
+                          setProfilePicToggle(false);
+                        }}
                         priority
                       />
                     ) : (

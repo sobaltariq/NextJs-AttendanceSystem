@@ -172,3 +172,13 @@ export interface ReceivedMessageInterface {
   chatId: string;
   message: IMessageInterface;
 }
+
+export interface GroupChatListInterface {
+  _id: string;
+  chatType: string;
+  createdAt: string;
+  groupAdmin: string;
+  groupName: string;
+  participants: any[];
+  updatedAt: string;
+}
