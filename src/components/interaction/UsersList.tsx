@@ -94,6 +94,7 @@ const UsersList: React.FC<UsersListProps> = ({
                 group.participants,
                 group._id
               );
+              setSelectedUserName(group.groupName);
             }}
             data-active={activeUserId === group._id}
           >
